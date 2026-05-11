@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package florafaunaai
+package flora
 
 import (
 	"github.com/stainless-sdks/florafauna-ai-go/internal/apierror"

@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package florafaunaai_test
+package flora_test
 
 import (
 	"context"
@@ -22,21 +22,21 @@ func TestFeedbackRecordWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := florafaunaai.NewClient(
+	client := flora.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Feedback.Record(context.TODO(), florafaunaai.FeedbackRecordParams{
+	_, err := client.Feedback.Record(context.TODO(), flora.FeedbackRecordParams{
 		Detail:         "I want to export all generated campaign images at once.",
-		Kind:           florafaunaai.FeedbackRecordParamsKindFeatureRequest,
+		Kind:           flora.FeedbackRecordParamsKindFeatureRequest,
 		Summary:        "Need batch export support",
 		AttemptedTools: []string{"generate_image"},
-		ProjectID:      florafaunaai.String("prj_abc123"),
-		RunID:          florafaunaai.String("run_abc123"),
-		WorkspaceID:    florafaunaai.String("ws_abc123"),
+		ProjectID:      flora.String("prj_abc123"),
+		RunID:          flora.String("run_abc123"),
+		WorkspaceID:    flora.String("ws_abc123"),
 	})
 	if err != nil {
-		var apierr *florafaunaai.Error
+		var apierr *flora.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}

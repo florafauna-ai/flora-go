@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package florafaunaai
+package flora
 
 import (
 	"context"
@@ -18,7 +18,7 @@ import (
 )
 
 // TechniqueRunService contains methods and other services that help with
-// interacting with the florafauna-ai API.
+// interacting with the flora API.
 //
 // Note, unlike clients, this service does not read variables from the environment
 // automatically. You should not instantiate this service directly, and instead use
@@ -34,6 +34,21 @@ func NewTechniqueRunService(opts ...option.RequestOption) (r TechniqueRunService
 	r = TechniqueRunService{}
 	r.options = opts
 	return
+}
+
+// Starts a run for a specific technique using the backward-compatible nested
+// route. Mutating public API requests support an optional Idempotency-Key header
+// for client retries; duplicate keys within two hours return
+// idempotency_duplicate.
+func (r *TechniqueRunService) New(ctx context.Context, techniqueID string, body TechniqueRunNewParams, opts ...option.RequestOption) (res *TechniqueRunNewResponse, err error) {
+	opts = slices.Concat(r.options, opts)
+	if techniqueID == "" {
+		err = errors.New("missing required techniqueId parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("techniques/%s/runs", url.PathEscape(techniqueID))
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return res, err
 }
 
 // Returns status, progress, outputs, and error details for a technique run when it
@@ -53,19 +68,78 @@ func (r *TechniqueRunService) Get(ctx context.Context, runID string, query Techn
 	return res, err
 }
 
-// Starts a run for a specific technique using the backward-compatible nested
-// route. Mutating public API requests support an optional Idempotency-Key header
-// for client retries; duplicate keys within two hours return
-// idempotency_duplicate.
-func (r *TechniqueRunService) Start(ctx context.Context, techniqueID string, body TechniqueRunStartParams, opts ...option.RequestOption) (res *TechniqueRunStartResponse, err error) {
-	opts = slices.Concat(r.options, opts)
-	if techniqueID == "" {
-		err = errors.New("missing required techniqueId parameter")
-		return nil, err
-	}
-	path := fmt.Sprintf("techniques/%s/runs", url.PathEscape(techniqueID))
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return res, err
+type TechniqueRunNewResponse struct {
+	CreatedAt float64 `json:"createdAt" api:"required"`
+	Progress  float64 `json:"progress" api:"required"`
+	// Run identifier
+	RunID string `json:"runId" api:"required"`
+	// Any of "pending", "running", "completed", "failed".
+	Status      TechniqueRunNewResponseStatus `json:"status" api:"required"`
+	ChargedCost float64                       `json:"chargedCost"`
+	CompletedAt float64                       `json:"completedAt"`
+	// Machine-readable run error code
+	ErrorCode string `json:"errorCode"`
+	// Human-readable run error message
+	ErrorMessage string                          `json:"errorMessage"`
+	Outputs      []TechniqueRunNewResponseOutput `json:"outputs"`
+	PollURL      string                          `json:"pollUrl" format:"uri"`
+	StartedAt    float64                         `json:"startedAt"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		CreatedAt    respjson.Field
+		Progress     respjson.Field
+		RunID        respjson.Field
+		Status       respjson.Field
+		ChargedCost  respjson.Field
+		CompletedAt  respjson.Field
+		ErrorCode    respjson.Field
+		ErrorMessage respjson.Field
+		Outputs      respjson.Field
+		PollURL      respjson.Field
+		StartedAt    respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r TechniqueRunNewResponse) RawJSON() string { return r.JSON.raw }
+func (r *TechniqueRunNewResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type TechniqueRunNewResponseStatus string
+
+const (
+	TechniqueRunNewResponseStatusPending   TechniqueRunNewResponseStatus = "pending"
+	TechniqueRunNewResponseStatusRunning   TechniqueRunNewResponseStatus = "running"
+	TechniqueRunNewResponseStatusCompleted TechniqueRunNewResponseStatus = "completed"
+	TechniqueRunNewResponseStatusFailed    TechniqueRunNewResponseStatus = "failed"
+)
+
+type TechniqueRunNewResponseOutput struct {
+	// Run output identifier
+	OutputID string `json:"outputId" api:"required"`
+	// Run output media type
+	//
+	// Any of "imageUrl", "videoUrl", "audioUrl", "text", "documentUrl".
+	Type string `json:"type" api:"required"`
+	// Run output URL
+	URL string `json:"url" api:"required" format:"uri"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		OutputID    respjson.Field
+		Type        respjson.Field
+		URL         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r TechniqueRunNewResponseOutput) RawJSON() string { return r.JSON.raw }
+func (r *TechniqueRunNewResponseOutput) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
 }
 
 type TechniqueRunGetResponse struct {
@@ -142,106 +216,26 @@ func (r *TechniqueRunGetResponseOutput) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type TechniqueRunStartResponse struct {
-	CreatedAt float64 `json:"createdAt" api:"required"`
-	Progress  float64 `json:"progress" api:"required"`
-	// Run identifier
-	RunID string `json:"runId" api:"required"`
-	// Any of "pending", "running", "completed", "failed".
-	Status      TechniqueRunStartResponseStatus `json:"status" api:"required"`
-	ChargedCost float64                         `json:"chargedCost"`
-	CompletedAt float64                         `json:"completedAt"`
-	// Machine-readable run error code
-	ErrorCode string `json:"errorCode"`
-	// Human-readable run error message
-	ErrorMessage string                            `json:"errorMessage"`
-	Outputs      []TechniqueRunStartResponseOutput `json:"outputs"`
-	PollURL      string                            `json:"pollUrl" format:"uri"`
-	StartedAt    float64                           `json:"startedAt"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		CreatedAt    respjson.Field
-		Progress     respjson.Field
-		RunID        respjson.Field
-		Status       respjson.Field
-		ChargedCost  respjson.Field
-		CompletedAt  respjson.Field
-		ErrorCode    respjson.Field
-		ErrorMessage respjson.Field
-		Outputs      respjson.Field
-		PollURL      respjson.Field
-		StartedAt    respjson.Field
-		ExtraFields  map[string]respjson.Field
-		raw          string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r TechniqueRunStartResponse) RawJSON() string { return r.JSON.raw }
-func (r *TechniqueRunStartResponse) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type TechniqueRunStartResponseStatus string
-
-const (
-	TechniqueRunStartResponseStatusPending   TechniqueRunStartResponseStatus = "pending"
-	TechniqueRunStartResponseStatusRunning   TechniqueRunStartResponseStatus = "running"
-	TechniqueRunStartResponseStatusCompleted TechniqueRunStartResponseStatus = "completed"
-	TechniqueRunStartResponseStatusFailed    TechniqueRunStartResponseStatus = "failed"
-)
-
-type TechniqueRunStartResponseOutput struct {
-	// Run output identifier
-	OutputID string `json:"outputId" api:"required"`
-	// Run output media type
-	//
-	// Any of "imageUrl", "videoUrl", "audioUrl", "text", "documentUrl".
-	Type string `json:"type" api:"required"`
-	// Run output URL
-	URL string `json:"url" api:"required" format:"uri"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		OutputID    respjson.Field
-		Type        respjson.Field
-		URL         respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r TechniqueRunStartResponseOutput) RawJSON() string { return r.JSON.raw }
-func (r *TechniqueRunStartResponseOutput) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type TechniqueRunGetParams struct {
-	// Technique identifier or slug
-	TechniqueID string `path:"techniqueId" api:"required" json:"-"`
-	paramObj
-}
-
-type TechniqueRunStartParams struct {
-	Inputs []TechniqueRunStartParamsInput `json:"inputs,omitzero" api:"required"`
+type TechniqueRunNewParams struct {
+	Inputs []TechniqueRunNewParamsInput `json:"inputs,omitzero" api:"required"`
 	// Any of "async", "stream".
-	Mode        TechniqueRunStartParamsMode `json:"mode,omitzero" api:"required"`
-	CallbackURL param.Opt[string]           `json:"callback_url,omitzero" format:"uri"`
+	Mode        TechniqueRunNewParamsMode `json:"mode,omitzero" api:"required"`
+	CallbackURL param.Opt[string]         `json:"callback_url,omitzero" format:"uri"`
 	// Idempotency key for safely retrying requests
 	IdempotencyKey param.Opt[string] `json:"idempotency_key,omitzero"`
 	paramObj
 }
 
-func (r TechniqueRunStartParams) MarshalJSON() (data []byte, err error) {
-	type shadow TechniqueRunStartParams
+func (r TechniqueRunNewParams) MarshalJSON() (data []byte, err error) {
+	type shadow TechniqueRunNewParams
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *TechniqueRunStartParams) UnmarshalJSON(data []byte) error {
+func (r *TechniqueRunNewParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 // The properties ID, Type, Value are required.
-type TechniqueRunStartParamsInput struct {
+type TechniqueRunNewParamsInput struct {
 	// Technique input identifier
 	ID string `json:"id" api:"required"`
 	// Technique input type
@@ -253,23 +247,29 @@ type TechniqueRunStartParamsInput struct {
 	paramObj
 }
 
-func (r TechniqueRunStartParamsInput) MarshalJSON() (data []byte, err error) {
-	type shadow TechniqueRunStartParamsInput
+func (r TechniqueRunNewParamsInput) MarshalJSON() (data []byte, err error) {
+	type shadow TechniqueRunNewParamsInput
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *TechniqueRunStartParamsInput) UnmarshalJSON(data []byte) error {
+func (r *TechniqueRunNewParamsInput) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 func init() {
-	apijson.RegisterFieldValidator[TechniqueRunStartParamsInput](
+	apijson.RegisterFieldValidator[TechniqueRunNewParamsInput](
 		"type", "imageUrl", "videoUrl", "text",
 	)
 }
 
-type TechniqueRunStartParamsMode string
+type TechniqueRunNewParamsMode string
 
 const (
-	TechniqueRunStartParamsModeAsync  TechniqueRunStartParamsMode = "async"
-	TechniqueRunStartParamsModeStream TechniqueRunStartParamsMode = "stream"
+	TechniqueRunNewParamsModeAsync  TechniqueRunNewParamsMode = "async"
+	TechniqueRunNewParamsModeStream TechniqueRunNewParamsMode = "stream"
 )
+
+type TechniqueRunGetParams struct {
+	// Technique identifier or slug
+	TechniqueID string `path:"techniqueId" api:"required" json:"-"`
+	paramObj
+}

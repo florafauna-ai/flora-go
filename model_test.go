@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package florafaunaai_test
+package flora_test
 
 import (
 	"context"
@@ -22,15 +22,15 @@ func TestModelListWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := florafaunaai.NewClient(
+	client := flora.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Models.List(context.TODO(), florafaunaai.ModelListParams{
-		Type: florafaunaai.ModelListParamsTypeImage,
+	_, err := client.Models.List(context.TODO(), flora.ModelListParams{
+		Type: flora.ModelListParamsTypeImage,
 	})
 	if err != nil {
-		var apierr *florafaunaai.Error
+		var apierr *flora.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}

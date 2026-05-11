@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package florafaunaai_test
+package flora_test
 
 import (
 	"context"
@@ -13,7 +13,7 @@ import (
 	"github.com/stainless-sdks/florafauna-ai-go/option"
 )
 
-func TestProjectAssetAttach(t *testing.T) {
+func TestProjectAssetAttachAsset(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -22,19 +22,19 @@ func TestProjectAssetAttach(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := florafaunaai.NewClient(
+	client := flora.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Projects.Assets.Attach(
+	_, err := client.Projects.Assets.AttachAsset(
 		context.TODO(),
 		"asset_abc123",
-		florafaunaai.ProjectAssetAttachParams{
+		flora.ProjectAssetAttachAssetParams{
 			ProjectID: "prj_abc123",
 		},
 	)
 	if err != nil {
-		var apierr *florafaunaai.Error
+		var apierr *flora.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}

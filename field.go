@@ -1,4 +1,4 @@
-package florafaunaai
+package flora
 
 import (
 	"github.com/stainless-sdks/florafauna-ai-go/packages/param"

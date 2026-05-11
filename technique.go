@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package florafaunaai
+package flora
 
 import (
 	"context"
@@ -14,12 +14,13 @@ import (
 	"github.com/stainless-sdks/florafauna-ai-go/internal/apiquery"
 	"github.com/stainless-sdks/florafauna-ai-go/internal/requestconfig"
 	"github.com/stainless-sdks/florafauna-ai-go/option"
+	"github.com/stainless-sdks/florafauna-ai-go/packages/pagination"
 	"github.com/stainless-sdks/florafauna-ai-go/packages/param"
 	"github.com/stainless-sdks/florafauna-ai-go/packages/respjson"
 )
 
 // TechniqueService contains methods and other services that help with interacting
-// with the florafauna-ai API.
+// with the flora API.
 //
 // Note, unlike clients, this service does not read variables from the environment
 // automatically. You should not instantiate this service directly, and instead use
@@ -54,11 +55,27 @@ func (r *TechniqueService) Get(ctx context.Context, techniqueID string, opts ...
 
 // Returns reusable Flora techniques visible to the authenticated public API key.
 // Use workspace_id, query, cursor, and limit to filter the catalog.
-func (r *TechniqueService) List(ctx context.Context, query TechniqueListParams, opts ...option.RequestOption) (res *TechniqueListResponse, err error) {
+func (r *TechniqueService) List(ctx context.Context, query TechniqueListParams, opts ...option.RequestOption) (res *pagination.TechniquesCursorPage[TechniqueListResponse], err error) {
+	var raw *http.Response
 	opts = slices.Concat(r.options, opts)
+	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "techniques"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return res, err
+	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
+	if err != nil {
+		return nil, err
+	}
+	err = cfg.Execute()
+	if err != nil {
+		return nil, err
+	}
+	res.SetPageConfig(cfg, raw)
+	return res, nil
+}
+
+// Returns reusable Flora techniques visible to the authenticated public API key.
+// Use workspace_id, query, cursor, and limit to filter the catalog.
+func (r *TechniqueService) ListAutoPaging(ctx context.Context, query TechniqueListParams, opts ...option.RequestOption) *pagination.TechniquesCursorPageAutoPager[TechniqueListResponse] {
+	return pagination.NewTechniquesCursorPageAutoPager(r.List(ctx, query, opts...))
 }
 
 type TechniqueGetResponse struct {
@@ -159,49 +176,11 @@ func (r *TechniqueGetResponseOutput) UnmarshalJSON(data []byte) error {
 }
 
 type TechniqueListResponse struct {
-	Meta       TechniqueListResponseMeta        `json:"meta" api:"required"`
-	Techniques []TechniqueListResponseTechnique `json:"techniques" api:"required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		Meta        respjson.Field
-		Techniques  respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r TechniqueListResponse) RawJSON() string { return r.JSON.raw }
-func (r *TechniqueListResponse) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type TechniqueListResponseMeta struct {
-	// Opaque cursor for fetching the next page
-	NextCursor string `json:"next_cursor" api:"required"`
-	// Estimated total matching items
-	TotalEstimate int64 `json:"total_estimate" api:"nullable"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		NextCursor    respjson.Field
-		TotalEstimate respjson.Field
-		ExtraFields   map[string]respjson.Field
-		raw           string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r TechniqueListResponseMeta) RawJSON() string { return r.JSON.raw }
-func (r *TechniqueListResponseMeta) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type TechniqueListResponseTechnique struct {
-	Inputs []TechniqueListResponseTechniqueInput `json:"inputs" api:"required"`
+	Inputs []TechniqueListResponseInput `json:"inputs" api:"required"`
 	// Technique name
-	Name    string                                 `json:"name" api:"required"`
-	Outputs []TechniqueListResponseTechniqueOutput `json:"outputs" api:"required"`
-	RunCost float64                                `json:"run_cost" api:"required"`
+	Name    string                        `json:"name" api:"required"`
+	Outputs []TechniqueListResponseOutput `json:"outputs" api:"required"`
+	RunCost float64                       `json:"run_cost" api:"required"`
 	// Technique identifier
 	TechniqueID string `json:"technique_id" api:"required"`
 	// Technique description
@@ -220,12 +199,12 @@ type TechniqueListResponseTechnique struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r TechniqueListResponseTechnique) RawJSON() string { return r.JSON.raw }
-func (r *TechniqueListResponseTechnique) UnmarshalJSON(data []byte) error {
+func (r TechniqueListResponse) RawJSON() string { return r.JSON.raw }
+func (r *TechniqueListResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type TechniqueListResponseTechniqueInput struct {
+type TechniqueListResponseInput struct {
 	// Technique input or output identifier
 	ID string `json:"id" api:"required"`
 	// Technique input or output display name
@@ -254,12 +233,12 @@ type TechniqueListResponseTechniqueInput struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r TechniqueListResponseTechniqueInput) RawJSON() string { return r.JSON.raw }
-func (r *TechniqueListResponseTechniqueInput) UnmarshalJSON(data []byte) error {
+func (r TechniqueListResponseInput) RawJSON() string { return r.JSON.raw }
+func (r *TechniqueListResponseInput) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type TechniqueListResponseTechniqueOutput struct {
+type TechniqueListResponseOutput struct {
 	// Technique input or output identifier
 	ID string `json:"id" api:"required"`
 	// Technique input or output display name
@@ -288,8 +267,8 @@ type TechniqueListResponseTechniqueOutput struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r TechniqueListResponseTechniqueOutput) RawJSON() string { return r.JSON.raw }
-func (r *TechniqueListResponseTechniqueOutput) UnmarshalJSON(data []byte) error {
+func (r TechniqueListResponseOutput) RawJSON() string { return r.JSON.raw }
+func (r *TechniqueListResponseOutput) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 

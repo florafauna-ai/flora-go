@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package florafaunaai
+package flora
 
 import (
 	"context"
@@ -14,7 +14,7 @@ import (
 )
 
 // WorkspaceService contains methods and other services that help with interacting
-// with the florafauna-ai API.
+// with the flora API.
 //
 // Note, unlike clients, this service does not read variables from the environment
 // automatically. You should not instantiate this service directly, and instead use
