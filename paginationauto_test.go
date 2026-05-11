@@ -4,7 +4,6 @@ package flora_test
 
 import (
 	"context"
-	"errors"
 	"os"
 	"testing"
 
@@ -13,7 +12,7 @@ import (
 	"github.com/stainless-sdks/florafauna-ai-go/option"
 )
 
-func TestWorkspaceList(t *testing.T) {
+func TestAutoPagination(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -26,12 +25,13 @@ func TestWorkspaceList(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Workspaces.List(context.TODO())
-	if err != nil {
-		var apierr *flora.Error
-		if errors.As(err, &apierr) {
-			t.Log(string(apierr.DumpRequest(true)))
-		}
+	iter := client.Techniques.ListAutoPaging(context.TODO(), flora.TechniqueListParams{})
+	// The mock server isn't going to give us real pagination
+	for i := 0; i < 3 && iter.Next(); i++ {
+		technique := iter.Current()
+		t.Logf("%+v\n", technique.TechniqueID)
+	}
+	if err := iter.Err(); err != nil {
 		t.Fatalf("err should be nil: %s", err.Error())
 	}
 }

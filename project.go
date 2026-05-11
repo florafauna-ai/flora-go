@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package florafaunaai
+package flora
 
 import (
 	"context"
@@ -14,12 +14,13 @@ import (
 	"github.com/stainless-sdks/florafauna-ai-go/internal/apiquery"
 	"github.com/stainless-sdks/florafauna-ai-go/internal/requestconfig"
 	"github.com/stainless-sdks/florafauna-ai-go/option"
+	"github.com/stainless-sdks/florafauna-ai-go/packages/pagination"
 	"github.com/stainless-sdks/florafauna-ai-go/packages/param"
 	"github.com/stainless-sdks/florafauna-ai-go/packages/respjson"
 )
 
 // ProjectService contains methods and other services that help with interacting
-// with the florafauna-ai API.
+// with the flora API.
 //
 // Note, unlike clients, this service does not read variables from the environment
 // automatically. You should not instantiate this service directly, and instead use
@@ -64,25 +65,58 @@ func (r *ProjectService) Get(ctx context.Context, projectID string, opts ...opti
 
 // Returns projects in the requested workspace that are accessible to the
 // authenticated public API key, ordered by recent activity.
-func (r *ProjectService) List(ctx context.Context, query ProjectListParams, opts ...option.RequestOption) (res *ProjectListResponse, err error) {
+func (r *ProjectService) List(ctx context.Context, query ProjectListParams, opts ...option.RequestOption) (res *pagination.ProjectsCursorPage[ProjectListResponse], err error) {
+	var raw *http.Response
 	opts = slices.Concat(r.options, opts)
+	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "projects"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return res, err
+	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
+	if err != nil {
+		return nil, err
+	}
+	err = cfg.Execute()
+	if err != nil {
+		return nil, err
+	}
+	res.SetPageConfig(cfg, raw)
+	return res, nil
+}
+
+// Returns projects in the requested workspace that are accessible to the
+// authenticated public API key, ordered by recent activity.
+func (r *ProjectService) ListAutoPaging(ctx context.Context, query ProjectListParams, opts ...option.RequestOption) *pagination.ProjectsCursorPageAutoPager[ProjectListResponse] {
+	return pagination.NewProjectsCursorPageAutoPager(r.List(ctx, query, opts...))
 }
 
 // Returns sanitized visible media nodes on a project canvas. The response omits
 // raw graph documents, Liveblocks internals, raw Convex IDs, and unbounded node
 // data blobs.
-func (r *ProjectService) ListNodes(ctx context.Context, projectID string, query ProjectListNodesParams, opts ...option.RequestOption) (res *ProjectListNodesResponse, err error) {
+func (r *ProjectService) ListNodes(ctx context.Context, projectID string, query ProjectListNodesParams, opts ...option.RequestOption) (res *pagination.CanvasNodesCursorPage[ProjectListNodesResponse], err error) {
+	var raw *http.Response
 	opts = slices.Concat(r.options, opts)
+	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	if projectID == "" {
 		err = errors.New("missing required projectId parameter")
 		return nil, err
 	}
 	path := fmt.Sprintf("projects/%s/nodes", url.PathEscape(projectID))
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return res, err
+	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
+	if err != nil {
+		return nil, err
+	}
+	err = cfg.Execute()
+	if err != nil {
+		return nil, err
+	}
+	res.SetPageConfig(cfg, raw)
+	return res, nil
+}
+
+// Returns sanitized visible media nodes on a project canvas. The response omits
+// raw graph documents, Liveblocks internals, raw Convex IDs, and unbounded node
+// data blobs.
+func (r *ProjectService) ListNodesAutoPaging(ctx context.Context, projectID string, query ProjectListNodesParams, opts ...option.RequestOption) *pagination.CanvasNodesCursorPageAutoPager[ProjectListNodesResponse] {
+	return pagination.NewCanvasNodesCursorPageAutoPager(r.ListNodes(ctx, projectID, query, opts...))
 }
 
 type ProjectNewResponse struct {
@@ -146,44 +180,6 @@ func (r *ProjectGetResponse) UnmarshalJSON(data []byte) error {
 }
 
 type ProjectListResponse struct {
-	Meta     ProjectListResponseMeta      `json:"meta" api:"required"`
-	Projects []ProjectListResponseProject `json:"projects" api:"required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		Meta        respjson.Field
-		Projects    respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r ProjectListResponse) RawJSON() string { return r.JSON.raw }
-func (r *ProjectListResponse) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type ProjectListResponseMeta struct {
-	// Opaque cursor for fetching the next page
-	NextCursor string `json:"next_cursor" api:"required"`
-	// Estimated total matching items
-	TotalEstimate int64 `json:"total_estimate" api:"nullable"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		NextCursor    respjson.Field
-		TotalEstimate respjson.Field
-		ExtraFields   map[string]respjson.Field
-		raw           string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r ProjectListResponseMeta) RawJSON() string { return r.JSON.raw }
-func (r *ProjectListResponseMeta) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type ProjectListResponseProject struct {
 	CreatedAt    float64 `json:"created_at" api:"required"`
 	LastModified float64 `json:"last_modified" api:"required"`
 	// Project name
@@ -208,62 +204,18 @@ type ProjectListResponseProject struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r ProjectListResponseProject) RawJSON() string { return r.JSON.raw }
-func (r *ProjectListResponseProject) UnmarshalJSON(data []byte) error {
+func (r ProjectListResponse) RawJSON() string { return r.JSON.raw }
+func (r *ProjectListResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 type ProjectListNodesResponse struct {
-	// Project canvas URL
-	CanvasURL string                         `json:"canvas_url" api:"required" format:"uri"`
-	Meta      ProjectListNodesResponseMeta   `json:"meta" api:"required"`
-	Nodes     []ProjectListNodesResponseNode `json:"nodes" api:"required"`
-	// Project identifier
-	ProjectID string `json:"project_id" api:"required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		CanvasURL   respjson.Field
-		Meta        respjson.Field
-		Nodes       respjson.Field
-		ProjectID   respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r ProjectListNodesResponse) RawJSON() string { return r.JSON.raw }
-func (r *ProjectListNodesResponse) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type ProjectListNodesResponseMeta struct {
-	// Opaque cursor for fetching the next page
-	NextCursor string `json:"next_cursor" api:"required"`
-	// Estimated total matching items
-	TotalEstimate int64 `json:"total_estimate" api:"nullable"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		NextCursor    respjson.Field
-		TotalEstimate respjson.Field
-		ExtraFields   map[string]respjson.Field
-		raw           string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r ProjectListNodesResponseMeta) RawJSON() string { return r.JSON.raw }
-func (r *ProjectListNodesResponseMeta) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type ProjectListNodesResponseNode struct {
 	// Canvas node identifier
 	NodeID string `json:"node_id" api:"required"`
 	// Canvas node media type
 	//
 	// Any of "image", "video", "audio", "text".
-	Type string `json:"type" api:"required"`
+	Type ProjectListNodesResponseType `json:"type" api:"required"`
 	// Asset identifier
 	AssetID string `json:"asset_id" api:"nullable"`
 	Height  int64  `json:"height" api:"nullable"`
@@ -287,10 +239,20 @@ type ProjectListNodesResponseNode struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r ProjectListNodesResponseNode) RawJSON() string { return r.JSON.raw }
-func (r *ProjectListNodesResponseNode) UnmarshalJSON(data []byte) error {
+func (r ProjectListNodesResponse) RawJSON() string { return r.JSON.raw }
+func (r *ProjectListNodesResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
+
+// Canvas node media type
+type ProjectListNodesResponseType string
+
+const (
+	ProjectListNodesResponseTypeImage ProjectListNodesResponseType = "image"
+	ProjectListNodesResponseTypeVideo ProjectListNodesResponseType = "video"
+	ProjectListNodesResponseTypeAudio ProjectListNodesResponseType = "audio"
+	ProjectListNodesResponseTypeText  ProjectListNodesResponseType = "text"
+)
 
 type ProjectNewParams struct {
 	// Project name

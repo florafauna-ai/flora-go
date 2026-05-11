@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package florafaunaai
+package flora
 
 import (
 	"context"
@@ -17,7 +17,7 @@ import (
 )
 
 // ProjectAssetService contains methods and other services that help with
-// interacting with the florafauna-ai API.
+// interacting with the flora API.
 //
 // Note, unlike clients, this service does not read variables from the environment
 // automatically. You should not instantiate this service directly, and instead use
@@ -38,7 +38,7 @@ func NewProjectAssetService(opts ...option.RequestOption) (r ProjectAssetService
 // Attaches an existing ready asset to a project canvas as a static media node.
 // Mutating public API requests support an optional Idempotency-Key header for
 // client retries; duplicate keys within two hours return idempotency_duplicate.
-func (r *ProjectAssetService) Attach(ctx context.Context, assetID string, body ProjectAssetAttachParams, opts ...option.RequestOption) (res *ProjectAssetAttachResponse, err error) {
+func (r *ProjectAssetService) AttachAsset(ctx context.Context, assetID string, body ProjectAssetAttachAssetParams, opts ...option.RequestOption) (res *ProjectAssetAttachAssetResponse, err error) {
 	opts = slices.Concat(r.options, opts)
 	if body.ProjectID == "" {
 		err = errors.New("missing required projectId parameter")
@@ -53,7 +53,7 @@ func (r *ProjectAssetService) Attach(ctx context.Context, assetID string, body P
 	return res, err
 }
 
-type ProjectAssetAttachResponse struct {
+type ProjectAssetAttachAssetResponse struct {
 	// Asset identifier
 	AssetID string `json:"asset_id" api:"required"`
 	// Project canvas URL
@@ -74,12 +74,12 @@ type ProjectAssetAttachResponse struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r ProjectAssetAttachResponse) RawJSON() string { return r.JSON.raw }
-func (r *ProjectAssetAttachResponse) UnmarshalJSON(data []byte) error {
+func (r ProjectAssetAttachAssetResponse) RawJSON() string { return r.JSON.raw }
+func (r *ProjectAssetAttachAssetResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type ProjectAssetAttachParams struct {
+type ProjectAssetAttachAssetParams struct {
 	// Project identifier
 	ProjectID string `path:"projectId" api:"required" json:"-"`
 	paramObj

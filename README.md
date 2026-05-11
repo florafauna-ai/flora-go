@@ -1,4 +1,4 @@
-# Florafauna AI Go API Library
+# Flora Go API Library
 
 <!-- x-release-please-start-version -->
 
@@ -6,16 +6,25 @@
 
 <!-- x-release-please-end -->
 
-The Florafauna AI Go library provides convenient access to the Florafauna AI REST API
+The Flora Go library provides convenient access to the Flora REST API
 from applications written in Go.
 
 It is generated with [Stainless](https://www.stainless.com/).
+
+## MCP Server
+
+Use the Flora MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.
+
+[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=flora-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImZsb3JhLW1jcCJdLCJlbnYiOnsiRkxPUkFfQVBJX0tFWSI6Ik15IEFQSSBLZXkifX0)
+[![Install in VS Code](https://img.shields.io/badge/_-Add_to_VS_Code-blue?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHBhdGggZmlsbD0iI0VFRSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMzAuMjM1IDM5Ljg4NGEyLjQ5MSAyLjQ5MSAwIDAgMS0xLjc4MS0uNzNMMTIuNyAyNC43OGwtMy40NiAyLjYyNC0zLjQwNiAyLjU4MmExLjY2NSAxLjY2NSAwIDAgMS0xLjA4Mi4zMzggMS42NjQgMS42NjQgMCAwIDEtMS4wNDYtLjQzMWwtMi4yLTJhMS42NjYgMS42NjYgMCAwIDEgMC0yLjQ2M0w3LjQ1OCAyMCA0LjY3IDE3LjQ1MyAxLjUwNyAxNC41N2ExLjY2NSAxLjY2NSAwIDAgMSAwLTIuNDYzbDIuMi0yYTEuNjY1IDEuNjY1IDAgMCAxIDIuMTMtLjA5N2w2Ljg2MyA1LjIwOUwyOC40NTIuODQ0YTIuNDg4IDIuNDg4IDAgMCAxIDEuODQxLS43MjljLjM1MS4wMDkuNjk5LjA5MSAxLjAxOS4yNDVsOC4yMzYgMy45NjFhMi41IDIuNSAwIDAgMSAxLjQxNSAyLjI1M3YuMDk5LS4wNDVWMzMuMzd2LS4wNDUuMDk1YTIuNTAxIDIuNTAxIDAgMCAxLTEuNDE2IDIuMjU3bC04LjIzNSAzLjk2MWEyLjQ5MiAyLjQ5MiAwIDAgMS0xLjA3Ny4yNDZabS43MTYtMjguOTQ3LTExLjk0OCA5LjA2MiAxMS45NTIgOS4wNjUtLjAwNC0xOC4xMjdaIi8+PC9zdmc+)](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22flora-mcp%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22flora-mcp%22%5D%2C%22env%22%3A%7B%22FLORA_API_KEY%22%3A%22My%20API%20Key%22%7D%7D)
+
+> Note: You may need to set environment variables in your MCP client.
 
 ## Installation
 
 ```go
 import (
-	"github.com/stainless-sdks/florafauna-ai-go" // imported as florafaunaai
+	"github.com/stainless-sdks/florafauna-ai-go" // imported as flora
 )
 ```
 
@@ -45,8 +54,8 @@ import (
 )
 
 func main() {
-	client := florafaunaai.NewClient(
-		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("FLORAFAUNA_AI_API_KEY")
+	client := flora.NewClient(
+		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("FLORA_API_KEY")
 	)
 	workspaces, err := client.Workspaces.List(context.TODO())
 	if err != nil {
@@ -59,13 +68,13 @@ func main() {
 
 ### Request fields
 
-The florafaunaai library uses the [`omitzero`](https://tip.golang.org/doc/go1.24#encodingjsonpkgencodingjson)
+The flora library uses the [`omitzero`](https://tip.golang.org/doc/go1.24#encodingjsonpkgencodingjson)
 semantics from the Go 1.24+ `encoding/json` release for request fields.
 
 Required primitive fields (`int64`, `string`, etc.) feature the tag <code>\`api:"required"\`</code>. These
 fields are always serialized, even their zero values.
 
-Optional primitive types are wrapped in a `param.Opt[T]`. These fields can be set with the provided constructors, `florafaunaai.String(string)`, `florafaunaai.Int(int64)`, etc.
+Optional primitive types are wrapped in a `param.Opt[T]`. These fields can be set with the provided constructors, `flora.String(string)`, `flora.Int(int64)`, etc.
 
 Any `param.Opt[T]`, map, slice, struct or string enum uses the
 tag <code>\`json:"...,omitzero"\`</code>. Its zero value is considered omitted.
@@ -73,17 +82,17 @@ tag <code>\`json:"...,omitzero"\`</code>. Its zero value is considered omitted.
 The `param.IsOmitted(any)` function can confirm the presence of any `omitzero` field.
 
 ```go
-p := florafaunaai.ExampleParams{
-	ID:   "id_xxx",                   // required property
-	Name: florafaunaai.String("..."), // optional property
+p := flora.ExampleParams{
+	ID:   "id_xxx",            // required property
+	Name: flora.String("..."), // optional property
 
-	Point: florafaunaai.Point{
-		X: 0,                   // required field will serialize as 0
-		Y: florafaunaai.Int(1), // optional field will serialize as 1
+	Point: flora.Point{
+		X: 0,            // required field will serialize as 0
+		Y: flora.Int(1), // optional field will serialize as 1
 		// ... omitted non-required fields will not be serialized
 	},
 
-	Origin: florafaunaai.Origin{}, // the zero value of [Origin] is considered omitted
+	Origin: flora.Origin{}, // the zero value of [Origin] is considered omitted
 }
 ```
 
@@ -112,7 +121,7 @@ p.SetExtraFields(map[string]any{
 })
 
 // Send a number instead of an object
-custom := param.Override[florafaunaai.FooParams](12)
+custom := param.Override[flora.FooParams](12)
 ```
 
 ### Request unions
@@ -253,7 +262,7 @@ This library uses the functional options pattern. Functions defined in the
 requests. For example:
 
 ```go
-client := florafaunaai.NewClient(
+client := flora.NewClient(
 	// Adds a header to every request made by the client
 	option.WithHeader("X-Some-Header", "custom_header_info"),
 )
@@ -276,13 +285,38 @@ This library provides some conveniences for working with paginated list endpoint
 
 You can use `.ListAutoPaging()` methods to iterate through items across all pages:
 
+```go
+iter := client.Techniques.ListAutoPaging(context.TODO(), flora.TechniqueListParams{})
+// Automatically fetches more pages as needed.
+for iter.Next() {
+	techniqueListResponse := iter.Current()
+	fmt.Printf("%+v\n", techniqueListResponse)
+}
+if err := iter.Err(); err != nil {
+	panic(err.Error())
+}
+```
+
 Or you can use simple `.List()` methods to fetch a single page and receive a standard response object
 with additional helper methods like `.GetNextPage()`, e.g.:
+
+```go
+page, err := client.Techniques.List(context.TODO(), flora.TechniqueListParams{})
+for page != nil {
+	for _, technique := range page.Techniques {
+		fmt.Printf("%+v\n", technique)
+	}
+	page, err = page.GetNextPage()
+}
+if err != nil {
+	panic(err.Error())
+}
+```
 
 ### Errors
 
 When the API returns a non-success status code, we return an error with type
-`*florafaunaai.Error`. This contains the `StatusCode`, `*http.Request`, and
+`*flora.Error`. This contains the `StatusCode`, `*http.Request`, and
 `*http.Response` values of the request, as well as the JSON of the error body
 (much like other response objects in the SDK).
 
@@ -291,7 +325,7 @@ To handle errors, we recommend that you use the `errors.As` pattern:
 ```go
 _, err := client.Workspaces.List(context.TODO())
 if err != nil {
-	var apierr *florafaunaai.Error
+	var apierr *flora.Error
 	if errors.As(err, &apierr) {
 		println(string(apierr.DumpRequest(true)))  // Prints the serialized HTTP request
 		println(string(apierr.DumpResponse(true))) // Prints the serialized HTTP response
@@ -331,7 +365,7 @@ The file name and content-type can be customized by implementing `Name() string`
 string` on the run-time type of `io.Reader`. Note that `os.File` implements `Name() string`, so a
 file returned by `os.Open` will be sent with the file name on disk.
 
-We also provide a helper `florafaunaai.File(reader io.Reader, filename string, contentType string)`
+We also provide a helper `flora.File(reader io.Reader, filename string, contentType string)`
 which can be used to wrap any `io.Reader` with the appropriate file name and content type.
 
 ### Retries
@@ -344,7 +378,7 @@ You can use the `WithMaxRetries` option to configure or disable this:
 
 ```go
 // Configure the default for all requests:
-client := florafaunaai.NewClient(
+client := flora.NewClient(
 	option.WithMaxRetries(0), // default is 2
 )
 
@@ -405,7 +439,7 @@ or the `option.WithJSONSet()` methods.
 params := FooNewParams{
     ID:   "id_xxxx",
     Data: FooNewParamsData{
-        FirstName: florafaunaai.String("John"),
+        FirstName: flora.String("John"),
     },
 }
 client.Foo.New(context.Background(), params, option.WithJSONSet("data.last_name", "Doe"))
@@ -440,7 +474,7 @@ func Logger(req *http.Request, next option.MiddlewareNext) (res *http.Response, 
     return res, err
 }
 
-client := florafaunaai.NewClient(
+client := flora.NewClient(
 	option.WithMiddleware(Logger),
 )
 ```

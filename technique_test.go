@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package florafaunaai_test
+package flora_test
 
 import (
 	"context"
@@ -22,13 +22,13 @@ func TestTechniqueGet(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := florafaunaai.NewClient(
+	client := flora.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Techniques.Get(context.TODO(), "tech_def_abc123")
 	if err != nil {
-		var apierr *florafaunaai.Error
+		var apierr *flora.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -45,18 +45,18 @@ func TestTechniqueListWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := florafaunaai.NewClient(
+	client := flora.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Techniques.List(context.TODO(), florafaunaai.TechniqueListParams{
-		Cursor:      florafaunaai.String("cursor"),
-		Limit:       florafaunaai.Int(1),
-		Query:       florafaunaai.String("logo"),
-		WorkspaceID: florafaunaai.String("ws_abc123"),
+	_, err := client.Techniques.List(context.TODO(), flora.TechniqueListParams{
+		Cursor:      flora.String("cursor"),
+		Limit:       flora.Int(1),
+		Query:       flora.String("logo"),
+		WorkspaceID: flora.String("ws_abc123"),
 	})
 	if err != nil {
-		var apierr *florafaunaai.Error
+		var apierr *flora.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}

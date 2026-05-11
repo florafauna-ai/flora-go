@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package florafaunaai_test
+package flora_test
 
 import (
 	"context"
@@ -22,22 +22,22 @@ func TestRunStartGenerationWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := florafaunaai.NewClient(
+	client := flora.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Runs.StartGeneration(context.TODO(), florafaunaai.RunStartGenerationParams{
+	_, err := client.Runs.StartGeneration(context.TODO(), flora.RunStartGenerationParams{
 		ProjectID:   "prj_abc123",
 		Prompt:      "A cinematic product photo of a ceramic mug on a sunlit table",
-		Type:        florafaunaai.RunStartGenerationParamsTypeImage,
+		Type:        flora.RunStartGenerationParamsTypeImage,
 		WorkspaceID: "ws_abc123",
-		Model:       florafaunaai.String("t2i-flux-2-pro"),
+		Model:       flora.String("t2i-flux-2-pro"),
 		Params: map[string]any{
 			"foo": "bar",
 		},
 	})
 	if err != nil {
-		var apierr *florafaunaai.Error
+		var apierr *flora.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -54,11 +54,11 @@ func TestRunStartTechnique(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := florafaunaai.NewClient(
+	client := flora.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Runs.StartTechnique(context.TODO(), florafaunaai.RunStartTechniqueParams{
+	_, err := client.Runs.StartTechnique(context.TODO(), flora.RunStartTechniqueParams{
 		Inputs: map[string]any{
 			"foo": "bar",
 		},
@@ -66,7 +66,7 @@ func TestRunStartTechnique(t *testing.T) {
 		WorkspaceID: "ws_abc123",
 	})
 	if err != nil {
-		var apierr *florafaunaai.Error
+		var apierr *flora.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}

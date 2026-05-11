@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package florafaunaai
+package flora
 
 import (
 	"context"
@@ -15,13 +15,14 @@ import (
 	"github.com/stainless-sdks/florafauna-ai-go/internal/apiquery"
 	"github.com/stainless-sdks/florafauna-ai-go/internal/requestconfig"
 	"github.com/stainless-sdks/florafauna-ai-go/option"
+	"github.com/stainless-sdks/florafauna-ai-go/packages/pagination"
 	"github.com/stainless-sdks/florafauna-ai-go/packages/param"
 	"github.com/stainless-sdks/florafauna-ai-go/packages/respjson"
 	"github.com/stainless-sdks/florafauna-ai-go/shared/constant"
 )
 
 // AssetService contains methods and other services that help with interacting with
-// the florafauna-ai API.
+// the flora API.
 //
 // Note, unlike clients, this service does not read variables from the environment
 // automatically. You should not instantiate this service directly, and instead use
@@ -65,17 +66,34 @@ func (r *AssetService) Get(ctx context.Context, assetID string, opts ...option.R
 // Returns assets visible to the authenticated public API key. Filter by workspace,
 // project canvas, search query, cursor, and limit without exposing raw file bytes
 // or internal graph data.
-func (r *AssetService) List(ctx context.Context, query AssetListParams, opts ...option.RequestOption) (res *AssetListResponse, err error) {
+func (r *AssetService) List(ctx context.Context, query AssetListParams, opts ...option.RequestOption) (res *pagination.AssetsCursorPage[AssetListResponse], err error) {
+	var raw *http.Response
 	opts = slices.Concat(r.options, opts)
+	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "assets"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return res, err
+	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
+	if err != nil {
+		return nil, err
+	}
+	err = cfg.Execute()
+	if err != nil {
+		return nil, err
+	}
+	res.SetPageConfig(cfg, raw)
+	return res, nil
+}
+
+// Returns assets visible to the authenticated public API key. Filter by workspace,
+// project canvas, search query, cursor, and limit without exposing raw file bytes
+// or internal graph data.
+func (r *AssetService) ListAutoPaging(ctx context.Context, query AssetListParams, opts ...option.RequestOption) *pagination.AssetsCursorPageAutoPager[AssetListResponse] {
+	return pagination.NewAssetsCursorPageAutoPager(r.List(ctx, query, opts...))
 }
 
 // Marks a signed asset upload as complete after the file has been uploaded.
 // Mutating public API requests support an optional Idempotency-Key header for
 // client retries; duplicate keys within two hours return idempotency_duplicate.
-func (r *AssetService) CompleteUpload(ctx context.Context, assetID string, opts ...option.RequestOption) (res *AssetCompleteUploadResponse, err error) {
+func (r *AssetService) Complete(ctx context.Context, assetID string, opts ...option.RequestOption) (res *AssetCompleteResponse, err error) {
 	opts = slices.Concat(r.options, opts)
 	if assetID == "" {
 		err = errors.New("missing required assetId parameter")
@@ -89,7 +107,7 @@ func (r *AssetService) CompleteUpload(ctx context.Context, assetID string, opts 
 // Creates a fresh signed upload reservation for a failed or expired asset upload.
 // Mutating public API requests support an optional Idempotency-Key header for
 // client retries; duplicate keys within two hours return idempotency_duplicate.
-func (r *AssetService) RetryUpload(ctx context.Context, assetID string, opts ...option.RequestOption) (res *AssetRetryUploadResponse, err error) {
+func (r *AssetService) Retry(ctx context.Context, assetID string, opts ...option.RequestOption) (res *AssetRetryResponse, err error) {
 	opts = slices.Concat(r.options, opts)
 	if assetID == "" {
 		err = errors.New("missing required assetId parameter")
@@ -245,24 +263,6 @@ const (
 )
 
 type AssetListResponse struct {
-	Assets []AssetListResponseAsset `json:"assets" api:"required"`
-	Meta   AssetListResponseMeta    `json:"meta" api:"required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		Assets      respjson.Field
-		Meta        respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r AssetListResponse) RawJSON() string { return r.JSON.raw }
-func (r *AssetListResponse) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type AssetListResponseAsset struct {
 	// Asset identifier
 	AssetID string `json:"asset_id" api:"required"`
 	// Asset content type
@@ -275,7 +275,7 @@ type AssetListResponseAsset struct {
 	Name      string `json:"name" api:"required"`
 	SizeBytes int64  `json:"size_bytes" api:"required"`
 	// Any of "pending_upload", "ready", "failed".
-	Status string `json:"status" api:"required"`
+	Status AssetListResponseStatus `json:"status" api:"required"`
 	// Content type provided at upload time
 	UploadContentType string `json:"upload_content_type" api:"required"`
 	// Asset source
@@ -312,36 +312,24 @@ type AssetListResponseAsset struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r AssetListResponseAsset) RawJSON() string { return r.JSON.raw }
-func (r *AssetListResponseAsset) UnmarshalJSON(data []byte) error {
+func (r AssetListResponse) RawJSON() string { return r.JSON.raw }
+func (r *AssetListResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type AssetListResponseMeta struct {
-	// Opaque cursor for fetching the next page
-	NextCursor string `json:"next_cursor" api:"required"`
-	// Estimated total matching items
-	TotalEstimate int64 `json:"total_estimate" api:"nullable"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		NextCursor    respjson.Field
-		TotalEstimate respjson.Field
-		ExtraFields   map[string]respjson.Field
-		raw           string
-	} `json:"-"`
-}
+type AssetListResponseStatus string
 
-// Returns the unmodified JSON received from the API
-func (r AssetListResponseMeta) RawJSON() string { return r.JSON.raw }
-func (r *AssetListResponseMeta) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
+const (
+	AssetListResponseStatusPendingUpload AssetListResponseStatus = "pending_upload"
+	AssetListResponseStatusReady         AssetListResponseStatus = "ready"
+	AssetListResponseStatusFailed        AssetListResponseStatus = "failed"
+)
 
-type AssetCompleteUploadResponse struct {
+type AssetCompleteResponse struct {
 	// Asset identifier
 	AssetID string `json:"asset_id" api:"required"`
 	// Any of "pending_upload", "ready", "failed".
-	Status AssetCompleteUploadResponseStatus `json:"status" api:"required"`
+	Status AssetCompleteResponseStatus `json:"status" api:"required"`
 	// Asset URL
 	URL        string             `json:"url" api:"required" format:"uri"`
 	Visibility constant.Workspace `json:"visibility" default:"workspace"`
@@ -350,8 +338,8 @@ type AssetCompleteUploadResponse struct {
 	// Expiration time for the upload URL
 	ExpiresAt time.Time `json:"expires_at" format:"date-time"`
 	// Failure message when the asset is in failed status
-	FailureMessage string                            `json:"failure_message" api:"nullable"`
-	Upload         AssetCompleteUploadResponseUpload `json:"upload"`
+	FailureMessage string                      `json:"failure_message" api:"nullable"`
+	Upload         AssetCompleteResponseUpload `json:"upload"`
 	// Upload URL (serialized)
 	UploadURL string `json:"upload_url"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
@@ -371,20 +359,20 @@ type AssetCompleteUploadResponse struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r AssetCompleteUploadResponse) RawJSON() string { return r.JSON.raw }
-func (r *AssetCompleteUploadResponse) UnmarshalJSON(data []byte) error {
+func (r AssetCompleteResponse) RawJSON() string { return r.JSON.raw }
+func (r *AssetCompleteResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type AssetCompleteUploadResponseStatus string
+type AssetCompleteResponseStatus string
 
 const (
-	AssetCompleteUploadResponseStatusPendingUpload AssetCompleteUploadResponseStatus = "pending_upload"
-	AssetCompleteUploadResponseStatusReady         AssetCompleteUploadResponseStatus = "ready"
-	AssetCompleteUploadResponseStatusFailed        AssetCompleteUploadResponseStatus = "failed"
+	AssetCompleteResponseStatusPendingUpload AssetCompleteResponseStatus = "pending_upload"
+	AssetCompleteResponseStatusReady         AssetCompleteResponseStatus = "ready"
+	AssetCompleteResponseStatusFailed        AssetCompleteResponseStatus = "failed"
 )
 
-type AssetCompleteUploadResponseUpload struct {
+type AssetCompleteResponseUpload struct {
 	ContentType constant.MultipartFormData `json:"contentType" default:"multipart/form-data"`
 	FileField   constant.File              `json:"fileField" default:"file"`
 	// Upload form fields
@@ -405,16 +393,16 @@ type AssetCompleteUploadResponseUpload struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r AssetCompleteUploadResponseUpload) RawJSON() string { return r.JSON.raw }
-func (r *AssetCompleteUploadResponseUpload) UnmarshalJSON(data []byte) error {
+func (r AssetCompleteResponseUpload) RawJSON() string { return r.JSON.raw }
+func (r *AssetCompleteResponseUpload) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type AssetRetryUploadResponse struct {
+type AssetRetryResponse struct {
 	// Asset identifier
 	AssetID string `json:"asset_id" api:"required"`
 	// Any of "pending_upload", "ready", "failed".
-	Status AssetRetryUploadResponseStatus `json:"status" api:"required"`
+	Status AssetRetryResponseStatus `json:"status" api:"required"`
 	// Asset URL
 	URL        string             `json:"url" api:"required" format:"uri"`
 	Visibility constant.Workspace `json:"visibility" default:"workspace"`
@@ -423,8 +411,8 @@ type AssetRetryUploadResponse struct {
 	// Expiration time for the upload URL
 	ExpiresAt time.Time `json:"expires_at" format:"date-time"`
 	// Failure message when the asset is in failed status
-	FailureMessage string                         `json:"failure_message" api:"nullable"`
-	Upload         AssetRetryUploadResponseUpload `json:"upload"`
+	FailureMessage string                   `json:"failure_message" api:"nullable"`
+	Upload         AssetRetryResponseUpload `json:"upload"`
 	// Upload URL (serialized)
 	UploadURL string `json:"upload_url"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
@@ -444,20 +432,20 @@ type AssetRetryUploadResponse struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r AssetRetryUploadResponse) RawJSON() string { return r.JSON.raw }
-func (r *AssetRetryUploadResponse) UnmarshalJSON(data []byte) error {
+func (r AssetRetryResponse) RawJSON() string { return r.JSON.raw }
+func (r *AssetRetryResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type AssetRetryUploadResponseStatus string
+type AssetRetryResponseStatus string
 
 const (
-	AssetRetryUploadResponseStatusPendingUpload AssetRetryUploadResponseStatus = "pending_upload"
-	AssetRetryUploadResponseStatusReady         AssetRetryUploadResponseStatus = "ready"
-	AssetRetryUploadResponseStatusFailed        AssetRetryUploadResponseStatus = "failed"
+	AssetRetryResponseStatusPendingUpload AssetRetryResponseStatus = "pending_upload"
+	AssetRetryResponseStatusReady         AssetRetryResponseStatus = "ready"
+	AssetRetryResponseStatusFailed        AssetRetryResponseStatus = "failed"
 )
 
-type AssetRetryUploadResponseUpload struct {
+type AssetRetryResponseUpload struct {
 	ContentType constant.MultipartFormData `json:"contentType" default:"multipart/form-data"`
 	FileField   constant.File              `json:"fileField" default:"file"`
 	// Upload form fields
@@ -478,8 +466,8 @@ type AssetRetryUploadResponseUpload struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r AssetRetryUploadResponseUpload) RawJSON() string { return r.JSON.raw }
-func (r *AssetRetryUploadResponseUpload) UnmarshalJSON(data []byte) error {
+func (r AssetRetryResponseUpload) RawJSON() string { return r.JSON.raw }
+func (r *AssetRetryResponseUpload) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 

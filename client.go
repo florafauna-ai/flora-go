@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package florafaunaai
+package flora
 
 import (
 	"context"
@@ -14,30 +14,30 @@ import (
 )
 
 // Client creates a struct with services and top level methods that help with
-// interacting with the florafauna-ai API. You should not instantiate this client
-// directly, and instead use the [NewClient] method instead.
+// interacting with the flora API. You should not instantiate this client directly,
+// and instead use the [NewClient] method instead.
 type Client struct {
 	options    []option.RequestOption
+	Techniques TechniqueService
+	Assets     AssetService
 	Workspaces WorkspaceService
 	Projects   ProjectService
 	Models     ModelService
-	Techniques TechniqueService
-	Assets     AssetService
 	Runs       RunService
 	Feedback   FeedbackService
 }
 
-// DefaultClientOptions read from the environment (FLORAFAUNA_AI_API_KEY,
-// FLORAFAUNA_AI_BASE_URL). This should be used to initialize new clients.
+// DefaultClientOptions read from the environment (FLORA_API_KEY, FLORA_BASE_URL).
+// This should be used to initialize new clients.
 func DefaultClientOptions() []option.RequestOption {
 	defaults := []option.RequestOption{option.WithHTTPClient(defaultHTTPClient()), option.WithEnvironmentProduction()}
-	if o, ok := os.LookupEnv("FLORAFAUNA_AI_BASE_URL"); ok {
+	if o, ok := os.LookupEnv("FLORA_BASE_URL"); ok {
 		defaults = append(defaults, option.WithBaseURL(o))
 	}
-	if o, ok := os.LookupEnv("FLORAFAUNA_AI_API_KEY"); ok {
+	if o, ok := os.LookupEnv("FLORA_API_KEY"); ok {
 		defaults = append(defaults, option.WithAPIKey(o))
 	}
-	if o, ok := os.LookupEnv("FLORAFAUNA_AI_CUSTOM_HEADERS"); ok {
+	if o, ok := os.LookupEnv("FLORA_CUSTOM_HEADERS"); ok {
 		for _, line := range strings.Split(o, "\n") {
 			colon := strings.Index(line, ":")
 			if colon >= 0 {
@@ -49,19 +49,19 @@ func DefaultClientOptions() []option.RequestOption {
 }
 
 // NewClient generates a new client with the default option read from the
-// environment (FLORAFAUNA_AI_API_KEY, FLORAFAUNA_AI_BASE_URL). The option passed
-// in as arguments are applied after these default arguments, and all option will
-// be passed down to the services and requests that this client makes.
+// environment (FLORA_API_KEY, FLORA_BASE_URL). The option passed in as arguments
+// are applied after these default arguments, and all option will be passed down to
+// the services and requests that this client makes.
 func NewClient(opts ...option.RequestOption) (r Client) {
 	opts = append(DefaultClientOptions(), opts...)
 
 	r = Client{options: opts}
 
+	r.Techniques = NewTechniqueService(opts...)
+	r.Assets = NewAssetService(opts...)
 	r.Workspaces = NewWorkspaceService(opts...)
 	r.Projects = NewProjectService(opts...)
 	r.Models = NewModelService(opts...)
-	r.Techniques = NewTechniqueService(opts...)
-	r.Assets = NewAssetService(opts...)
 	r.Runs = NewRunService(opts...)
 	r.Feedback = NewFeedbackService(opts...)
 

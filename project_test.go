@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package florafaunaai_test
+package flora_test
 
 import (
 	"context"
@@ -22,16 +22,16 @@ func TestProjectNew(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := florafaunaai.NewClient(
+	client := flora.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Projects.New(context.TODO(), florafaunaai.ProjectNewParams{
+	_, err := client.Projects.New(context.TODO(), flora.ProjectNewParams{
 		Name:        "Spring Campaign",
 		WorkspaceID: "ws_abc123",
 	})
 	if err != nil {
-		var apierr *florafaunaai.Error
+		var apierr *flora.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -48,13 +48,13 @@ func TestProjectGet(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := florafaunaai.NewClient(
+	client := flora.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Projects.Get(context.TODO(), "prj_abc123")
 	if err != nil {
-		var apierr *florafaunaai.Error
+		var apierr *flora.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -71,18 +71,18 @@ func TestProjectListWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := florafaunaai.NewClient(
+	client := flora.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Projects.List(context.TODO(), florafaunaai.ProjectListParams{
+	_, err := client.Projects.List(context.TODO(), flora.ProjectListParams{
 		WorkspaceID: "ws_abc123",
-		Cursor:      florafaunaai.String("cursor"),
-		Limit:       florafaunaai.Int(1),
-		Query:       florafaunaai.String("logo"),
+		Cursor:      flora.String("cursor"),
+		Limit:       flora.Int(1),
+		Query:       flora.String("logo"),
 	})
 	if err != nil {
-		var apierr *florafaunaai.Error
+		var apierr *flora.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -99,20 +99,20 @@ func TestProjectListNodesWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := florafaunaai.NewClient(
+	client := flora.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Projects.ListNodes(
 		context.TODO(),
 		"prj_abc123",
-		florafaunaai.ProjectListNodesParams{
-			Cursor: florafaunaai.String("cursor"),
-			Limit:  florafaunaai.Int(1),
+		flora.ProjectListNodesParams{
+			Cursor: flora.String("cursor"),
+			Limit:  flora.Int(1),
 		},
 	)
 	if err != nil {
-		var apierr *florafaunaai.Error
+		var apierr *flora.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}

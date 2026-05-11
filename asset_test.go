@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package florafaunaai_test
+package flora_test
 
 import (
 	"context"
@@ -22,19 +22,19 @@ func TestAssetNewWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := florafaunaai.NewClient(
+	client := flora.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Assets.New(context.TODO(), florafaunaai.AssetNewParams{
+	_, err := client.Assets.New(context.TODO(), flora.AssetNewParams{
 		Source:      "signed-url",
 		WorkspaceID: "ws_abc123",
-		ContentType: florafaunaai.String("image/png"),
-		FileName:    florafaunaai.String("hero.png"),
-		Folder:      florafaunaai.String("campaign-assets"),
+		ContentType: flora.String("image/png"),
+		FileName:    flora.String("hero.png"),
+		Folder:      flora.String("campaign-assets"),
 	})
 	if err != nil {
-		var apierr *florafaunaai.Error
+		var apierr *flora.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -51,13 +51,13 @@ func TestAssetGet(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := florafaunaai.NewClient(
+	client := flora.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Assets.Get(context.TODO(), "asset_abc123")
 	if err != nil {
-		var apierr *florafaunaai.Error
+		var apierr *flora.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -74,19 +74,19 @@ func TestAssetListWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := florafaunaai.NewClient(
+	client := flora.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Assets.List(context.TODO(), florafaunaai.AssetListParams{
-		Cursor:      florafaunaai.String("cursor"),
-		Limit:       florafaunaai.Int(1),
-		ProjectID:   florafaunaai.String("prj_abc123"),
-		Query:       florafaunaai.String("logo"),
-		WorkspaceID: florafaunaai.String("ws_abc123"),
+	_, err := client.Assets.List(context.TODO(), flora.AssetListParams{
+		Cursor:      flora.String("cursor"),
+		Limit:       flora.Int(1),
+		ProjectID:   flora.String("prj_abc123"),
+		Query:       flora.String("logo"),
+		WorkspaceID: flora.String("ws_abc123"),
 	})
 	if err != nil {
-		var apierr *florafaunaai.Error
+		var apierr *flora.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -94,7 +94,7 @@ func TestAssetListWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestAssetCompleteUpload(t *testing.T) {
+func TestAssetComplete(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -103,13 +103,13 @@ func TestAssetCompleteUpload(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := florafaunaai.NewClient(
+	client := flora.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Assets.CompleteUpload(context.TODO(), "asset_abc123")
+	_, err := client.Assets.Complete(context.TODO(), "asset_abc123")
 	if err != nil {
-		var apierr *florafaunaai.Error
+		var apierr *flora.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -117,7 +117,7 @@ func TestAssetCompleteUpload(t *testing.T) {
 	}
 }
 
-func TestAssetRetryUpload(t *testing.T) {
+func TestAssetRetry(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -126,13 +126,13 @@ func TestAssetRetryUpload(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := florafaunaai.NewClient(
+	client := flora.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Assets.RetryUpload(context.TODO(), "asset_abc123")
+	_, err := client.Assets.Retry(context.TODO(), "asset_abc123")
 	if err != nil {
-		var apierr *florafaunaai.Error
+		var apierr *flora.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
