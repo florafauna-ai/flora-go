@@ -2,7 +2,7 @@ package param
 
 import (
 	"encoding/json"
-	"github.com/stainless-sdks/florafauna-ai-go/internal/encoding/json/sentinel"
+	"github.com/florafauna-ai/flora-go/internal/encoding/json/sentinel"
 	"reflect"
 )
 

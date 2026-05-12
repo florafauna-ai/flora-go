@@ -3,8 +3,8 @@ package respjson_test
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/stainless-sdks/florafauna-ai-go/internal/apijson"
-	rj "github.com/stainless-sdks/florafauna-ai-go/packages/respjson"
+	"github.com/florafauna-ai/flora-go/internal/apijson"
+	rj "github.com/florafauna-ai/flora-go/packages/respjson"
 	"reflect"
 	"testing"
 )

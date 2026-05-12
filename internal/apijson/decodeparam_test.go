@@ -3,8 +3,8 @@ package apijson_test
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/stainless-sdks/florafauna-ai-go/internal/apijson"
-	"github.com/stainless-sdks/florafauna-ai-go/packages/param"
+	"github.com/florafauna-ai/flora-go/internal/apijson"
+	"github.com/florafauna-ai/flora-go/packages/param"
 	"reflect"
 	"testing"
 )

@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stainless-sdks/florafauna-ai-go"
-	"github.com/stainless-sdks/florafauna-ai-go/internal"
-	"github.com/stainless-sdks/florafauna-ai-go/option"
+	"github.com/florafauna-ai/flora-go"
+	"github.com/florafauna-ai/flora-go/internal"
+	"github.com/florafauna-ai/flora-go/option"
 )
 
 type closureTransport struct {

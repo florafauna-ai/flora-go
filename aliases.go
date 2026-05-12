@@ -3,8 +3,8 @@
 package flora
 
 import (
-	"github.com/stainless-sdks/florafauna-ai-go/internal/apierror"
-	"github.com/stainless-sdks/florafauna-ai-go/packages/param"
+	"github.com/florafauna-ai/flora-go/internal/apierror"
+	"github.com/florafauna-ai/flora-go/packages/param"
 )
 
 // aliased to make [param.APIUnion] private when embedding

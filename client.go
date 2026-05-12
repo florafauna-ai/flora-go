@@ -9,8 +9,8 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/stainless-sdks/florafauna-ai-go/internal/requestconfig"
-	"github.com/stainless-sdks/florafauna-ai-go/option"
+	"github.com/florafauna-ai/flora-go/internal/requestconfig"
+	"github.com/florafauna-ai/flora-go/option"
 )
 
 // Client creates a struct with services and top level methods that help with

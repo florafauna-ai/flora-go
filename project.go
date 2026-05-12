@@ -10,13 +10,13 @@ import (
 	"net/url"
 	"slices"
 
-	"github.com/stainless-sdks/florafauna-ai-go/internal/apijson"
-	"github.com/stainless-sdks/florafauna-ai-go/internal/apiquery"
-	"github.com/stainless-sdks/florafauna-ai-go/internal/requestconfig"
-	"github.com/stainless-sdks/florafauna-ai-go/option"
-	"github.com/stainless-sdks/florafauna-ai-go/packages/pagination"
-	"github.com/stainless-sdks/florafauna-ai-go/packages/param"
-	"github.com/stainless-sdks/florafauna-ai-go/packages/respjson"
+	"github.com/florafauna-ai/flora-go/internal/apijson"
+	"github.com/florafauna-ai/flora-go/internal/apiquery"
+	"github.com/florafauna-ai/flora-go/internal/requestconfig"
+	"github.com/florafauna-ai/flora-go/option"
+	"github.com/florafauna-ai/flora-go/packages/pagination"
+	"github.com/florafauna-ai/flora-go/packages/param"
+	"github.com/florafauna-ai/flora-go/packages/respjson"
 )
 
 // ProjectService contains methods and other services that help with interacting
