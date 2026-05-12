@@ -221,8 +221,8 @@ type ProjectListNodesResponse struct {
 	Height  int64  `json:"height" api:"nullable"`
 	// Canvas node label
 	Label string `json:"label" api:"nullable"`
-	// Canvas node media URL
-	URL   string `json:"url" api:"nullable" format:"uri"`
+	// Canvas node output URL or text content
+	URL   string `json:"url" api:"nullable"`
 	Width int64  `json:"width" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {

@@ -13,7 +13,6 @@ import (
 	"github.com/florafauna-ai/flora-go/internal/apijson"
 	"github.com/florafauna-ai/flora-go/internal/requestconfig"
 	"github.com/florafauna-ai/flora-go/option"
-	"github.com/florafauna-ai/flora-go/packages/param"
 	"github.com/florafauna-ai/flora-go/packages/respjson"
 )
 
@@ -40,14 +39,14 @@ func NewTechniqueRunService(opts ...option.RequestOption) (r TechniqueRunService
 // route. Mutating public API requests support an optional Idempotency-Key header
 // for client retries; duplicate keys within two hours return
 // idempotency_duplicate.
-func (r *TechniqueRunService) New(ctx context.Context, techniqueID string, body TechniqueRunNewParams, opts ...option.RequestOption) (res *TechniqueRunNewResponse, err error) {
+func (r *TechniqueRunService) New(ctx context.Context, techniqueID string, opts ...option.RequestOption) (res *TechniqueRunNewResponse, err error) {
 	opts = slices.Concat(r.options, opts)
 	if techniqueID == "" {
 		err = errors.New("missing required techniqueId parameter")
 		return nil, err
 	}
 	path := fmt.Sprintf("techniques/%s/runs", url.PathEscape(techniqueID))
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return res, err
 }
 
@@ -215,58 +214,6 @@ func (r TechniqueRunGetResponseOutput) RawJSON() string { return r.JSON.raw }
 func (r *TechniqueRunGetResponseOutput) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
-
-type TechniqueRunNewParams struct {
-	Inputs []TechniqueRunNewParamsInput `json:"inputs,omitzero" api:"required"`
-	// Any of "async", "stream".
-	Mode        TechniqueRunNewParamsMode `json:"mode,omitzero" api:"required"`
-	CallbackURL param.Opt[string]         `json:"callback_url,omitzero" format:"uri"`
-	// Idempotency key for safely retrying requests
-	IdempotencyKey param.Opt[string] `json:"idempotency_key,omitzero"`
-	paramObj
-}
-
-func (r TechniqueRunNewParams) MarshalJSON() (data []byte, err error) {
-	type shadow TechniqueRunNewParams
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *TechniqueRunNewParams) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// The properties ID, Type, Value are required.
-type TechniqueRunNewParamsInput struct {
-	// Technique input identifier
-	ID string `json:"id" api:"required"`
-	// Technique input type
-	//
-	// Any of "imageUrl", "videoUrl", "text".
-	Type string `json:"type,omitzero" api:"required"`
-	// Technique input value
-	Value string `json:"value" api:"required"`
-	paramObj
-}
-
-func (r TechniqueRunNewParamsInput) MarshalJSON() (data []byte, err error) {
-	type shadow TechniqueRunNewParamsInput
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *TechniqueRunNewParamsInput) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func init() {
-	apijson.RegisterFieldValidator[TechniqueRunNewParamsInput](
-		"type", "imageUrl", "videoUrl", "text",
-	)
-}
-
-type TechniqueRunNewParamsMode string
-
-const (
-	TechniqueRunNewParamsModeAsync  TechniqueRunNewParamsMode = "async"
-	TechniqueRunNewParamsModeStream TechniqueRunNewParamsMode = "stream"
-)
 
 type TechniqueRunGetParams struct {
 	// Technique identifier or slug

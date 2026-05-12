@@ -13,7 +13,7 @@ import (
 	"github.com/florafauna-ai/flora-go/option"
 )
 
-func TestAssetNewWithOptionalParams(t *testing.T) {
+func TestAssetNew(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -27,11 +27,7 @@ func TestAssetNewWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Assets.New(context.TODO(), flora.AssetNewParams{
-		Source:      "signed-url",
-		WorkspaceID: "ws_abc123",
-		ContentType: flora.String("image/png"),
-		FileName:    flora.String("hero.png"),
-		Folder:      flora.String("campaign-assets"),
+		Body: map[string]any{},
 	})
 	if err != nil {
 		var apierr *flora.Error
