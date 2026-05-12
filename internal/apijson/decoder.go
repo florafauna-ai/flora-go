@@ -7,7 +7,7 @@ package apijson
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/stainless-sdks/florafauna-ai-go/packages/param"
+	"github.com/florafauna-ai/flora-go/packages/param"
 	"reflect"
 	"strconv"
 	"sync"

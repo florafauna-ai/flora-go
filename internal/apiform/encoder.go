@@ -13,7 +13,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/stainless-sdks/florafauna-ai-go/packages/param"
+	"github.com/florafauna-ai/flora-go/packages/param"
 )
 
 var encoders sync.Map // map[encoderEntry]encoderFunc

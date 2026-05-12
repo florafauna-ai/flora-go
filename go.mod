@@ -1,4 +1,4 @@
-module github.com/stainless-sdks/florafauna-ai-go
+module github.com/florafauna-ai/flora-go
 
 go 1.22
 

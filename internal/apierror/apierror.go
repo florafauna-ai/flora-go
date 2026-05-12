@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"net/http/httputil"
 
-	"github.com/stainless-sdks/florafauna-ai-go/internal/apijson"
-	"github.com/stainless-sdks/florafauna-ai-go/packages/respjson"
+	"github.com/florafauna-ai/flora-go/internal/apijson"
+	"github.com/florafauna-ai/flora-go/packages/respjson"
 )
 
 // Error represents an error that originates from the API, i.e. when a request is

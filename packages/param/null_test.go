@@ -2,7 +2,7 @@ package param_test
 
 import (
 	"encoding/json"
-	"github.com/stainless-sdks/florafauna-ai-go/packages/param"
+	"github.com/florafauna-ai/flora-go/packages/param"
 	"testing"
 )
 
