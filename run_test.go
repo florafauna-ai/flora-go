@@ -13,7 +13,7 @@ import (
 	"github.com/florafauna-ai/flora-go/option"
 )
 
-func TestRunStartGeneration(t *testing.T) {
+func TestRunStartGenerationWithOptionalParams(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -27,7 +27,14 @@ func TestRunStartGeneration(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Runs.StartGeneration(context.TODO(), flora.RunStartGenerationParams{
-		Body: map[string]any{},
+		ProjectID:   "prj_abc123",
+		Prompt:      "A cinematic product photo of a ceramic mug on a sunlit table",
+		Type:        flora.RunStartGenerationParamsTypeImage,
+		WorkspaceID: "ws_abc123",
+		Model:       flora.String("t2i-flux-2-pro"),
+		Params: map[string]any{
+			"foo": "bar",
+		},
 	})
 	if err != nil {
 		var apierr *flora.Error
@@ -52,7 +59,11 @@ func TestRunStartTechnique(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Runs.StartTechnique(context.TODO(), flora.RunStartTechniqueParams{
-		Body: map[string]any{},
+		Inputs: map[string]any{
+			"foo": "bar",
+		},
+		TechniqueID: "tech_abcd1234",
+		WorkspaceID: "ws_abc123",
 	})
 	if err != nil {
 		var apierr *flora.Error

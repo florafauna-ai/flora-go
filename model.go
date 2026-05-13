@@ -60,6 +60,7 @@ func (r *ModelListResponse) UnmarshalJSON(data []byte) error {
 }
 
 type ModelListResponseModel struct {
+	// Model capabilities
 	Capabilities []string `json:"capabilities" api:"required"`
 	// Estimated credits
 	EstimatedCredits int64 `json:"estimated_credits" api:"required"`
@@ -77,7 +78,8 @@ type ModelListResponseModel struct {
 	//
 	// Any of "image", "video", "audio", "text".
 	Type string `json:"type" api:"required"`
-	Beta bool   `json:"beta"`
+	// Whether this model is in beta
+	Beta bool `json:"beta"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Capabilities     respjson.Field

@@ -50,7 +50,7 @@ func TestTechniqueListWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Techniques.List(context.TODO(), flora.TechniqueListParams{
-		Cursor:      flora.String("cursor"),
+		Cursor:      flora.String("eyJvZmZzZXQiOjIwfQ"),
 		Limit:       flora.Int(1),
 		Query:       flora.String("logo"),
 		WorkspaceID: flora.String("ws_abc123"),
