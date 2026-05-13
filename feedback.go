@@ -77,8 +77,9 @@ type FeedbackRecordParams struct {
 	// Run identifier
 	RunID param.Opt[string] `json:"run_id,omitzero"`
 	// Workspace identifier
-	WorkspaceID    param.Opt[string] `json:"workspace_id,omitzero"`
-	AttemptedTools []string          `json:"attempted_tools,omitzero"`
+	WorkspaceID param.Opt[string] `json:"workspace_id,omitzero"`
+	// Tools or capabilities attempted before submitting feedback
+	AttemptedTools []string `json:"attempted_tools,omitzero"`
 	paramObj
 }
 
