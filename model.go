@@ -69,6 +69,8 @@ type ModelListResponseModel struct {
 	ModelID string `json:"model_id" api:"required"`
 	// Model name
 	Name string `json:"name" api:"required"`
+	// Supported generation parameters for this model
+	Params []ModelListResponseModelParam `json:"params" api:"required"`
 	// Model provider
 	Provider string `json:"provider" api:"required"`
 	// Model type
@@ -83,6 +85,7 @@ type ModelListResponseModel struct {
 		EstimatedSeconds respjson.Field
 		ModelID          respjson.Field
 		Name             respjson.Field
+		Params           respjson.Field
 		Provider         respjson.Field
 		Type             respjson.Field
 		Beta             respjson.Field
@@ -94,6 +97,95 @@ type ModelListResponseModel struct {
 // Returns the unmodified JSON received from the API
 func (r ModelListResponseModel) RawJSON() string { return r.JSON.raw }
 func (r *ModelListResponseModel) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type ModelListResponseModelParam struct {
+	// Parameter name to pass in generation params
+	Name string `json:"name" api:"required"`
+	// Whether the model requires this parameter
+	Required bool `json:"required" api:"required"`
+	// Parameter value type
+	//
+	// Any of "string", "string[]", "bool", "int", "int?", "seed", "float", "dict".
+	Type string `json:"type" api:"required"`
+	// Default parameter value
+	Default any `json:"default"`
+	// Parameter help text
+	Description string `json:"description"`
+	// Human-readable parameter label
+	Label string `json:"label"`
+	// Maximum numeric value
+	Max float64 `json:"max"`
+	// Minimum numeric value
+	Min float64 `json:"min"`
+	// Allowed values for enum-like parameters
+	Options []ModelListResponseModelParamOption `json:"options"`
+	// Nested numeric properties for object parameters
+	Properties map[string]ModelListResponseModelParamProperty `json:"properties"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Name        respjson.Field
+		Required    respjson.Field
+		Type        respjson.Field
+		Default     respjson.Field
+		Description respjson.Field
+		Label       respjson.Field
+		Max         respjson.Field
+		Min         respjson.Field
+		Options     respjson.Field
+		Properties  respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r ModelListResponseModelParam) RawJSON() string { return r.JSON.raw }
+func (r *ModelListResponseModelParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type ModelListResponseModelParamOption struct {
+	// Displayed option label
+	Label string `json:"label" api:"required"`
+	// Option value to pass in generation params
+	Value string `json:"value" api:"required"`
+	// Option description
+	Description string `json:"description"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Label       respjson.Field
+		Value       respjson.Field
+		Description respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r ModelListResponseModelParamOption) RawJSON() string { return r.JSON.raw }
+func (r *ModelListResponseModelParamOption) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type ModelListResponseModelParamProperty struct {
+	Default float64 `json:"default" api:"required"`
+	Max     float64 `json:"max" api:"required"`
+	Min     float64 `json:"min" api:"required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Default     respjson.Field
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r ModelListResponseModelParamProperty) RawJSON() string { return r.JSON.raw }
+func (r *ModelListResponseModelParamProperty) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 

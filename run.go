@@ -8,9 +8,9 @@ import (
 	"slices"
 
 	"github.com/florafauna-ai/flora-go/internal/apijson"
+	shimjson "github.com/florafauna-ai/flora-go/internal/encoding/json"
 	"github.com/florafauna-ai/flora-go/internal/requestconfig"
 	"github.com/florafauna-ai/flora-go/option"
-	"github.com/florafauna-ai/flora-go/packages/param"
 	"github.com/florafauna-ai/flora-go/packages/respjson"
 )
 
@@ -62,11 +62,9 @@ type RunStartGenerationResponse struct {
 	// Run type
 	//
 	// Any of "generation", "technique".
-	Type RunStartGenerationResponseType `json:"type" api:"required"`
-	// Workflow run identifier
-	WorkflowRunID string                          `json:"workflow_run_id" api:"required"`
-	Model         RunStartGenerationResponseModel `json:"model" api:"nullable"`
-	PollURL       string                          `json:"poll_url" api:"nullable" format:"uri"`
+	Type    RunStartGenerationResponseType  `json:"type" api:"required"`
+	Model   RunStartGenerationResponseModel `json:"model" api:"nullable"`
+	PollURL string                          `json:"poll_url" api:"nullable" format:"uri"`
 	// Project identifier
 	ProjectID string                              `json:"project_id" api:"nullable"`
 	Technique RunStartGenerationResponseTechnique `json:"technique" api:"nullable"`
@@ -76,7 +74,6 @@ type RunStartGenerationResponse struct {
 		EstimatedSeconds respjson.Field
 		RunID            respjson.Field
 		Type             respjson.Field
-		WorkflowRunID    respjson.Field
 		Model            respjson.Field
 		PollURL          respjson.Field
 		ProjectID        respjson.Field
@@ -145,11 +142,9 @@ type RunStartTechniqueResponse struct {
 	// Run type
 	//
 	// Any of "generation", "technique".
-	Type RunStartTechniqueResponseType `json:"type" api:"required"`
-	// Workflow run identifier
-	WorkflowRunID string                         `json:"workflow_run_id" api:"required"`
-	Model         RunStartTechniqueResponseModel `json:"model" api:"nullable"`
-	PollURL       string                         `json:"poll_url" api:"nullable" format:"uri"`
+	Type    RunStartTechniqueResponseType  `json:"type" api:"required"`
+	Model   RunStartTechniqueResponseModel `json:"model" api:"nullable"`
+	PollURL string                         `json:"poll_url" api:"nullable" format:"uri"`
 	// Project identifier
 	ProjectID string                             `json:"project_id" api:"nullable"`
 	Technique RunStartTechniqueResponseTechnique `json:"technique" api:"nullable"`
@@ -159,7 +154,6 @@ type RunStartTechniqueResponse struct {
 		EstimatedSeconds respjson.Field
 		RunID            respjson.Field
 		Type             respjson.Field
-		WorkflowRunID    respjson.Field
 		Model            respjson.Field
 		PollURL          respjson.Field
 		ProjectID        respjson.Field
@@ -221,54 +215,24 @@ func (r *RunStartTechniqueResponseTechnique) UnmarshalJSON(data []byte) error {
 }
 
 type RunStartGenerationParams struct {
-	// Project identifier
-	ProjectID string `json:"project_id" api:"required"`
-	// Generation prompt
-	Prompt string `json:"prompt" api:"required"`
-	// Generation type
-	//
-	// Any of "image", "video", "audio", "text".
-	Type RunStartGenerationParamsType `json:"type,omitzero" api:"required"`
-	// Workspace identifier
-	WorkspaceID string `json:"workspace_id" api:"required"`
-	// Model endpoint ID
-	Model param.Opt[string] `json:"model,omitzero"`
-	// Model parameters
-	Params map[string]any `json:"params,omitzero"`
+	Body any
 	paramObj
 }
 
 func (r RunStartGenerationParams) MarshalJSON() (data []byte, err error) {
-	type shadow RunStartGenerationParams
-	return param.MarshalObject(r, (*shadow)(&r))
+	return shimjson.Marshal(r.Body)
 }
 func (r *RunStartGenerationParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Generation type
-type RunStartGenerationParamsType string
-
-const (
-	RunStartGenerationParamsTypeImage RunStartGenerationParamsType = "image"
-	RunStartGenerationParamsTypeVideo RunStartGenerationParamsType = "video"
-	RunStartGenerationParamsTypeAudio RunStartGenerationParamsType = "audio"
-	RunStartGenerationParamsTypeText  RunStartGenerationParamsType = "text"
-)
-
 type RunStartTechniqueParams struct {
-	// Technique inputs
-	Inputs map[string]any `json:"inputs,omitzero" api:"required"`
-	// Technique identifier
-	TechniqueID string `json:"technique_id" api:"required"`
-	// Workspace identifier
-	WorkspaceID string `json:"workspace_id" api:"required"`
+	Body any
 	paramObj
 }
 
 func (r RunStartTechniqueParams) MarshalJSON() (data []byte, err error) {
-	type shadow RunStartTechniqueParams
-	return param.MarshalObject(r, (*shadow)(&r))
+	return shimjson.Marshal(r.Body)
 }
 func (r *RunStartTechniqueParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
