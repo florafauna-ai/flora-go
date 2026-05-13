@@ -13,6 +13,7 @@ import (
 
 	"github.com/florafauna-ai/flora-go/internal/apijson"
 	"github.com/florafauna-ai/flora-go/internal/apiquery"
+	shimjson "github.com/florafauna-ai/flora-go/internal/encoding/json"
 	"github.com/florafauna-ai/flora-go/internal/requestconfig"
 	"github.com/florafauna-ai/flora-go/option"
 	"github.com/florafauna-ai/flora-go/packages/pagination"
@@ -472,22 +473,12 @@ func (r *AssetRetryResponseUpload) UnmarshalJSON(data []byte) error {
 }
 
 type AssetNewParams struct {
-	// Asset source URL or signed-url upload mode
-	Source string `json:"source" api:"required"`
-	// Workspace identifier
-	WorkspaceID string `json:"workspace_id" api:"required"`
-	// Asset content type
-	ContentType param.Opt[string] `json:"content_type,omitzero"`
-	// Asset file name
-	FileName param.Opt[string] `json:"file_name,omitzero"`
-	// Destination folder
-	Folder param.Opt[string] `json:"folder,omitzero"`
+	Body any
 	paramObj
 }
 
 func (r AssetNewParams) MarshalJSON() (data []byte, err error) {
-	type shadow AssetNewParams
-	return param.MarshalObject(r, (*shadow)(&r))
+	return shimjson.Marshal(r.Body)
 }
 func (r *AssetNewParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)

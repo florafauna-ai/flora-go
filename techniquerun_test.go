@@ -13,7 +13,7 @@ import (
 	"github.com/florafauna-ai/flora-go/option"
 )
 
-func TestTechniqueRunNewWithOptionalParams(t *testing.T) {
+func TestTechniqueRunNew(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -26,20 +26,7 @@ func TestTechniqueRunNewWithOptionalParams(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Techniques.Runs.New(
-		context.TODO(),
-		"tech_def_abc123",
-		flora.TechniqueRunNewParams{
-			Inputs: []flora.TechniqueRunNewParamsInput{{
-				ID:    "id",
-				Type:  "imageUrl",
-				Value: "value",
-			}},
-			Mode:           flora.TechniqueRunNewParamsModeAsync,
-			CallbackURL:    flora.String("https://example.com"),
-			IdempotencyKey: flora.String("idempotency_key"),
-		},
-	)
+	_, err := client.Techniques.Runs.New(context.TODO(), "tech_def_abc123")
 	if err != nil {
 		var apierr *flora.Error
 		if errors.As(err, &apierr) {
