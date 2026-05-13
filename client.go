@@ -24,7 +24,6 @@ type Client struct {
 	Projects   ProjectService
 	Models     ModelService
 	Runs       RunService
-	Feedback   FeedbackService
 }
 
 // DefaultClientOptions read from the environment (FLORA_API_KEY, FLORA_BASE_URL).
@@ -63,7 +62,6 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 	r.Projects = NewProjectService(opts...)
 	r.Models = NewModelService(opts...)
 	r.Runs = NewRunService(opts...)
-	r.Feedback = NewFeedbackService(opts...)
 
 	return
 }
