@@ -16,6 +16,8 @@ import (
 	"github.com/florafauna-ai/flora-go/packages/respjson"
 )
 
+// Project canvas endpoints.
+//
 // ProjectAssetService contains methods and other services that help with
 // interacting with the flora API.
 //

@@ -17,6 +17,8 @@ import (
 	"github.com/florafauna-ai/flora-go/packages/respjson"
 )
 
+// Nested technique run endpoints.
+//
 // TechniqueRunService contains methods and other services that help with
 // interacting with the flora API.
 //
@@ -69,21 +71,21 @@ func (r *TechniqueRunService) Get(ctx context.Context, runID string, query Techn
 }
 
 type TechniqueRunNewResponse struct {
-	CreatedAt float64 `json:"createdAt" api:"required"`
+	CreatedAt float64 `json:"created_at" api:"required"`
 	Progress  float64 `json:"progress" api:"required"`
 	// Run identifier
-	RunID string `json:"runId" api:"required"`
+	RunID string `json:"run_id" api:"required"`
 	// Any of "pending", "running", "completed", "failed".
 	Status      TechniqueRunNewResponseStatus `json:"status" api:"required"`
-	ChargedCost float64                       `json:"chargedCost"`
-	CompletedAt float64                       `json:"completedAt"`
+	ChargedCost float64                       `json:"charged_cost"`
+	CompletedAt float64                       `json:"completed_at"`
 	// Machine-readable run error code
-	ErrorCode string `json:"errorCode"`
+	ErrorCode string `json:"error_code"`
 	// Human-readable run error message
-	ErrorMessage string                          `json:"errorMessage"`
+	ErrorMessage string                          `json:"error_message"`
 	Outputs      []TechniqueRunNewResponseOutput `json:"outputs"`
-	PollURL      string                          `json:"pollUrl" format:"uri"`
-	StartedAt    float64                         `json:"startedAt"`
+	PollURL      string                          `json:"poll_url" format:"uri"`
+	StartedAt    float64                         `json:"started_at"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		CreatedAt    respjson.Field
@@ -119,7 +121,7 @@ const (
 
 type TechniqueRunNewResponseOutput struct {
 	// Run output identifier
-	OutputID string `json:"outputId" api:"required"`
+	OutputID string `json:"output_id" api:"required"`
 	// Run output media type
 	//
 	// Any of "imageUrl", "videoUrl", "audioUrl", "text", "documentUrl".
@@ -143,21 +145,21 @@ func (r *TechniqueRunNewResponseOutput) UnmarshalJSON(data []byte) error {
 }
 
 type TechniqueRunGetResponse struct {
-	CreatedAt float64 `json:"createdAt" api:"required"`
+	CreatedAt float64 `json:"created_at" api:"required"`
 	Progress  float64 `json:"progress" api:"required"`
 	// Run identifier
-	RunID string `json:"runId" api:"required"`
+	RunID string `json:"run_id" api:"required"`
 	// Any of "pending", "running", "completed", "failed".
 	Status      TechniqueRunGetResponseStatus `json:"status" api:"required"`
-	ChargedCost float64                       `json:"chargedCost"`
-	CompletedAt float64                       `json:"completedAt"`
+	ChargedCost float64                       `json:"charged_cost"`
+	CompletedAt float64                       `json:"completed_at"`
 	// Machine-readable run error code
-	ErrorCode string `json:"errorCode"`
+	ErrorCode string `json:"error_code"`
 	// Human-readable run error message
-	ErrorMessage string                          `json:"errorMessage"`
+	ErrorMessage string                          `json:"error_message"`
 	Outputs      []TechniqueRunGetResponseOutput `json:"outputs"`
-	PollURL      string                          `json:"pollUrl" format:"uri"`
-	StartedAt    float64                         `json:"startedAt"`
+	PollURL      string                          `json:"poll_url" format:"uri"`
+	StartedAt    float64                         `json:"started_at"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		CreatedAt    respjson.Field
@@ -193,7 +195,7 @@ const (
 
 type TechniqueRunGetResponseOutput struct {
 	// Run output identifier
-	OutputID string `json:"outputId" api:"required"`
+	OutputID string `json:"output_id" api:"required"`
 	// Run output media type
 	//
 	// Any of "imageUrl", "videoUrl", "audioUrl", "text", "documentUrl".

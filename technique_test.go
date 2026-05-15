@@ -26,7 +26,7 @@ func TestTechniqueGet(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Techniques.Get(context.TODO(), "tech_def_abc123")
+	_, err := client.Techniques.Get(context.TODO(), "art-directors-critique")
 	if err != nil {
 		var apierr *flora.Error
 		if errors.As(err, &apierr) {

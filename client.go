@@ -17,13 +17,18 @@ import (
 // interacting with the flora API. You should not instantiate this client directly,
 // and instead use the [NewClient] method instead.
 type Client struct {
-	options    []option.RequestOption
+	options []option.RequestOption
+	// Technique catalog endpoints.
 	Techniques TechniqueService
-	Assets     AssetService
+	// Asset upload and retrieval endpoints.
+	Assets AssetService
+	// Workspace discovery endpoints.
 	Workspaces WorkspaceService
 	Projects   ProjectService
-	Models     ModelService
-	Runs       RunService
+	// Model catalog endpoints.
+	Models ModelService
+	// Top-level run creation endpoints.
+	Runs RunService
 }
 
 // DefaultClientOptions read from the environment (FLORA_API_KEY, FLORA_BASE_URL).

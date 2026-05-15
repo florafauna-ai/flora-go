@@ -21,6 +21,8 @@ import (
 	"github.com/florafauna-ai/flora-go/shared/constant"
 )
 
+// Asset upload and retrieval endpoints.
+//
 // AssetService contains methods and other services that help with interacting with
 // the flora API.
 //
@@ -176,10 +178,10 @@ const (
 )
 
 type AssetNewResponseUpload struct {
-	ContentType constant.MultipartFormData `json:"contentType" default:"multipart/form-data"`
-	FileField   constant.File              `json:"fileField" default:"file"`
+	ContentType constant.MultipartFormData `json:"content_type" default:"multipart/form-data"`
+	FileField   constant.File              `json:"file_field" default:"file"`
 	// Upload form fields
-	FormFields map[string]string `json:"formFields" api:"required"`
+	FormFields map[string]string `json:"form_fields" api:"required"`
 	Method     constant.Post     `json:"method" default:"POST"`
 	// Upload URL
 	URL string `json:"url" api:"required" format:"uri"`
@@ -373,10 +375,10 @@ const (
 )
 
 type AssetCompleteResponseUpload struct {
-	ContentType constant.MultipartFormData `json:"contentType" default:"multipart/form-data"`
-	FileField   constant.File              `json:"fileField" default:"file"`
+	ContentType constant.MultipartFormData `json:"content_type" default:"multipart/form-data"`
+	FileField   constant.File              `json:"file_field" default:"file"`
 	// Upload form fields
-	FormFields map[string]string `json:"formFields" api:"required"`
+	FormFields map[string]string `json:"form_fields" api:"required"`
 	Method     constant.Post     `json:"method" default:"POST"`
 	// Upload URL
 	URL string `json:"url" api:"required" format:"uri"`
@@ -446,10 +448,10 @@ const (
 )
 
 type AssetRetryResponseUpload struct {
-	ContentType constant.MultipartFormData `json:"contentType" default:"multipart/form-data"`
-	FileField   constant.File              `json:"fileField" default:"file"`
+	ContentType constant.MultipartFormData `json:"content_type" default:"multipart/form-data"`
+	FileField   constant.File              `json:"file_field" default:"file"`
 	// Upload form fields
-	FormFields map[string]string `json:"formFields" api:"required"`
+	FormFields map[string]string `json:"form_fields" api:"required"`
 	Method     constant.Post     `json:"method" default:"POST"`
 	// Upload URL
 	URL string `json:"url" api:"required" format:"uri"`

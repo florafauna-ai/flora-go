@@ -28,7 +28,7 @@ func TestTechniqueRunNewWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Techniques.Runs.New(
 		context.TODO(),
-		"tech_def_abc123",
+		"art-directors-critique",
 		flora.TechniqueRunNewParams{
 			Inputs: []flora.TechniqueRunNewParamsInput{{
 				ID:    "id",
@@ -66,7 +66,7 @@ func TestTechniqueRunGet(t *testing.T) {
 		context.TODO(),
 		"run_abc123",
 		flora.TechniqueRunGetParams{
-			TechniqueID: "tech_def_abc123",
+			TechniqueID: "art-directors-critique",
 		},
 	)
 	if err != nil {

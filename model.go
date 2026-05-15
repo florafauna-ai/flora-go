@@ -15,6 +15,8 @@ import (
 	"github.com/florafauna-ai/flora-go/packages/respjson"
 )
 
+// Model catalog endpoints.
+//
 // ModelService contains methods and other services that help with interacting with
 // the flora API.
 //

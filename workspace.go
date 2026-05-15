@@ -13,6 +13,8 @@ import (
 	"github.com/florafauna-ai/flora-go/packages/respjson"
 )
 
+// Workspace discovery endpoints.
+//
 // WorkspaceService contains methods and other services that help with interacting
 // with the flora API.
 //

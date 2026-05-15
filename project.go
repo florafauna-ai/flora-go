@@ -27,7 +27,8 @@ import (
 // the [NewProjectService] method instead.
 type ProjectService struct {
 	options []option.RequestOption
-	Assets  ProjectAssetService
+	// Project canvas endpoints.
+	Assets ProjectAssetService
 }
 
 // NewProjectService generates a new service that applies the given options to each
