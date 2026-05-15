@@ -19,6 +19,8 @@ import (
 	"github.com/florafauna-ai/flora-go/packages/respjson"
 )
 
+// Technique catalog endpoints.
+//
 // TechniqueService contains methods and other services that help with interacting
 // with the flora API.
 //
@@ -27,7 +29,8 @@ import (
 // the [NewTechniqueService] method instead.
 type TechniqueService struct {
 	options []option.RequestOption
-	Runs    TechniqueRunService
+	// Nested technique run endpoints.
+	Runs TechniqueRunService
 }
 
 // NewTechniqueService generates a new service that applies the given options to
@@ -119,9 +122,9 @@ type TechniqueGetResponseInput struct {
 	// Technique input or output description
 	Description string `json:"description"`
 	// Required aspect ratio
-	SpecifiedAspectRatio string `json:"specifiedAspectRatio"`
+	SpecifiedAspectRatio string `json:"specified_aspect_ratio"`
 	// Required duration in seconds
-	SpecifiedDuration float64 `json:"specifiedDuration"`
+	SpecifiedDuration float64 `json:"specified_duration"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ID                   respjson.Field
@@ -153,9 +156,9 @@ type TechniqueGetResponseOutput struct {
 	// Technique input or output description
 	Description string `json:"description"`
 	// Required aspect ratio
-	SpecifiedAspectRatio string `json:"specifiedAspectRatio"`
+	SpecifiedAspectRatio string `json:"specified_aspect_ratio"`
 	// Required duration in seconds
-	SpecifiedDuration float64 `json:"specifiedDuration"`
+	SpecifiedDuration float64 `json:"specified_duration"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ID                   respjson.Field
@@ -216,9 +219,9 @@ type TechniqueListResponseInput struct {
 	// Technique input or output description
 	Description string `json:"description"`
 	// Required aspect ratio
-	SpecifiedAspectRatio string `json:"specifiedAspectRatio"`
+	SpecifiedAspectRatio string `json:"specified_aspect_ratio"`
 	// Required duration in seconds
-	SpecifiedDuration float64 `json:"specifiedDuration"`
+	SpecifiedDuration float64 `json:"specified_duration"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ID                   respjson.Field
@@ -250,9 +253,9 @@ type TechniqueListResponseOutput struct {
 	// Technique input or output description
 	Description string `json:"description"`
 	// Required aspect ratio
-	SpecifiedAspectRatio string `json:"specifiedAspectRatio"`
+	SpecifiedAspectRatio string `json:"specified_aspect_ratio"`
 	// Required duration in seconds
-	SpecifiedDuration float64 `json:"specifiedDuration"`
+	SpecifiedDuration float64 `json:"specified_duration"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ID                   respjson.Field
