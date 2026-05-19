@@ -39,7 +39,7 @@ func TestUserAgentHeader(t *testing.T) {
 		}),
 	)
 	_, _ = client.Workspaces.List(context.Background())
-	if userAgent != fmt.Sprintf("Flora/Go %s", internal.PackageVersion) {
+	if userAgent != fmt.Sprintf("FLORA/Go %s", internal.PackageVersion) {
 		t.Errorf("Expected User-Agent to be correct, but got: %#v", userAgent)
 	}
 }
