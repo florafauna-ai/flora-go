@@ -76,9 +76,10 @@ type TechniqueRunNewResponse struct {
 	// Run identifier
 	RunID string `json:"run_id" api:"required"`
 	// Any of "pending", "running", "completed", "failed".
-	Status      TechniqueRunNewResponseStatus `json:"status" api:"required"`
-	ChargedCost float64                       `json:"charged_cost"`
-	CompletedAt float64                       `json:"completed_at"`
+	Status TechniqueRunNewResponseStatus `json:"status" api:"required"`
+	// Cost charged in USD
+	ChargedCost float64 `json:"charged_cost"`
+	CompletedAt float64 `json:"completed_at"`
 	// Machine-readable run error code
 	ErrorCode string `json:"error_code"`
 	// Human-readable run error message
@@ -150,9 +151,10 @@ type TechniqueRunGetResponse struct {
 	// Run identifier
 	RunID string `json:"run_id" api:"required"`
 	// Any of "pending", "running", "completed", "failed".
-	Status      TechniqueRunGetResponseStatus `json:"status" api:"required"`
-	ChargedCost float64                       `json:"charged_cost"`
-	CompletedAt float64                       `json:"completed_at"`
+	Status TechniqueRunGetResponseStatus `json:"status" api:"required"`
+	// Cost charged in USD
+	ChargedCost float64 `json:"charged_cost"`
+	CompletedAt float64 `json:"completed_at"`
 	// Machine-readable run error code
 	ErrorCode string `json:"error_code"`
 	// Human-readable run error message
