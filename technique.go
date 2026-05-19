@@ -86,7 +86,8 @@ type TechniqueGetResponse struct {
 	// Technique name
 	Name    string                       `json:"name" api:"required"`
 	Outputs []TechniqueGetResponseOutput `json:"outputs" api:"required"`
-	RunCost float64                      `json:"run_cost" api:"required"`
+	// Cost per run in USD
+	RunCost float64 `json:"run_cost" api:"required"`
 	// Technique identifier
 	TechniqueID string `json:"technique_id" api:"required"`
 	// Technique description
@@ -183,7 +184,8 @@ type TechniqueListResponse struct {
 	// Technique name
 	Name    string                        `json:"name" api:"required"`
 	Outputs []TechniqueListResponseOutput `json:"outputs" api:"required"`
-	RunCost float64                       `json:"run_cost" api:"required"`
+	// Cost per run in USD
+	RunCost float64 `json:"run_cost" api:"required"`
 	// Technique identifier
 	TechniqueID string `json:"technique_id" api:"required"`
 	// Technique description

@@ -39,6 +39,8 @@ func NewRunService(opts ...option.RequestOption) (r RunService) {
 // project, optional model, and optional model parameters. Mutating public API
 // requests support an optional Idempotency-Key header for client retries;
 // duplicate keys within two hours return idempotency_duplicate.
+//
+// Deprecated: deprecated
 func (r *RunService) StartGeneration(ctx context.Context, body RunStartGenerationParams, opts ...option.RequestOption) (res *RunStartGenerationResponse, err error) {
 	opts = slices.Concat(r.options, opts)
 	path := "runs/generation"
@@ -57,6 +59,7 @@ func (r *RunService) StartTechnique(ctx context.Context, body RunStartTechniqueP
 }
 
 type RunStartGenerationResponse struct {
+	// Cost charged in USD
 	ChargedCost      float64 `json:"charged_cost" api:"required"`
 	EstimatedSeconds int64   `json:"estimated_seconds" api:"required"`
 	// Run identifier
@@ -169,6 +172,7 @@ func (r *RunStartGenerationResponseTechnique) UnmarshalJSON(data []byte) error {
 }
 
 type RunStartTechniqueResponse struct {
+	// Cost charged in USD
 	ChargedCost      float64 `json:"charged_cost" api:"required"`
 	EstimatedSeconds int64   `json:"estimated_seconds" api:"required"`
 	// Run identifier

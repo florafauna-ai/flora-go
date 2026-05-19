@@ -29,6 +29,10 @@ type ProjectService struct {
 	options []option.RequestOption
 	// Project canvas endpoints.
 	Assets ProjectAssetService
+	// Project management endpoints.
+	Canvas ProjectCanvasService
+	// Project canvas endpoints.
+	Actions ProjectActionService
 }
 
 // NewProjectService generates a new service that applies the given options to each
@@ -38,6 +42,8 @@ func NewProjectService(opts ...option.RequestOption) (r ProjectService) {
 	r = ProjectService{}
 	r.options = opts
 	r.Assets = NewProjectAssetService(opts...)
+	r.Canvas = NewProjectCanvasService(opts...)
+	r.Actions = NewProjectActionService(opts...)
 	return
 }
 

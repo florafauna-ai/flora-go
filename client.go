@@ -29,6 +29,8 @@ type Client struct {
 	Models ModelService
 	// Top-level run creation endpoints.
 	Runs RunService
+	// Generation endpoints.
+	Generations GenerationService
 }
 
 // DefaultClientOptions read from the environment (FLORA_API_KEY, FLORA_BASE_URL).
@@ -67,6 +69,7 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 	r.Projects = NewProjectService(opts...)
 	r.Models = NewModelService(opts...)
 	r.Runs = NewRunService(opts...)
+	r.Generations = NewGenerationService(opts...)
 
 	return
 }
