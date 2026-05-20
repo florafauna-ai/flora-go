@@ -127,8 +127,8 @@ type TechniqueRunNewResponseOutput struct {
 	//
 	// Any of "imageUrl", "videoUrl", "audioUrl", "text", "documentUrl".
 	Type string `json:"type" api:"required"`
-	// Run output URL
-	URL string `json:"url" api:"required" format:"uri"`
+	// Run output URL or text content
+	URL string `json:"url" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		OutputID    respjson.Field
@@ -202,8 +202,8 @@ type TechniqueRunGetResponseOutput struct {
 	//
 	// Any of "imageUrl", "videoUrl", "audioUrl", "text", "documentUrl".
 	Type string `json:"type" api:"required"`
-	// Run output URL
-	URL string `json:"url" api:"required" format:"uri"`
+	// Run output URL or text content
+	URL string `json:"url" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		OutputID    respjson.Field
