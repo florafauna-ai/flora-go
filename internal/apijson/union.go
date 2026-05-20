@@ -2,7 +2,7 @@ package apijson
 
 import (
 	"errors"
-	"github.com/stainless-sdks/florafauna-ai-go/packages/param"
+	"github.com/florafauna-ai/flora-go/packages/param"
 	"reflect"
 
 	"github.com/tidwall/gjson"

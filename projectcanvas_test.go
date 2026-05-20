@@ -13,7 +13,7 @@ import (
 	"github.com/florafauna-ai/flora-go/option"
 )
 
-func TestTechniqueRunNewWithOptionalParams(t *testing.T) {
+func TestProjectCanvasGet(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -26,20 +26,7 @@ func TestTechniqueRunNewWithOptionalParams(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Techniques.Runs.New(
-		context.TODO(),
-		"art-directors-critique",
-		flora.TechniqueRunNewParams{
-			Inputs: []flora.TechniqueRunNewParamsInput{{
-				ID:    "id",
-				Type:  "text",
-				Value: "value",
-			}},
-			Mode:           flora.TechniqueRunNewParamsModeAsync,
-			CallbackURL:    flora.String("https://example.com"),
-			IdempotencyKey: flora.String("idempotency_key"),
-		},
-	)
+	_, err := client.Projects.Canvas.Get(context.TODO(), "prj_abc123")
 	if err != nil {
 		var apierr *flora.Error
 		if errors.As(err, &apierr) {
@@ -49,7 +36,7 @@ func TestTechniqueRunNewWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestTechniqueRunGet(t *testing.T) {
+func TestProjectCanvasUpdateWithOptionalParams(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -62,11 +49,23 @@ func TestTechniqueRunGet(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Techniques.Runs.Get(
+	_, err := client.Projects.Canvas.Update(
 		context.TODO(),
-		"run_abc123",
-		flora.TechniqueRunGetParams{
-			TechniqueID: "art-directors-critique",
+		"prj_abc123",
+		flora.ProjectCanvasUpdateParams{
+			Diagram: "graph LR\n  source[\"Product photo (Image)\"]\n  output[\"Editorial campaign image (Image)\"]\n  source --> output",
+			NodeParams: map[string]flora.ProjectCanvasUpdateParamsNodeParam{
+				"foo": {
+					AspectRatio: flora.String("aspect_ratio"),
+					ContentURL:  flora.String("https://example.com"),
+					Model:       flora.String("model"),
+					ModelParameters: map[string]any{
+						"foo": "bar",
+					},
+					Prompt:     flora.String("prompt"),
+					Resolution: flora.String("resolution"),
+				},
+			},
 		},
 	)
 	if err != nil {

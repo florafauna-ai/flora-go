@@ -13,7 +13,7 @@ import (
 	"github.com/florafauna-ai/flora-go/option"
 )
 
-func TestModelListWithOptionalParams(t *testing.T) {
+func TestGenerationNewWithOptionalParams(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -26,8 +26,15 @@ func TestModelListWithOptionalParams(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Models.List(context.TODO(), flora.ModelListParams{
-		Type: flora.ModelListParamsTypeImage,
+	_, err := client.Generations.New(context.TODO(), flora.GenerationNewParams{
+		ProjectID:   "prj_abc123",
+		Prompt:      "A cinematic product photo of a ceramic mug on a sunlit table",
+		Type:        flora.GenerationNewParamsTypeImage,
+		WorkspaceID: "ws_abc123",
+		Model:       flora.String("t2i-flux-2-pro"),
+		Params: map[string]any{
+			"foo": "bar",
+		},
 	})
 	if err != nil {
 		var apierr *flora.Error

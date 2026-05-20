@@ -2,8 +2,8 @@ package apijson_test
 
 import (
 	"encoding/json"
-	"github.com/stainless-sdks/florafauna-ai-go/internal/apijson"
-	"github.com/stainless-sdks/florafauna-ai-go/packages/respjson"
+	"github.com/florafauna-ai/flora-go/internal/apijson"
+	"github.com/florafauna-ai/flora-go/packages/respjson"
 	"testing"
 )
 

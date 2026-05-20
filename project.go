@@ -10,13 +10,13 @@ import (
 	"net/url"
 	"slices"
 
-	"github.com/stainless-sdks/florafauna-ai-go/internal/apijson"
-	"github.com/stainless-sdks/florafauna-ai-go/internal/apiquery"
-	"github.com/stainless-sdks/florafauna-ai-go/internal/requestconfig"
-	"github.com/stainless-sdks/florafauna-ai-go/option"
-	"github.com/stainless-sdks/florafauna-ai-go/packages/pagination"
-	"github.com/stainless-sdks/florafauna-ai-go/packages/param"
-	"github.com/stainless-sdks/florafauna-ai-go/packages/respjson"
+	"github.com/florafauna-ai/flora-go/internal/apijson"
+	"github.com/florafauna-ai/flora-go/internal/apiquery"
+	"github.com/florafauna-ai/flora-go/internal/requestconfig"
+	"github.com/florafauna-ai/flora-go/option"
+	"github.com/florafauna-ai/flora-go/packages/pagination"
+	"github.com/florafauna-ai/flora-go/packages/param"
+	"github.com/florafauna-ai/flora-go/packages/respjson"
 )
 
 // ProjectService contains methods and other services that help with interacting
@@ -27,7 +27,12 @@ import (
 // the [NewProjectService] method instead.
 type ProjectService struct {
 	options []option.RequestOption
-	Assets  ProjectAssetService
+	// Project canvas endpoints.
+	Assets ProjectAssetService
+	// Project management endpoints.
+	Canvas ProjectCanvasService
+	// Project canvas endpoints.
+	Actions ProjectActionService
 }
 
 // NewProjectService generates a new service that applies the given options to each
@@ -37,6 +42,8 @@ func NewProjectService(opts ...option.RequestOption) (r ProjectService) {
 	r = ProjectService{}
 	r.options = opts
 	r.Assets = NewProjectAssetService(opts...)
+	r.Canvas = NewProjectCanvasService(opts...)
+	r.Actions = NewProjectActionService(opts...)
 	return
 }
 
@@ -221,8 +228,8 @@ type ProjectListNodesResponse struct {
 	Height  int64  `json:"height" api:"nullable"`
 	// Canvas node label
 	Label string `json:"label" api:"nullable"`
-	// Canvas node media URL
-	URL   string `json:"url" api:"nullable" format:"uri"`
+	// Canvas node output URL or text content
+	URL   string `json:"url" api:"nullable"`
 	Width int64  `json:"width" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {

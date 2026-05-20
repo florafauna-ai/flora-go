@@ -7,9 +7,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/stainless-sdks/florafauna-ai-go"
-	"github.com/stainless-sdks/florafauna-ai-go/internal/testutil"
-	"github.com/stainless-sdks/florafauna-ai-go/option"
+	"github.com/florafauna-ai/flora-go"
+	"github.com/florafauna-ai/flora-go/internal/testutil"
+	"github.com/florafauna-ai/flora-go/option"
 )
 
 func TestAutoPagination(t *testing.T) {

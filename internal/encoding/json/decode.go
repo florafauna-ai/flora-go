@@ -14,7 +14,7 @@ import (
 	"encoding"
 	"encoding/base64"
 	"fmt"
-	"github.com/stainless-sdks/florafauna-ai-go/internal/encoding/json/shims"
+	"github.com/florafauna-ai/flora-go/internal/encoding/json/shims"
 	"reflect"
 	"strconv"
 	"strings"

@@ -13,7 +13,7 @@ import (
 	"github.com/florafauna-ai/flora-go/option"
 )
 
-func TestTechniqueRunNewWithOptionalParams(t *testing.T) {
+func TestProjectActionNewWithOptionalParams(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -26,18 +26,14 @@ func TestTechniqueRunNewWithOptionalParams(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Techniques.Runs.New(
+	_, err := client.Projects.Actions.New(
 		context.TODO(),
-		"art-directors-critique",
-		flora.TechniqueRunNewParams{
-			Inputs: []flora.TechniqueRunNewParamsInput{{
-				ID:    "id",
-				Type:  "text",
-				Value: "value",
-			}},
-			Mode:           flora.TechniqueRunNewParamsModeAsync,
-			CallbackURL:    flora.String("https://example.com"),
-			IdempotencyKey: flora.String("idempotency_key"),
+		"prj_abc123",
+		flora.ProjectActionNewParams{
+			ActionID: flora.ProjectActionNewParamsActionIDSplitText,
+			Params: map[string]any{
+				"foo": "bar",
+			},
 		},
 	)
 	if err != nil {
@@ -49,7 +45,7 @@ func TestTechniqueRunNewWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestTechniqueRunGet(t *testing.T) {
+func TestProjectActionRun(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -62,11 +58,11 @@ func TestTechniqueRunGet(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Techniques.Runs.Get(
+	_, err := client.Projects.Actions.Run(
 		context.TODO(),
-		"run_abc123",
-		flora.TechniqueRunGetParams{
-			TechniqueID: "art-directors-critique",
+		"nodeId",
+		flora.ProjectActionRunParams{
+			ProjectID: "prj_abc123",
 		},
 	)
 	if err != nil {

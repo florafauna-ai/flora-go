@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stainless-sdks/florafauna-ai-go"
-	"github.com/stainless-sdks/florafauna-ai-go/internal"
-	"github.com/stainless-sdks/florafauna-ai-go/option"
+	"github.com/florafauna-ai/flora-go"
+	"github.com/florafauna-ai/flora-go/internal"
+	"github.com/florafauna-ai/flora-go/option"
 )
 
 type closureTransport struct {
@@ -39,7 +39,7 @@ func TestUserAgentHeader(t *testing.T) {
 		}),
 	)
 	_, _ = client.Workspaces.List(context.Background())
-	if userAgent != fmt.Sprintf("Flora/Go %s", internal.PackageVersion) {
+	if userAgent != fmt.Sprintf("FLORA/Go %s", internal.PackageVersion) {
 		t.Errorf("Expected User-Agent to be correct, but got: %#v", userAgent)
 	}
 }

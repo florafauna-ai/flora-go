@@ -18,15 +18,15 @@ import (
 	"strings"
 	"time"
 
-	"github.com/stainless-sdks/florafauna-ai-go/internal"
-	"github.com/stainless-sdks/florafauna-ai-go/internal/apierror"
-	"github.com/stainless-sdks/florafauna-ai-go/internal/apiform"
-	"github.com/stainless-sdks/florafauna-ai-go/internal/apiquery"
+	"github.com/florafauna-ai/flora-go/internal"
+	"github.com/florafauna-ai/flora-go/internal/apierror"
+	"github.com/florafauna-ai/flora-go/internal/apiform"
+	"github.com/florafauna-ai/flora-go/internal/apiquery"
 )
 
 func getDefaultHeaders() map[string]string {
 	return map[string]string{
-		"User-Agent": fmt.Sprintf("Flora/Go %s", internal.PackageVersion),
+		"User-Agent": fmt.Sprintf("FLORA/Go %s", internal.PackageVersion),
 	}
 }
 

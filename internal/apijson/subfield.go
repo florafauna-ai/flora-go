@@ -1,7 +1,7 @@
 package apijson
 
 import (
-	"github.com/stainless-sdks/florafauna-ai-go/packages/respjson"
+	"github.com/florafauna-ai/flora-go/packages/respjson"
 	"reflect"
 )
 

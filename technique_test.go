@@ -8,9 +8,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/stainless-sdks/florafauna-ai-go"
-	"github.com/stainless-sdks/florafauna-ai-go/internal/testutil"
-	"github.com/stainless-sdks/florafauna-ai-go/option"
+	"github.com/florafauna-ai/flora-go"
+	"github.com/florafauna-ai/flora-go/internal/testutil"
+	"github.com/florafauna-ai/flora-go/option"
 )
 
 func TestTechniqueGet(t *testing.T) {
@@ -26,7 +26,7 @@ func TestTechniqueGet(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Techniques.Get(context.TODO(), "tech_def_abc123")
+	_, err := client.Techniques.Get(context.TODO(), "art-directors-critique")
 	if err != nil {
 		var apierr *flora.Error
 		if errors.As(err, &apierr) {
@@ -50,7 +50,7 @@ func TestTechniqueListWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Techniques.List(context.TODO(), flora.TechniqueListParams{
-		Cursor:      flora.String("cursor"),
+		Cursor:      flora.String("eyJvZmZzZXQiOjIwfQ"),
 		Limit:       flora.Int(1),
 		Query:       flora.String("logo"),
 		WorkspaceID: flora.String("ws_abc123"),

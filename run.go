@@ -7,13 +7,15 @@ import (
 	"net/http"
 	"slices"
 
-	"github.com/stainless-sdks/florafauna-ai-go/internal/apijson"
-	"github.com/stainless-sdks/florafauna-ai-go/internal/requestconfig"
-	"github.com/stainless-sdks/florafauna-ai-go/option"
-	"github.com/stainless-sdks/florafauna-ai-go/packages/param"
-	"github.com/stainless-sdks/florafauna-ai-go/packages/respjson"
+	"github.com/florafauna-ai/flora-go/internal/apijson"
+	"github.com/florafauna-ai/flora-go/internal/requestconfig"
+	"github.com/florafauna-ai/flora-go/option"
+	"github.com/florafauna-ai/flora-go/packages/param"
+	"github.com/florafauna-ai/flora-go/packages/respjson"
 )
 
+// Top-level run creation endpoints.
+//
 // RunService contains methods and other services that help with interacting with
 // the flora API.
 //
@@ -37,6 +39,8 @@ func NewRunService(opts ...option.RequestOption) (r RunService) {
 // project, optional model, and optional model parameters. Mutating public API
 // requests support an optional Idempotency-Key header for client retries;
 // duplicate keys within two hours return idempotency_duplicate.
+//
+// Deprecated: deprecated
 func (r *RunService) StartGeneration(ctx context.Context, body RunStartGenerationParams, opts ...option.RequestOption) (res *RunStartGenerationResponse, err error) {
 	opts = slices.Concat(r.options, opts)
 	path := "runs/generation"
@@ -55,18 +59,18 @@ func (r *RunService) StartTechnique(ctx context.Context, body RunStartTechniqueP
 }
 
 type RunStartGenerationResponse struct {
+	// Cost charged in USD
 	ChargedCost      float64 `json:"charged_cost" api:"required"`
 	EstimatedSeconds int64   `json:"estimated_seconds" api:"required"`
 	// Run identifier
 	RunID string `json:"run_id" api:"required"`
 	// Run type
 	//
-	// Any of "generation", "technique".
-	Type RunStartGenerationResponseType `json:"type" api:"required"`
-	// Workflow run identifier
-	WorkflowRunID string                          `json:"workflow_run_id" api:"required"`
-	Model         RunStartGenerationResponseModel `json:"model" api:"nullable"`
-	PollURL       string                          `json:"poll_url" api:"nullable" format:"uri"`
+	// Any of "generation", "technique", "action".
+	Type    RunStartGenerationResponseType   `json:"type" api:"required"`
+	Action  RunStartGenerationResponseAction `json:"action" api:"nullable"`
+	Model   RunStartGenerationResponseModel  `json:"model" api:"nullable"`
+	PollURL string                           `json:"poll_url" api:"nullable" format:"uri"`
 	// Project identifier
 	ProjectID string                              `json:"project_id" api:"nullable"`
 	Technique RunStartGenerationResponseTechnique `json:"technique" api:"nullable"`
@@ -76,7 +80,7 @@ type RunStartGenerationResponse struct {
 		EstimatedSeconds respjson.Field
 		RunID            respjson.Field
 		Type             respjson.Field
-		WorkflowRunID    respjson.Field
+		Action           respjson.Field
 		Model            respjson.Field
 		PollURL          respjson.Field
 		ProjectID        respjson.Field
@@ -98,7 +102,37 @@ type RunStartGenerationResponseType string
 const (
 	RunStartGenerationResponseTypeGeneration RunStartGenerationResponseType = "generation"
 	RunStartGenerationResponseTypeTechnique  RunStartGenerationResponseType = "technique"
+	RunStartGenerationResponseTypeAction     RunStartGenerationResponseType = "action"
 )
+
+type RunStartGenerationResponseAction struct {
+	// Action identifier
+	//
+	// Any of "split-text", "find-and-replace-text", "concat-text", "ken-burns-video",
+	// "color-grade-image", "change-image-ar", "rotate-image", "flip-image",
+	// "color-filter-image", "color-tint-image", "filter-color-image", "blur-image",
+	// "duplicate-image", "side-by-side-composite", "add-shape-to-image",
+	// "generate-shape-image", "add-text-to-image", "generate-text-image",
+	// "qr-code-generator", "stitch-videos", "split-video", "extract-video-frames",
+	// "color-grade-video", "video-to-frame-grid", "boomerang-video", "reverse-video",
+	// "video-to-long-exposure", "video-effect", "color-filter-video",
+	// "speed-up-video", "slow-down-video", "duplicate-video", "greenscreen-video",
+	// "resize-video", "change-video-ar", "split-audio-from-video",
+	// "merge-audio-into-video".
+	ActionID string `json:"action_id" api:"required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ActionID    respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r RunStartGenerationResponseAction) RawJSON() string { return r.JSON.raw }
+func (r *RunStartGenerationResponseAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
 
 type RunStartGenerationResponseModel struct {
 	// Model identifier
@@ -138,18 +172,18 @@ func (r *RunStartGenerationResponseTechnique) UnmarshalJSON(data []byte) error {
 }
 
 type RunStartTechniqueResponse struct {
+	// Cost charged in USD
 	ChargedCost      float64 `json:"charged_cost" api:"required"`
 	EstimatedSeconds int64   `json:"estimated_seconds" api:"required"`
 	// Run identifier
 	RunID string `json:"run_id" api:"required"`
 	// Run type
 	//
-	// Any of "generation", "technique".
-	Type RunStartTechniqueResponseType `json:"type" api:"required"`
-	// Workflow run identifier
-	WorkflowRunID string                         `json:"workflow_run_id" api:"required"`
-	Model         RunStartTechniqueResponseModel `json:"model" api:"nullable"`
-	PollURL       string                         `json:"poll_url" api:"nullable" format:"uri"`
+	// Any of "generation", "technique", "action".
+	Type    RunStartTechniqueResponseType   `json:"type" api:"required"`
+	Action  RunStartTechniqueResponseAction `json:"action" api:"nullable"`
+	Model   RunStartTechniqueResponseModel  `json:"model" api:"nullable"`
+	PollURL string                          `json:"poll_url" api:"nullable" format:"uri"`
 	// Project identifier
 	ProjectID string                             `json:"project_id" api:"nullable"`
 	Technique RunStartTechniqueResponseTechnique `json:"technique" api:"nullable"`
@@ -159,7 +193,7 @@ type RunStartTechniqueResponse struct {
 		EstimatedSeconds respjson.Field
 		RunID            respjson.Field
 		Type             respjson.Field
-		WorkflowRunID    respjson.Field
+		Action           respjson.Field
 		Model            respjson.Field
 		PollURL          respjson.Field
 		ProjectID        respjson.Field
@@ -181,7 +215,37 @@ type RunStartTechniqueResponseType string
 const (
 	RunStartTechniqueResponseTypeGeneration RunStartTechniqueResponseType = "generation"
 	RunStartTechniqueResponseTypeTechnique  RunStartTechniqueResponseType = "technique"
+	RunStartTechniqueResponseTypeAction     RunStartTechniqueResponseType = "action"
 )
+
+type RunStartTechniqueResponseAction struct {
+	// Action identifier
+	//
+	// Any of "split-text", "find-and-replace-text", "concat-text", "ken-burns-video",
+	// "color-grade-image", "change-image-ar", "rotate-image", "flip-image",
+	// "color-filter-image", "color-tint-image", "filter-color-image", "blur-image",
+	// "duplicate-image", "side-by-side-composite", "add-shape-to-image",
+	// "generate-shape-image", "add-text-to-image", "generate-text-image",
+	// "qr-code-generator", "stitch-videos", "split-video", "extract-video-frames",
+	// "color-grade-video", "video-to-frame-grid", "boomerang-video", "reverse-video",
+	// "video-to-long-exposure", "video-effect", "color-filter-video",
+	// "speed-up-video", "slow-down-video", "duplicate-video", "greenscreen-video",
+	// "resize-video", "change-video-ar", "split-audio-from-video",
+	// "merge-audio-into-video".
+	ActionID string `json:"action_id" api:"required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ActionID    respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r RunStartTechniqueResponseAction) RawJSON() string { return r.JSON.raw }
+func (r *RunStartTechniqueResponseAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
 
 type RunStartTechniqueResponseModel struct {
 	// Model identifier

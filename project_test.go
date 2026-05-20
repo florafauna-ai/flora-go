@@ -8,9 +8,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/stainless-sdks/florafauna-ai-go"
-	"github.com/stainless-sdks/florafauna-ai-go/internal/testutil"
-	"github.com/stainless-sdks/florafauna-ai-go/option"
+	"github.com/florafauna-ai/flora-go"
+	"github.com/florafauna-ai/flora-go/internal/testutil"
+	"github.com/florafauna-ai/flora-go/option"
 )
 
 func TestProjectNew(t *testing.T) {
@@ -77,7 +77,7 @@ func TestProjectListWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Projects.List(context.TODO(), flora.ProjectListParams{
 		WorkspaceID: "ws_abc123",
-		Cursor:      flora.String("cursor"),
+		Cursor:      flora.String("eyJvZmZzZXQiOjIwfQ"),
 		Limit:       flora.Int(1),
 		Query:       flora.String("logo"),
 	})
@@ -107,7 +107,7 @@ func TestProjectListNodesWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"prj_abc123",
 		flora.ProjectListNodesParams{
-			Cursor: flora.String("cursor"),
+			Cursor: flora.String("eyJvZmZzZXQiOjIwfQ"),
 			Limit:  flora.Int(1),
 		},
 	)

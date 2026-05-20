@@ -9,22 +9,28 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/stainless-sdks/florafauna-ai-go/internal/requestconfig"
-	"github.com/stainless-sdks/florafauna-ai-go/option"
+	"github.com/florafauna-ai/flora-go/internal/requestconfig"
+	"github.com/florafauna-ai/flora-go/option"
 )
 
 // Client creates a struct with services and top level methods that help with
 // interacting with the flora API. You should not instantiate this client directly,
 // and instead use the [NewClient] method instead.
 type Client struct {
-	options    []option.RequestOption
+	options []option.RequestOption
+	// Technique catalog endpoints.
 	Techniques TechniqueService
-	Assets     AssetService
+	// Asset upload and retrieval endpoints.
+	Assets AssetService
+	// Workspace discovery endpoints.
 	Workspaces WorkspaceService
 	Projects   ProjectService
-	Models     ModelService
-	Runs       RunService
-	Feedback   FeedbackService
+	// Model catalog endpoints.
+	Models ModelService
+	// Top-level run creation endpoints.
+	Runs RunService
+	// Generation endpoints.
+	Generations GenerationService
 }
 
 // DefaultClientOptions read from the environment (FLORA_API_KEY, FLORA_BASE_URL).
@@ -63,7 +69,7 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 	r.Projects = NewProjectService(opts...)
 	r.Models = NewModelService(opts...)
 	r.Runs = NewRunService(opts...)
-	r.Feedback = NewFeedbackService(opts...)
+	r.Generations = NewGenerationService(opts...)
 
 	return
 }
