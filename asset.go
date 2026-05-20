@@ -225,7 +225,7 @@ type AssetGetResponse struct {
 	// Asset source
 	UploadedVia string `json:"uploaded_via" api:"required"`
 	// Asset URL
-	URL   string `json:"url" api:"required" format:"uri"`
+	URL   string `json:"url" api:"required"`
 	Width int64  `json:"width" api:"required"`
 	// Workspace identifier
 	WorkspaceID string `json:"workspace_id" api:"required"`
@@ -283,7 +283,7 @@ type AssetListResponse struct {
 	// Asset source
 	UploadedVia string `json:"uploaded_via" api:"required"`
 	// Asset URL
-	URL   string `json:"url" api:"required" format:"uri"`
+	URL   string `json:"url" api:"required"`
 	Width int64  `json:"width" api:"required"`
 	// Workspace identifier
 	WorkspaceID string `json:"workspace_id" api:"required"`
