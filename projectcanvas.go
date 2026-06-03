@@ -53,7 +53,20 @@ func (r *ProjectCanvasService) Get(ctx context.Context, projectID string, opts .
 
 // Applies a Mermaid flowchart patch to the project canvas using the same
 // create_workflow path as the Fauna agent. The diagram may add nodes, connect
-// nodes, and reference existing canvas nodes by their Mermaid short IDs.
+// nodes, and reference existing canvas nodes by their Mermaid short IDs in edges
+// (e.g. `n1 --> out`). This endpoint is add-only: re-declaring an existing node id
+// with a label (e.g. `n3["..."]`) creates a NEW node instead of updating the
+// existing one, and returns a warning. To attach to an existing node, reference
+// its id in an edge without re-declaring its label. Subgraph grouping is not
+// applied (nodes inside a `subgraph` are added ungrouped) and returns a warning.
+// To place an existing image/video/audio as a static node, set `node_params` —
+// which is keyed by Mermaid node id, e.g.
+// `{ "img1": { "content_url": "https://…" } }`, NOT a bare `{ content_url }`
+// object. `prompt` and `content_url` are mutually exclusive for a node: use
+// `prompt` (or a label that doubles as the prompt) for generation, or
+// `content_url` for existing media. When using `content_url`, give the node a
+// content-free type-only label such as `img1["(Image)"]` so no prompt is inferred
+// from the label.
 func (r *ProjectCanvasService) Update(ctx context.Context, projectID string, body ProjectCanvasUpdateParams, opts ...option.RequestOption) (res *ProjectCanvasUpdateResponse, err error) {
 	opts = slices.Concat(r.options, opts)
 	if projectID == "" {
@@ -146,7 +159,9 @@ func (r *ProjectCanvasUpdateResponse) UnmarshalJSON(data []byte) error {
 type ProjectCanvasUpdateParams struct {
 	// Mermaid flowchart diagram to apply
 	Diagram string `json:"diagram" api:"required"`
-	// Optional per-node parameters keyed by Mermaid node ID.
+	// Optional per-node parameters, keyed by Mermaid node id (a Record<nodeId,
+	// NodeParams>), e.g. { "img1": { "content_url": "https://…" } }. Pass a map keyed
+	// by node id, NOT a bare { content_url } object.
 	NodeParams map[string]ProjectCanvasUpdateParamsNodeParam `json:"node_params,omitzero"`
 	paramObj
 }
@@ -160,9 +175,15 @@ func (r *ProjectCanvasUpdateParams) UnmarshalJSON(data []byte) error {
 }
 
 type ProjectCanvasUpdateParamsNodeParam struct {
-	AspectRatio     param.Opt[string] `json:"aspect_ratio,omitzero"`
-	ContentURL      param.Opt[string] `json:"content_url,omitzero" format:"uri"`
-	Model           param.Opt[string] `json:"model,omitzero"`
+	AspectRatio param.Opt[string] `json:"aspect_ratio,omitzero"`
+	// HTTPS URL of existing media to place as a static node. Mutually exclusive with
+	// prompt: give the node a content-free type-only label such as `(Image)` so no
+	// prompt is inferred from the label. Only supported for Image, Video, and Audio
+	// nodes.
+	ContentURL param.Opt[string] `json:"content_url,omitzero" format:"uri"`
+	Model      param.Opt[string] `json:"model,omitzero"`
+	// Generation prompt for this node. Mutually exclusive with content_url. If
+	// omitted, the node's Mermaid label is used as the prompt.
 	Prompt          param.Opt[string] `json:"prompt,omitzero"`
 	Resolution      param.Opt[string] `json:"resolution,omitzero"`
 	ModelParameters map[string]any    `json:"model_parameters,omitzero"`

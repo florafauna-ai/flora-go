@@ -35,10 +35,12 @@ func NewRunService(opts ...option.RequestOption) (r RunService) {
 	return
 }
 
-// Starts a model generation run in a project canvas using a prompt, workspace,
-// project, optional model, and optional model parameters. Mutating public API
-// requests support an optional Idempotency-Key header for client retries;
-// duplicate keys within two hours return idempotency_duplicate.
+// Starts a model generation run in a project canvas using type, prompt,
+// workspace_id, project_id, optional model endpoint ID, and optional model
+// parameters. Use type=image|video|audio|text and model IDs returned by GET
+// /models or list_models. Mutating public API requests support an optional
+// Idempotency-Key header for client retries; duplicate keys within two hours
+// return idempotency_duplicate.
 //
 // Deprecated: deprecated
 func (r *RunService) StartGeneration(ctx context.Context, body RunStartGenerationParams, opts ...option.RequestOption) (res *RunStartGenerationResponse, err error) {
@@ -48,9 +50,11 @@ func (r *RunService) StartGeneration(ctx context.Context, body RunStartGeneratio
 	return res, err
 }
 
-// Starts a technique run through the normalized top-level run resource. Mutating
-// public API requests support an optional Idempotency-Key header for client
-// retries; duplicate keys within two hours return idempotency_duplicate.
+// Starts a technique run through the normalized top-level run resource using
+// technique*id, workspace_id, and inputs. technique_id must use the tech* public
+// API ID returned by list techniques. Mutating public API requests support an
+// optional Idempotency-Key header for client retries; duplicate keys within two
+// hours return idempotency_duplicate.
 func (r *RunService) StartTechnique(ctx context.Context, body RunStartTechniqueParams, opts ...option.RequestOption) (res *RunStartTechniqueResponse, err error) {
 	opts = slices.Concat(r.options, opts)
 	path := "runs/technique"
@@ -67,10 +71,11 @@ type RunStartGenerationResponse struct {
 	// Run type
 	//
 	// Any of "generation", "technique", "action".
-	Type    RunStartGenerationResponseType   `json:"type" api:"required"`
-	Action  RunStartGenerationResponseAction `json:"action" api:"nullable"`
-	Model   RunStartGenerationResponseModel  `json:"model" api:"nullable"`
-	PollURL string                           `json:"poll_url" api:"nullable" format:"uri"`
+	Type   RunStartGenerationResponseType   `json:"type" api:"required"`
+	Action RunStartGenerationResponseAction `json:"action" api:"nullable"`
+	Model  RunStartGenerationResponseModel  `json:"model" api:"nullable"`
+	// URL to poll pending/running runs or fetch completed/failed run details.
+	PollURL string `json:"poll_url" api:"nullable" format:"uri"`
 	// Project identifier
 	ProjectID string                              `json:"project_id" api:"nullable"`
 	Technique RunStartGenerationResponseTechnique `json:"technique" api:"nullable"`
@@ -180,10 +185,11 @@ type RunStartTechniqueResponse struct {
 	// Run type
 	//
 	// Any of "generation", "technique", "action".
-	Type    RunStartTechniqueResponseType   `json:"type" api:"required"`
-	Action  RunStartTechniqueResponseAction `json:"action" api:"nullable"`
-	Model   RunStartTechniqueResponseModel  `json:"model" api:"nullable"`
-	PollURL string                          `json:"poll_url" api:"nullable" format:"uri"`
+	Type   RunStartTechniqueResponseType   `json:"type" api:"required"`
+	Action RunStartTechniqueResponseAction `json:"action" api:"nullable"`
+	Model  RunStartTechniqueResponseModel  `json:"model" api:"nullable"`
+	// URL to poll pending/running runs or fetch completed/failed run details.
+	PollURL string `json:"poll_url" api:"nullable" format:"uri"`
 	// Project identifier
 	ProjectID string                             `json:"project_id" api:"nullable"`
 	Technique RunStartTechniqueResponseTechnique `json:"technique" api:"nullable"`
@@ -285,17 +291,21 @@ func (r *RunStartTechniqueResponseTechnique) UnmarshalJSON(data []byte) error {
 }
 
 type RunStartGenerationParams struct {
-	// Project identifier
+	// Project identifier. Use the public API ID returned by list projects; it must
+	// start with prj\_.
 	ProjectID string `json:"project_id" api:"required"`
 	// Generation prompt
 	Prompt string `json:"prompt" api:"required"`
-	// Generation type
+	// Generation type. Use "image", "video", "audio", or "text"; do not pass model
+	// families such as "t2i" or "i2v".
 	//
 	// Any of "image", "video", "audio", "text".
 	Type RunStartGenerationParamsType `json:"type,omitzero" api:"required"`
-	// Workspace identifier
+	// Workspace identifier. Use the public API ID returned by list workspaces; it must
+	// start with ws\_.
 	WorkspaceID string `json:"workspace_id" api:"required"`
-	// Model endpoint ID
+	// Model endpoint ID, not a display name. Use list_models (or GET /models) to find
+	// accessible endpoint IDs for the requested type.
 	Model param.Opt[string] `json:"model,omitzero"`
 	// Model parameters
 	Params map[string]any `json:"params,omitzero"`
@@ -310,7 +320,8 @@ func (r *RunStartGenerationParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Generation type
+// Generation type. Use "image", "video", "audio", or "text"; do not pass model
+// families such as "t2i" or "i2v".
 type RunStartGenerationParamsType string
 
 const (
@@ -323,9 +334,11 @@ const (
 type RunStartTechniqueParams struct {
 	// Technique inputs
 	Inputs map[string]any `json:"inputs,omitzero" api:"required"`
-	// Technique identifier
+	// Technique identifier. Use the public API ID returned by list techniques; it must
+	// start with tech\_.
 	TechniqueID string `json:"technique_id" api:"required"`
-	// Workspace identifier
+	// Workspace identifier. Use the public API ID returned by list workspaces; it must
+	// start with ws\_.
 	WorkspaceID string `json:"workspace_id" api:"required"`
 	paramObj
 }
