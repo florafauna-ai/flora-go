@@ -156,10 +156,11 @@ type ProjectActionRunResponse struct {
 	// Run type
 	//
 	// Any of "generation", "technique", "action".
-	Type    ProjectActionRunResponseType   `json:"type" api:"required"`
-	Action  ProjectActionRunResponseAction `json:"action" api:"nullable"`
-	Model   ProjectActionRunResponseModel  `json:"model" api:"nullable"`
-	PollURL string                         `json:"poll_url" api:"nullable" format:"uri"`
+	Type   ProjectActionRunResponseType   `json:"type" api:"required"`
+	Action ProjectActionRunResponseAction `json:"action" api:"nullable"`
+	Model  ProjectActionRunResponseModel  `json:"model" api:"nullable"`
+	// URL to poll pending/running runs or fetch completed/failed run details.
+	PollURL string `json:"poll_url" api:"nullable" format:"uri"`
 	// Project identifier
 	ProjectID string                            `json:"project_id" api:"nullable"`
 	Technique ProjectActionRunResponseTechnique `json:"technique" api:"nullable"`
