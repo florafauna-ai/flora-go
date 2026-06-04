@@ -4,6 +4,8 @@ package flora
 
 import (
 	"context"
+	"errors"
+	"fmt"
 	"net/http"
 	"net/url"
 	"slices"
@@ -17,8 +19,6 @@ import (
 	"github.com/florafauna-ai/flora-go/packages/respjson"
 )
 
-// Generation endpoints.
-//
 // GenerationService contains methods and other services that help with interacting
 // with the flora API.
 //
@@ -49,6 +49,19 @@ func (r *GenerationService) New(ctx context.Context, body GenerationNewParams, o
 	opts = slices.Concat(r.options, opts)
 	path := "generate"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return res, err
+}
+
+// Returns status and completed output URLs for a public API run, including action
+// runs started through POST /runs/action.
+func (r *GenerationService) Get(ctx context.Context, runID string, opts ...option.RequestOption) (res *GenerationGetResponse, err error) {
+	opts = slices.Concat(r.options, opts)
+	if runID == "" {
+		err = errors.New("missing required runId parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("runs/%s", url.PathEscape(runID))
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return res, err
 }
 
@@ -194,6 +207,82 @@ type GenerationNewResponseTechnique struct {
 // Returns the unmodified JSON received from the API
 func (r GenerationNewResponseTechnique) RawJSON() string { return r.JSON.raw }
 func (r *GenerationNewResponseTechnique) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type GenerationGetResponse struct {
+	CreatedAt float64 `json:"created_at" api:"required"`
+	Progress  float64 `json:"progress" api:"required"`
+	// Run identifier
+	RunID string `json:"run_id" api:"required"`
+	// Any of "pending", "running", "completed", "failed".
+	Status GenerationGetResponseStatus `json:"status" api:"required"`
+	// Cost charged in USD
+	ChargedCost float64 `json:"charged_cost"`
+	CompletedAt float64 `json:"completed_at"`
+	// Machine-readable run error code
+	ErrorCode string `json:"error_code"`
+	// Human-readable run error message
+	ErrorMessage string                        `json:"error_message"`
+	Outputs      []GenerationGetResponseOutput `json:"outputs"`
+	// URL to poll pending/running runs or fetch completed/failed run details.
+	PollURL   string  `json:"poll_url" format:"uri"`
+	StartedAt float64 `json:"started_at"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		CreatedAt    respjson.Field
+		Progress     respjson.Field
+		RunID        respjson.Field
+		Status       respjson.Field
+		ChargedCost  respjson.Field
+		CompletedAt  respjson.Field
+		ErrorCode    respjson.Field
+		ErrorMessage respjson.Field
+		Outputs      respjson.Field
+		PollURL      respjson.Field
+		StartedAt    respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r GenerationGetResponse) RawJSON() string { return r.JSON.raw }
+func (r *GenerationGetResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type GenerationGetResponseStatus string
+
+const (
+	GenerationGetResponseStatusPending   GenerationGetResponseStatus = "pending"
+	GenerationGetResponseStatusRunning   GenerationGetResponseStatus = "running"
+	GenerationGetResponseStatusCompleted GenerationGetResponseStatus = "completed"
+	GenerationGetResponseStatusFailed    GenerationGetResponseStatus = "failed"
+)
+
+type GenerationGetResponseOutput struct {
+	// Run output identifier
+	OutputID string `json:"output_id" api:"required"`
+	// Run output media type
+	//
+	// Any of "imageUrl", "videoUrl", "audioUrl", "text", "documentUrl".
+	Type string `json:"type" api:"required"`
+	// Run output URL or text content
+	URL string `json:"url" api:"required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		OutputID    respjson.Field
+		Type        respjson.Field
+		URL         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r GenerationGetResponseOutput) RawJSON() string { return r.JSON.raw }
+func (r *GenerationGetResponseOutput) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
