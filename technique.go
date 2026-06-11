@@ -122,6 +122,8 @@ type TechniqueGetResponseInput struct {
 	Type string `json:"type" api:"required"`
 	// Technique input or output description
 	Description string `json:"description"`
+	// When true, this input may be omitted when running the technique
+	Optional bool `json:"optional"`
 	// Required aspect ratio
 	SpecifiedAspectRatio string `json:"specified_aspect_ratio"`
 	// Required duration in seconds
@@ -132,6 +134,7 @@ type TechniqueGetResponseInput struct {
 		Name                 respjson.Field
 		Type                 respjson.Field
 		Description          respjson.Field
+		Optional             respjson.Field
 		SpecifiedAspectRatio respjson.Field
 		SpecifiedDuration    respjson.Field
 		ExtraFields          map[string]respjson.Field
@@ -156,6 +159,8 @@ type TechniqueGetResponseOutput struct {
 	Type string `json:"type" api:"required"`
 	// Technique input or output description
 	Description string `json:"description"`
+	// When true, this input may be omitted when running the technique
+	Optional bool `json:"optional"`
 	// Required aspect ratio
 	SpecifiedAspectRatio string `json:"specified_aspect_ratio"`
 	// Required duration in seconds
@@ -166,6 +171,7 @@ type TechniqueGetResponseOutput struct {
 		Name                 respjson.Field
 		Type                 respjson.Field
 		Description          respjson.Field
+		Optional             respjson.Field
 		SpecifiedAspectRatio respjson.Field
 		SpecifiedDuration    respjson.Field
 		ExtraFields          map[string]respjson.Field
@@ -220,6 +226,8 @@ type TechniqueListResponseInput struct {
 	Type string `json:"type" api:"required"`
 	// Technique input or output description
 	Description string `json:"description"`
+	// When true, this input may be omitted when running the technique
+	Optional bool `json:"optional"`
 	// Required aspect ratio
 	SpecifiedAspectRatio string `json:"specified_aspect_ratio"`
 	// Required duration in seconds
@@ -230,6 +238,7 @@ type TechniqueListResponseInput struct {
 		Name                 respjson.Field
 		Type                 respjson.Field
 		Description          respjson.Field
+		Optional             respjson.Field
 		SpecifiedAspectRatio respjson.Field
 		SpecifiedDuration    respjson.Field
 		ExtraFields          map[string]respjson.Field
@@ -254,6 +263,8 @@ type TechniqueListResponseOutput struct {
 	Type string `json:"type" api:"required"`
 	// Technique input or output description
 	Description string `json:"description"`
+	// When true, this input may be omitted when running the technique
+	Optional bool `json:"optional"`
 	// Required aspect ratio
 	SpecifiedAspectRatio string `json:"specified_aspect_ratio"`
 	// Required duration in seconds
@@ -264,6 +275,7 @@ type TechniqueListResponseOutput struct {
 		Name                 respjson.Field
 		Type                 respjson.Field
 		Description          respjson.Field
+		Optional             respjson.Field
 		SpecifiedAspectRatio respjson.Field
 		SpecifiedDuration    respjson.Field
 		ExtraFields          map[string]respjson.Field
