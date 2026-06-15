@@ -102,6 +102,20 @@ Methods:
 - <code title="post /projects/{projectId}/actions">client.Projects.Actions.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#ProjectActionService.New">New</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, projectID <a href="https://pkg.go.dev/builtin#string">string</a>, body <a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#ProjectActionNewParams">ProjectActionNewParams</a>) (\*<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#ProjectActionNewResponse">ProjectActionNewResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 - <code title="post /projects/{projectId}/actions/{nodeId}/run">client.Projects.Actions.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#ProjectActionService.Run">Run</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, nodeID <a href="https://pkg.go.dev/builtin#string">string</a>, body <a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#ProjectActionRunParams">ProjectActionRunParams</a>) (\*<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#ProjectActionRunResponse">ProjectActionRunResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 
+# Actions
+
+Response Types:
+
+- <a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#ActionGetResponse">ActionGetResponse</a>
+- <a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#ActionListResponse">ActionListResponse</a>
+- <a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#ActionRunResponse">ActionRunResponse</a>
+
+Methods:
+
+- <code title="get /actions/{actionId}">client.Actions.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#ActionService.Get">Get</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, actionID <a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#ActionGetParamsActionID">ActionGetParamsActionID</a>) (\*<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#ActionGetResponse">ActionGetResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+- <code title="get /actions">client.Actions.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#ActionService.List">List</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>) (\*<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#ActionListResponse">ActionListResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+- <code title="post /runs/action">client.Actions.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#ActionService.Run">Run</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, body <a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#ActionRunParams">ActionRunParams</a>) (\*<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#ActionRunResponse">ActionRunResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+
 # Models
 
 Response Types:

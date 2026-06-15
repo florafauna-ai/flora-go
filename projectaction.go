@@ -276,7 +276,8 @@ type ProjectActionNewParams struct {
 	// "resize-video", "change-video-ar", "split-audio-from-video",
 	// "merge-audio-into-video".
 	ActionID ProjectActionNewParamsActionID `json:"action_id,omitzero" api:"required"`
-	// Action parameters
+	// Action parameters (snake_case keys). The accepted keys depend on action_id; see
+	// GET /actions/{actionId} or POST /runs/action for the per-action schema.
 	Params map[string]any `json:"params,omitzero"`
 	paramObj
 }
