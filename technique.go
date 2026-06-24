@@ -120,6 +120,8 @@ type TechniqueGetResponseInput struct {
 	//
 	// Any of "imageUrl", "videoUrl", "audioUrl", "text", "documentUrl".
 	Type string `json:"type" api:"required"`
+	// When true, fill this input by passing an element id as the input value
+	AcceptsElement bool `json:"accepts_element"`
 	// Technique input or output description
 	Description string `json:"description"`
 	// When true, this input may be omitted when running the technique
@@ -133,6 +135,7 @@ type TechniqueGetResponseInput struct {
 		ID                   respjson.Field
 		Name                 respjson.Field
 		Type                 respjson.Field
+		AcceptsElement       respjson.Field
 		Description          respjson.Field
 		Optional             respjson.Field
 		SpecifiedAspectRatio respjson.Field
@@ -157,6 +160,8 @@ type TechniqueGetResponseOutput struct {
 	//
 	// Any of "imageUrl", "videoUrl", "audioUrl", "text", "documentUrl".
 	Type string `json:"type" api:"required"`
+	// When true, fill this input by passing an element id as the input value
+	AcceptsElement bool `json:"accepts_element"`
 	// Technique input or output description
 	Description string `json:"description"`
 	// When true, this input may be omitted when running the technique
@@ -170,6 +175,7 @@ type TechniqueGetResponseOutput struct {
 		ID                   respjson.Field
 		Name                 respjson.Field
 		Type                 respjson.Field
+		AcceptsElement       respjson.Field
 		Description          respjson.Field
 		Optional             respjson.Field
 		SpecifiedAspectRatio respjson.Field
@@ -224,6 +230,8 @@ type TechniqueListResponseInput struct {
 	//
 	// Any of "imageUrl", "videoUrl", "audioUrl", "text", "documentUrl".
 	Type string `json:"type" api:"required"`
+	// When true, fill this input by passing an element id as the input value
+	AcceptsElement bool `json:"accepts_element"`
 	// Technique input or output description
 	Description string `json:"description"`
 	// When true, this input may be omitted when running the technique
@@ -237,6 +245,7 @@ type TechniqueListResponseInput struct {
 		ID                   respjson.Field
 		Name                 respjson.Field
 		Type                 respjson.Field
+		AcceptsElement       respjson.Field
 		Description          respjson.Field
 		Optional             respjson.Field
 		SpecifiedAspectRatio respjson.Field
@@ -261,6 +270,8 @@ type TechniqueListResponseOutput struct {
 	//
 	// Any of "imageUrl", "videoUrl", "audioUrl", "text", "documentUrl".
 	Type string `json:"type" api:"required"`
+	// When true, fill this input by passing an element id as the input value
+	AcceptsElement bool `json:"accepts_element"`
 	// Technique input or output description
 	Description string `json:"description"`
 	// When true, this input may be omitted when running the technique
@@ -274,6 +285,7 @@ type TechniqueListResponseOutput struct {
 		ID                   respjson.Field
 		Name                 respjson.Field
 		Type                 respjson.Field
+		AcceptsElement       respjson.Field
 		Description          respjson.Field
 		Optional             respjson.Field
 		SpecifiedAspectRatio respjson.Field
