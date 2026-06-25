@@ -4,6 +4,7 @@ package flora
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"slices"
@@ -167,13 +168,21 @@ type ActionGetResponseInput struct {
 	//
 	// Any of "image", "video", "text", "audio".
 	Type string `json:"type" api:"required"`
-	// Whether the slot accepts multiple values
+	// Deprecated alias for `multiple: true`. Mirrors `multiple` for back-compat.
 	Dynamic bool `json:"dynamic"`
+	// Many-connections form. `true` is unbounded shorthand; the object form sets
+	// explicit min/max bounds.
+	Multiple ActionGetResponseInputMultipleUnion `json:"multiple"`
+	// Whether the slot allows zero connections in single-input mode. Ignored when
+	// `multiple` is the object form (use `min: 0` there instead).
+	Optional bool `json:"optional"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Name        respjson.Field
 		Type        respjson.Field
 		Dynamic     respjson.Field
+		Multiple    respjson.Field
+		Optional    respjson.Field
 		ExtraFields map[string]respjson.Field
 		raw         string
 	} `json:"-"`
@@ -182,6 +191,69 @@ type ActionGetResponseInput struct {
 // Returns the unmodified JSON received from the API
 func (r ActionGetResponseInput) RawJSON() string { return r.JSON.raw }
 func (r *ActionGetResponseInput) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// ActionGetResponseInputMultipleUnion contains all possible properties and values
+// from [bool], [ActionGetResponseInputMultipleObject].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+//
+// If the underlying value is not a json object, one of the following properties
+// will be valid: OfActionGetResponseInputMultipleBoolean]
+type ActionGetResponseInputMultipleUnion struct {
+	// This field will be present if the value is a [bool] instead of an object.
+	OfActionGetResponseInputMultipleBoolean bool `json:",inline"`
+	// This field is from variant [ActionGetResponseInputMultipleObject].
+	Max int64 `json:"max"`
+	// This field is from variant [ActionGetResponseInputMultipleObject].
+	Min  int64 `json:"min"`
+	JSON struct {
+		OfActionGetResponseInputMultipleBoolean respjson.Field
+		Max                                     respjson.Field
+		Min                                     respjson.Field
+		raw                                     string
+	} `json:"-"`
+}
+
+func (u ActionGetResponseInputMultipleUnion) AsActionGetResponseInputMultipleBoolean() (v bool) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u ActionGetResponseInputMultipleUnion) AsActionGetResponseInputMultipleObject() (v ActionGetResponseInputMultipleObject) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u ActionGetResponseInputMultipleUnion) RawJSON() string { return u.JSON.raw }
+
+func (r *ActionGetResponseInputMultipleUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type ActionGetResponseInputMultipleBoolean bool
+
+const (
+	ActionGetResponseInputMultipleBooleanTrue ActionGetResponseInputMultipleBoolean = true
+)
+
+type ActionGetResponseInputMultipleObject struct {
+	Max int64 `json:"max"`
+	Min int64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r ActionGetResponseInputMultipleObject) RawJSON() string { return r.JSON.raw }
+func (r *ActionGetResponseInputMultipleObject) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -200,13 +272,21 @@ type ActionGetResponseOutput struct {
 	//
 	// Any of "image", "video", "text", "audio".
 	Type string `json:"type" api:"required"`
-	// Whether the slot accepts multiple values
+	// Deprecated alias for `multiple: true`. Mirrors `multiple` for back-compat.
 	Dynamic bool `json:"dynamic"`
+	// Many-connections form. `true` is unbounded shorthand; the object form sets
+	// explicit min/max bounds.
+	Multiple ActionGetResponseOutputMultipleUnion `json:"multiple"`
+	// Whether the slot allows zero connections in single-input mode. Ignored when
+	// `multiple` is the object form (use `min: 0` there instead).
+	Optional bool `json:"optional"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Name        respjson.Field
 		Type        respjson.Field
 		Dynamic     respjson.Field
+		Multiple    respjson.Field
+		Optional    respjson.Field
 		ExtraFields map[string]respjson.Field
 		raw         string
 	} `json:"-"`
@@ -215,6 +295,69 @@ type ActionGetResponseOutput struct {
 // Returns the unmodified JSON received from the API
 func (r ActionGetResponseOutput) RawJSON() string { return r.JSON.raw }
 func (r *ActionGetResponseOutput) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// ActionGetResponseOutputMultipleUnion contains all possible properties and values
+// from [bool], [ActionGetResponseOutputMultipleObject].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+//
+// If the underlying value is not a json object, one of the following properties
+// will be valid: OfActionGetResponseOutputMultipleBoolean]
+type ActionGetResponseOutputMultipleUnion struct {
+	// This field will be present if the value is a [bool] instead of an object.
+	OfActionGetResponseOutputMultipleBoolean bool `json:",inline"`
+	// This field is from variant [ActionGetResponseOutputMultipleObject].
+	Max int64 `json:"max"`
+	// This field is from variant [ActionGetResponseOutputMultipleObject].
+	Min  int64 `json:"min"`
+	JSON struct {
+		OfActionGetResponseOutputMultipleBoolean respjson.Field
+		Max                                      respjson.Field
+		Min                                      respjson.Field
+		raw                                      string
+	} `json:"-"`
+}
+
+func (u ActionGetResponseOutputMultipleUnion) AsActionGetResponseOutputMultipleBoolean() (v bool) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u ActionGetResponseOutputMultipleUnion) AsActionGetResponseOutputMultipleObject() (v ActionGetResponseOutputMultipleObject) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u ActionGetResponseOutputMultipleUnion) RawJSON() string { return u.JSON.raw }
+
+func (r *ActionGetResponseOutputMultipleUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type ActionGetResponseOutputMultipleBoolean bool
+
+const (
+	ActionGetResponseOutputMultipleBooleanTrue ActionGetResponseOutputMultipleBoolean = true
+)
+
+type ActionGetResponseOutputMultipleObject struct {
+	Max int64 `json:"max"`
+	Min int64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r ActionGetResponseOutputMultipleObject) RawJSON() string { return r.JSON.raw }
+func (r *ActionGetResponseOutputMultipleObject) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -351,13 +494,21 @@ type ActionListResponseActionInput struct {
 	//
 	// Any of "image", "video", "text", "audio".
 	Type string `json:"type" api:"required"`
-	// Whether the slot accepts multiple values
+	// Deprecated alias for `multiple: true`. Mirrors `multiple` for back-compat.
 	Dynamic bool `json:"dynamic"`
+	// Many-connections form. `true` is unbounded shorthand; the object form sets
+	// explicit min/max bounds.
+	Multiple ActionListResponseActionInputMultipleUnion `json:"multiple"`
+	// Whether the slot allows zero connections in single-input mode. Ignored when
+	// `multiple` is the object form (use `min: 0` there instead).
+	Optional bool `json:"optional"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Name        respjson.Field
 		Type        respjson.Field
 		Dynamic     respjson.Field
+		Multiple    respjson.Field
+		Optional    respjson.Field
 		ExtraFields map[string]respjson.Field
 		raw         string
 	} `json:"-"`
@@ -369,6 +520,69 @@ func (r *ActionListResponseActionInput) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// ActionListResponseActionInputMultipleUnion contains all possible properties and
+// values from [bool], [ActionListResponseActionInputMultipleObject].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+//
+// If the underlying value is not a json object, one of the following properties
+// will be valid: OfActionListResponseActionInputMultipleBoolean]
+type ActionListResponseActionInputMultipleUnion struct {
+	// This field will be present if the value is a [bool] instead of an object.
+	OfActionListResponseActionInputMultipleBoolean bool `json:",inline"`
+	// This field is from variant [ActionListResponseActionInputMultipleObject].
+	Max int64 `json:"max"`
+	// This field is from variant [ActionListResponseActionInputMultipleObject].
+	Min  int64 `json:"min"`
+	JSON struct {
+		OfActionListResponseActionInputMultipleBoolean respjson.Field
+		Max                                            respjson.Field
+		Min                                            respjson.Field
+		raw                                            string
+	} `json:"-"`
+}
+
+func (u ActionListResponseActionInputMultipleUnion) AsActionListResponseActionInputMultipleBoolean() (v bool) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u ActionListResponseActionInputMultipleUnion) AsActionListResponseActionInputMultipleObject() (v ActionListResponseActionInputMultipleObject) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u ActionListResponseActionInputMultipleUnion) RawJSON() string { return u.JSON.raw }
+
+func (r *ActionListResponseActionInputMultipleUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type ActionListResponseActionInputMultipleBoolean bool
+
+const (
+	ActionListResponseActionInputMultipleBooleanTrue ActionListResponseActionInputMultipleBoolean = true
+)
+
+type ActionListResponseActionInputMultipleObject struct {
+	Max int64 `json:"max"`
+	Min int64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r ActionListResponseActionInputMultipleObject) RawJSON() string { return r.JSON.raw }
+func (r *ActionListResponseActionInputMultipleObject) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type ActionListResponseActionOutput struct {
 	// Action input or output name
 	Name string `json:"name" api:"required"`
@@ -376,13 +590,21 @@ type ActionListResponseActionOutput struct {
 	//
 	// Any of "image", "video", "text", "audio".
 	Type string `json:"type" api:"required"`
-	// Whether the slot accepts multiple values
+	// Deprecated alias for `multiple: true`. Mirrors `multiple` for back-compat.
 	Dynamic bool `json:"dynamic"`
+	// Many-connections form. `true` is unbounded shorthand; the object form sets
+	// explicit min/max bounds.
+	Multiple ActionListResponseActionOutputMultipleUnion `json:"multiple"`
+	// Whether the slot allows zero connections in single-input mode. Ignored when
+	// `multiple` is the object form (use `min: 0` there instead).
+	Optional bool `json:"optional"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Name        respjson.Field
 		Type        respjson.Field
 		Dynamic     respjson.Field
+		Multiple    respjson.Field
+		Optional    respjson.Field
 		ExtraFields map[string]respjson.Field
 		raw         string
 	} `json:"-"`
@@ -391,6 +613,69 @@ type ActionListResponseActionOutput struct {
 // Returns the unmodified JSON received from the API
 func (r ActionListResponseActionOutput) RawJSON() string { return r.JSON.raw }
 func (r *ActionListResponseActionOutput) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// ActionListResponseActionOutputMultipleUnion contains all possible properties and
+// values from [bool], [ActionListResponseActionOutputMultipleObject].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+//
+// If the underlying value is not a json object, one of the following properties
+// will be valid: OfActionListResponseActionOutputMultipleBoolean]
+type ActionListResponseActionOutputMultipleUnion struct {
+	// This field will be present if the value is a [bool] instead of an object.
+	OfActionListResponseActionOutputMultipleBoolean bool `json:",inline"`
+	// This field is from variant [ActionListResponseActionOutputMultipleObject].
+	Max int64 `json:"max"`
+	// This field is from variant [ActionListResponseActionOutputMultipleObject].
+	Min  int64 `json:"min"`
+	JSON struct {
+		OfActionListResponseActionOutputMultipleBoolean respjson.Field
+		Max                                             respjson.Field
+		Min                                             respjson.Field
+		raw                                             string
+	} `json:"-"`
+}
+
+func (u ActionListResponseActionOutputMultipleUnion) AsActionListResponseActionOutputMultipleBoolean() (v bool) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u ActionListResponseActionOutputMultipleUnion) AsActionListResponseActionOutputMultipleObject() (v ActionListResponseActionOutputMultipleObject) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u ActionListResponseActionOutputMultipleUnion) RawJSON() string { return u.JSON.raw }
+
+func (r *ActionListResponseActionOutputMultipleUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type ActionListResponseActionOutputMultipleBoolean bool
+
+const (
+	ActionListResponseActionOutputMultipleBooleanTrue ActionListResponseActionOutputMultipleBoolean = true
+)
+
+type ActionListResponseActionOutputMultipleObject struct {
+	Max int64 `json:"max"`
+	Min int64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r ActionListResponseActionOutputMultipleObject) RawJSON() string { return r.JSON.raw }
+func (r *ActionListResponseActionOutputMultipleObject) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
