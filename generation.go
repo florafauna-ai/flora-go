@@ -147,17 +147,17 @@ const (
 type GenerationNewResponseAction struct {
 	// Action identifier
 	//
-	// Any of "split-text", "find-and-replace-text", "concat-text", "ken-burns-video",
+	// Any of "split-text", "find-and-replace-text", "concat-text",
 	// "color-grade-image", "change-image-ar", "rotate-image", "flip-image",
 	// "color-filter-image", "color-tint-image", "filter-color-image", "blur-image",
 	// "duplicate-image", "side-by-side-composite", "add-shape-to-image",
 	// "generate-shape-image", "add-text-to-image", "generate-text-image",
-	// "qr-code-generator", "stitch-videos", "split-video", "extract-video-frames",
-	// "color-grade-video", "video-to-frame-grid", "boomerang-video", "reverse-video",
-	// "video-to-long-exposure", "video-effect", "color-filter-video",
-	// "speed-up-video", "slow-down-video", "duplicate-video", "greenscreen-video",
-	// "resize-video", "change-video-ar", "split-audio-from-video",
-	// "merge-audio-into-video".
+	// "qr-code-generator", "ken-burns-video", "stitch-videos", "split-video",
+	// "extract-video-frames", "color-grade-video", "video-to-frame-grid",
+	// "boomerang-video", "reverse-video", "video-to-long-exposure", "video-effect",
+	// "color-filter-video", "speed-up-video", "slow-down-video", "duplicate-video",
+	// "greenscreen-video", "resize-video", "change-video-ar",
+	// "split-audio-from-video", "merge-audio-into-video".
 	ActionID string `json:"action_id" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {

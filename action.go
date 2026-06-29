@@ -69,17 +69,17 @@ func (r *ActionService) Run(ctx context.Context, body ActionRunParams, opts ...o
 type ActionGetResponse struct {
 	// Action identifier
 	//
-	// Any of "split-text", "find-and-replace-text", "concat-text", "ken-burns-video",
+	// Any of "split-text", "find-and-replace-text", "concat-text",
 	// "color-grade-image", "change-image-ar", "rotate-image", "flip-image",
 	// "color-filter-image", "color-tint-image", "filter-color-image", "blur-image",
 	// "duplicate-image", "side-by-side-composite", "add-shape-to-image",
 	// "generate-shape-image", "add-text-to-image", "generate-text-image",
-	// "qr-code-generator", "stitch-videos", "split-video", "extract-video-frames",
-	// "color-grade-video", "video-to-frame-grid", "boomerang-video", "reverse-video",
-	// "video-to-long-exposure", "video-effect", "color-filter-video",
-	// "speed-up-video", "slow-down-video", "duplicate-video", "greenscreen-video",
-	// "resize-video", "change-video-ar", "split-audio-from-video",
-	// "merge-audio-into-video".
+	// "qr-code-generator", "ken-burns-video", "stitch-videos", "split-video",
+	// "extract-video-frames", "color-grade-video", "video-to-frame-grid",
+	// "boomerang-video", "reverse-video", "video-to-long-exposure", "video-effect",
+	// "color-filter-video", "speed-up-video", "slow-down-video", "duplicate-video",
+	// "greenscreen-video", "resize-video", "change-video-ar",
+	// "split-audio-from-video", "merge-audio-into-video".
 	ActionID ActionGetResponseActionID `json:"action_id" api:"required"`
 	// Cost per execution in USD
 	ChargedCost float64 `json:"charged_cost" api:"required"`
@@ -125,7 +125,6 @@ const (
 	ActionGetResponseActionIDSplitText           ActionGetResponseActionID = "split-text"
 	ActionGetResponseActionIDFindAndReplaceText  ActionGetResponseActionID = "find-and-replace-text"
 	ActionGetResponseActionIDConcatText          ActionGetResponseActionID = "concat-text"
-	ActionGetResponseActionIDKenBurnsVideo       ActionGetResponseActionID = "ken-burns-video"
 	ActionGetResponseActionIDColorGradeImage     ActionGetResponseActionID = "color-grade-image"
 	ActionGetResponseActionIDChangeImageAr       ActionGetResponseActionID = "change-image-ar"
 	ActionGetResponseActionIDRotateImage         ActionGetResponseActionID = "rotate-image"
@@ -141,6 +140,7 @@ const (
 	ActionGetResponseActionIDAddTextToImage      ActionGetResponseActionID = "add-text-to-image"
 	ActionGetResponseActionIDGenerateTextImage   ActionGetResponseActionID = "generate-text-image"
 	ActionGetResponseActionIDQrCodeGenerator     ActionGetResponseActionID = "qr-code-generator"
+	ActionGetResponseActionIDKenBurnsVideo       ActionGetResponseActionID = "ken-burns-video"
 	ActionGetResponseActionIDStitchVideos        ActionGetResponseActionID = "stitch-videos"
 	ActionGetResponseActionIDSplitVideo          ActionGetResponseActionID = "split-video"
 	ActionGetResponseActionIDExtractVideoFrames  ActionGetResponseActionID = "extract-video-frames"
@@ -438,17 +438,17 @@ func (r *ActionListResponse) UnmarshalJSON(data []byte) error {
 type ActionListResponseAction struct {
 	// Action identifier
 	//
-	// Any of "split-text", "find-and-replace-text", "concat-text", "ken-burns-video",
+	// Any of "split-text", "find-and-replace-text", "concat-text",
 	// "color-grade-image", "change-image-ar", "rotate-image", "flip-image",
 	// "color-filter-image", "color-tint-image", "filter-color-image", "blur-image",
 	// "duplicate-image", "side-by-side-composite", "add-shape-to-image",
 	// "generate-shape-image", "add-text-to-image", "generate-text-image",
-	// "qr-code-generator", "stitch-videos", "split-video", "extract-video-frames",
-	// "color-grade-video", "video-to-frame-grid", "boomerang-video", "reverse-video",
-	// "video-to-long-exposure", "video-effect", "color-filter-video",
-	// "speed-up-video", "slow-down-video", "duplicate-video", "greenscreen-video",
-	// "resize-video", "change-video-ar", "split-audio-from-video",
-	// "merge-audio-into-video".
+	// "qr-code-generator", "ken-burns-video", "stitch-videos", "split-video",
+	// "extract-video-frames", "color-grade-video", "video-to-frame-grid",
+	// "boomerang-video", "reverse-video", "video-to-long-exposure", "video-effect",
+	// "color-filter-video", "speed-up-video", "slow-down-video", "duplicate-video",
+	// "greenscreen-video", "resize-video", "change-video-ar",
+	// "split-audio-from-video", "merge-audio-into-video".
 	ActionID string `json:"action_id" api:"required"`
 	// Cost per execution in USD
 	ChargedCost float64 `json:"charged_cost" api:"required"`
@@ -788,17 +788,17 @@ const (
 type ActionRunResponseAction struct {
 	// Action identifier
 	//
-	// Any of "split-text", "find-and-replace-text", "concat-text", "ken-burns-video",
+	// Any of "split-text", "find-and-replace-text", "concat-text",
 	// "color-grade-image", "change-image-ar", "rotate-image", "flip-image",
 	// "color-filter-image", "color-tint-image", "filter-color-image", "blur-image",
 	// "duplicate-image", "side-by-side-composite", "add-shape-to-image",
 	// "generate-shape-image", "add-text-to-image", "generate-text-image",
-	// "qr-code-generator", "stitch-videos", "split-video", "extract-video-frames",
-	// "color-grade-video", "video-to-frame-grid", "boomerang-video", "reverse-video",
-	// "video-to-long-exposure", "video-effect", "color-filter-video",
-	// "speed-up-video", "slow-down-video", "duplicate-video", "greenscreen-video",
-	// "resize-video", "change-video-ar", "split-audio-from-video",
-	// "merge-audio-into-video".
+	// "qr-code-generator", "ken-burns-video", "stitch-videos", "split-video",
+	// "extract-video-frames", "color-grade-video", "video-to-frame-grid",
+	// "boomerang-video", "reverse-video", "video-to-long-exposure", "video-effect",
+	// "color-filter-video", "speed-up-video", "slow-down-video", "duplicate-video",
+	// "greenscreen-video", "resize-video", "change-video-ar",
+	// "split-audio-from-video", "merge-audio-into-video".
 	ActionID string `json:"action_id" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -858,7 +858,6 @@ const (
 	ActionGetParamsActionIDSplitText           ActionGetParamsActionID = "split-text"
 	ActionGetParamsActionIDFindAndReplaceText  ActionGetParamsActionID = "find-and-replace-text"
 	ActionGetParamsActionIDConcatText          ActionGetParamsActionID = "concat-text"
-	ActionGetParamsActionIDKenBurnsVideo       ActionGetParamsActionID = "ken-burns-video"
 	ActionGetParamsActionIDColorGradeImage     ActionGetParamsActionID = "color-grade-image"
 	ActionGetParamsActionIDChangeImageAr       ActionGetParamsActionID = "change-image-ar"
 	ActionGetParamsActionIDRotateImage         ActionGetParamsActionID = "rotate-image"
@@ -874,6 +873,7 @@ const (
 	ActionGetParamsActionIDAddTextToImage      ActionGetParamsActionID = "add-text-to-image"
 	ActionGetParamsActionIDGenerateTextImage   ActionGetParamsActionID = "generate-text-image"
 	ActionGetParamsActionIDQrCodeGenerator     ActionGetParamsActionID = "qr-code-generator"
+	ActionGetParamsActionIDKenBurnsVideo       ActionGetParamsActionID = "ken-burns-video"
 	ActionGetParamsActionIDStitchVideos        ActionGetParamsActionID = "stitch-videos"
 	ActionGetParamsActionIDSplitVideo          ActionGetParamsActionID = "split-video"
 	ActionGetParamsActionIDExtractVideoFrames  ActionGetParamsActionID = "extract-video-frames"
@@ -1289,8 +1289,9 @@ type ActionRunParamsBodyObject4 struct {
 	WorkspaceID string `json:"workspace_id" api:"required"`
 	// Action parameters
 	Params ActionRunParamsBodyObject4Params `json:"params,omitzero"`
-	// This field can be elided, and will marshal its zero value as "ken-burns-video".
-	ActionID constant.KenBurnsVideo `json:"action_id" default:"ken-burns-video"`
+	// This field can be elided, and will marshal its zero value as
+	// "color-grade-image".
+	ActionID constant.ColorGradeImage `json:"action_id" default:"color-grade-image"`
 	paramObj
 }
 
@@ -1333,26 +1334,14 @@ func init() {
 
 // Action parameters
 type ActionRunParamsBodyObject4Params struct {
-	// Duration (s)
-	Duration param.Opt[float64] `json:"duration,omitzero"`
-	// Zoom Level
-	Zoom param.Opt[float64] `json:"zoom,omitzero"`
-	// Easing
-	//
-	// Any of "linear", "ease-in", "ease-out", "ease-in-out".
-	Easing string `json:"easing,omitzero"`
-	// FPS
-	//
-	// Any of "24", "30", "60".
-	Fps string `json:"fps,omitzero"`
-	// Pan
-	//
-	// Any of "none", "left", "right", "up", "down".
-	PanDirection string `json:"pan_direction,omitzero"`
-	// Zoom Direction
-	//
-	// Any of "none", "in", "out".
-	ZoomDirection string `json:"zoom_direction,omitzero"`
+	// Brightness
+	Brightness param.Opt[float64] `json:"brightness,omitzero"`
+	// Contrast
+	Contrast param.Opt[float64] `json:"contrast,omitzero"`
+	// Saturation
+	Saturation param.Opt[float64] `json:"saturation,omitzero"`
+	// Warmth
+	Warmth param.Opt[float64] `json:"warmth,omitzero"`
 	paramObj
 }
 
@@ -1362,21 +1351,6 @@ func (r ActionRunParamsBodyObject4Params) MarshalJSON() (data []byte, err error)
 }
 func (r *ActionRunParamsBodyObject4Params) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
-}
-
-func init() {
-	apijson.RegisterFieldValidator[ActionRunParamsBodyObject4Params](
-		"easing", "linear", "ease-in", "ease-out", "ease-in-out",
-	)
-	apijson.RegisterFieldValidator[ActionRunParamsBodyObject4Params](
-		"fps", "24", "30", "60",
-	)
-	apijson.RegisterFieldValidator[ActionRunParamsBodyObject4Params](
-		"pan_direction", "none", "left", "right", "up", "down",
-	)
-	apijson.RegisterFieldValidator[ActionRunParamsBodyObject4Params](
-		"zoom_direction", "none", "in", "out",
-	)
 }
 
 // The properties ActionID, Inputs, ProjectID, WorkspaceID are required.
@@ -1393,9 +1367,8 @@ type ActionRunParamsBodyObject5 struct {
 	WorkspaceID string `json:"workspace_id" api:"required"`
 	// Action parameters
 	Params ActionRunParamsBodyObject5Params `json:"params,omitzero"`
-	// This field can be elided, and will marshal its zero value as
-	// "color-grade-image".
-	ActionID constant.ColorGradeImage `json:"action_id" default:"color-grade-image"`
+	// This field can be elided, and will marshal its zero value as "change-image-ar".
+	ActionID constant.ChangeImageAr `json:"action_id" default:"change-image-ar"`
 	paramObj
 }
 
@@ -1438,14 +1411,22 @@ func init() {
 
 // Action parameters
 type ActionRunParamsBodyObject5Params struct {
-	// Brightness
-	Brightness param.Opt[float64] `json:"brightness,omitzero"`
-	// Contrast
-	Contrast param.Opt[float64] `json:"contrast,omitzero"`
-	// Saturation
-	Saturation param.Opt[float64] `json:"saturation,omitzero"`
-	// Warmth
-	Warmth param.Opt[float64] `json:"warmth,omitzero"`
+	// Blur Amount
+	BlurAmount param.Opt[float64] `json:"blur_amount,omitzero"`
+	// Pad Color
+	PadColor param.Opt[string] `json:"pad_color,omitzero"`
+	// Aspect Ratio
+	//
+	// Any of "1:1", "16:9", "9:16", "4:3", "3:4", "3:2", "2:3", "21:9".
+	AspectRatio string `json:"aspect_ratio,omitzero"`
+	// Background
+	//
+	// Any of "solid", "blur".
+	BackgroundMode string `json:"background_mode,omitzero"`
+	// Fit
+	//
+	// Any of "crop", "pad".
+	Fit string `json:"fit,omitzero"`
 	paramObj
 }
 
@@ -1455,6 +1436,18 @@ func (r ActionRunParamsBodyObject5Params) MarshalJSON() (data []byte, err error)
 }
 func (r *ActionRunParamsBodyObject5Params) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[ActionRunParamsBodyObject5Params](
+		"aspect_ratio", "1:1", "16:9", "9:16", "4:3", "3:4", "3:2", "2:3", "21:9",
+	)
+	apijson.RegisterFieldValidator[ActionRunParamsBodyObject5Params](
+		"background_mode", "solid", "blur",
+	)
+	apijson.RegisterFieldValidator[ActionRunParamsBodyObject5Params](
+		"fit", "crop", "pad",
+	)
 }
 
 // The properties ActionID, Inputs, ProjectID, WorkspaceID are required.
@@ -1471,8 +1464,8 @@ type ActionRunParamsBodyObject6 struct {
 	WorkspaceID string `json:"workspace_id" api:"required"`
 	// Action parameters
 	Params ActionRunParamsBodyObject6Params `json:"params,omitzero"`
-	// This field can be elided, and will marshal its zero value as "change-image-ar".
-	ActionID constant.ChangeImageAr `json:"action_id" default:"change-image-ar"`
+	// This field can be elided, and will marshal its zero value as "rotate-image".
+	ActionID constant.RotateImage `json:"action_id" default:"rotate-image"`
 	paramObj
 }
 
@@ -1515,22 +1508,14 @@ func init() {
 
 // Action parameters
 type ActionRunParamsBodyObject6Params struct {
-	// Blur Amount
-	BlurAmount param.Opt[float64] `json:"blur_amount,omitzero"`
-	// Pad Color
-	PadColor param.Opt[string] `json:"pad_color,omitzero"`
-	// Aspect Ratio
-	//
-	// Any of "1:1", "16:9", "9:16", "4:3", "3:4", "3:2", "2:3", "21:9".
-	AspectRatio string `json:"aspect_ratio,omitzero"`
-	// Background
-	//
-	// Any of "solid", "blur".
-	BackgroundMode string `json:"background_mode,omitzero"`
-	// Fit
-	//
-	// Any of "crop", "pad".
-	Fit string `json:"fit,omitzero"`
+	// Angle (°, clockwise)
+	Angle param.Opt[float64] `json:"angle,omitzero"`
+	// Background Color
+	Background param.Opt[string] `json:"background,omitzero"`
+	// Expand Canvas to Fit
+	Expand param.Opt[bool] `json:"expand,omitzero"`
+	// Transparent Background
+	Transparent param.Opt[bool] `json:"transparent,omitzero"`
 	paramObj
 }
 
@@ -1540,18 +1525,6 @@ func (r ActionRunParamsBodyObject6Params) MarshalJSON() (data []byte, err error)
 }
 func (r *ActionRunParamsBodyObject6Params) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
-}
-
-func init() {
-	apijson.RegisterFieldValidator[ActionRunParamsBodyObject6Params](
-		"aspect_ratio", "1:1", "16:9", "9:16", "4:3", "3:4", "3:2", "2:3", "21:9",
-	)
-	apijson.RegisterFieldValidator[ActionRunParamsBodyObject6Params](
-		"background_mode", "solid", "blur",
-	)
-	apijson.RegisterFieldValidator[ActionRunParamsBodyObject6Params](
-		"fit", "crop", "pad",
-	)
 }
 
 // The properties ActionID, Inputs, ProjectID, WorkspaceID are required.
@@ -1568,8 +1541,8 @@ type ActionRunParamsBodyObject7 struct {
 	WorkspaceID string `json:"workspace_id" api:"required"`
 	// Action parameters
 	Params ActionRunParamsBodyObject7Params `json:"params,omitzero"`
-	// This field can be elided, and will marshal its zero value as "rotate-image".
-	ActionID constant.RotateImage `json:"action_id" default:"rotate-image"`
+	// This field can be elided, and will marshal its zero value as "flip-image".
+	ActionID constant.FlipImage `json:"action_id" default:"flip-image"`
 	paramObj
 }
 
@@ -1612,14 +1585,10 @@ func init() {
 
 // Action parameters
 type ActionRunParamsBodyObject7Params struct {
-	// Angle (°, clockwise)
-	Angle param.Opt[float64] `json:"angle,omitzero"`
-	// Background Color
-	Background param.Opt[string] `json:"background,omitzero"`
-	// Expand Canvas to Fit
-	Expand param.Opt[bool] `json:"expand,omitzero"`
-	// Transparent Background
-	Transparent param.Opt[bool] `json:"transparent,omitzero"`
+	// Direction
+	//
+	// Any of "horizontal", "vertical", "both".
+	Direction string `json:"direction,omitzero"`
 	paramObj
 }
 
@@ -1629,6 +1598,12 @@ func (r ActionRunParamsBodyObject7Params) MarshalJSON() (data []byte, err error)
 }
 func (r *ActionRunParamsBodyObject7Params) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[ActionRunParamsBodyObject7Params](
+		"direction", "horizontal", "vertical", "both",
+	)
 }
 
 // The properties ActionID, Inputs, ProjectID, WorkspaceID are required.
@@ -1645,8 +1620,9 @@ type ActionRunParamsBodyObject8 struct {
 	WorkspaceID string `json:"workspace_id" api:"required"`
 	// Action parameters
 	Params ActionRunParamsBodyObject8Params `json:"params,omitzero"`
-	// This field can be elided, and will marshal its zero value as "flip-image".
-	ActionID constant.FlipImage `json:"action_id" default:"flip-image"`
+	// This field can be elided, and will marshal its zero value as
+	// "color-filter-image".
+	ActionID constant.ColorFilterImage `json:"action_id" default:"color-filter-image"`
 	paramObj
 }
 
@@ -1689,10 +1665,44 @@ func init() {
 
 // Action parameters
 type ActionRunParamsBodyObject8Params struct {
-	// Direction
+	// Threshold
+	BwThreshold param.Opt[float64] `json:"bw_threshold,omitzero"`
+	// Color Tolerance
+	ColorpopTolerance param.Opt[float64] `json:"colorpop_tolerance,omitzero"`
+	// Grid Angle (°)
+	DotAngle param.Opt[float64] `json:"dot_angle,omitzero"`
+	// Background
+	DotBg param.Opt[string] `json:"dot_bg,omitzero"`
+	// Dot Color
+	DotColor param.Opt[string] `json:"dot_color,omitzero"`
+	// Dot Size
+	DotSize param.Opt[float64] `json:"dot_size,omitzero"`
+	// Grain
+	Grain param.Opt[float64] `json:"grain,omitzero"`
+	// Highlight Color
+	HighlightColor param.Opt[string] `json:"highlight_color,omitzero"`
+	// Intensity
+	Intensity param.Opt[float64] `json:"intensity,omitzero"`
+	// Bits per channel
+	PosterizeBits param.Opt[float64] `json:"posterize_bits,omitzero"`
+	// Warmth
+	SepiaWarmth param.Opt[float64] `json:"sepia_warmth,omitzero"`
+	// Shadow Color
+	ShadowColor param.Opt[string] `json:"shadow_color,omitzero"`
+	// Threshold
+	SolarizeThreshold param.Opt[float64] `json:"solarize_threshold,omitzero"`
+	// Keep Color
+	TargetColor param.Opt[string] `json:"target_color,omitzero"`
+	// Vignette Softness
+	VignetteSoftness param.Opt[float64] `json:"vignette_softness,omitzero"`
+	// Vignette Strength
+	VignetteStrength param.Opt[float64] `json:"vignette_strength,omitzero"`
+	// Filter
 	//
-	// Any of "horizontal", "vertical", "both".
-	Direction string `json:"direction,omitzero"`
+	// Any of "grayscale", "sepia", "invert", "bw", "posterize", "solarize", "duotone",
+	// "clarendon", "moon", "nashville", "noir", "fade", "vignette", "colorpop",
+	// "crossprocess", "halftone".
+	Filter string `json:"filter,omitzero"`
 	paramObj
 }
 
@@ -1706,7 +1716,7 @@ func (r *ActionRunParamsBodyObject8Params) UnmarshalJSON(data []byte) error {
 
 func init() {
 	apijson.RegisterFieldValidator[ActionRunParamsBodyObject8Params](
-		"direction", "horizontal", "vertical", "both",
+		"filter", "grayscale", "sepia", "invert", "bw", "posterize", "solarize", "duotone", "clarendon", "moon", "nashville", "noir", "fade", "vignette", "colorpop", "crossprocess", "halftone",
 	)
 }
 
@@ -1724,9 +1734,8 @@ type ActionRunParamsBodyObject9 struct {
 	WorkspaceID string `json:"workspace_id" api:"required"`
 	// Action parameters
 	Params ActionRunParamsBodyObject9Params `json:"params,omitzero"`
-	// This field can be elided, and will marshal its zero value as
-	// "color-filter-image".
-	ActionID constant.ColorFilterImage `json:"action_id" default:"color-filter-image"`
+	// This field can be elided, and will marshal its zero value as "color-tint-image".
+	ActionID constant.ColorTintImage `json:"action_id" default:"color-tint-image"`
 	paramObj
 }
 
@@ -1769,44 +1778,14 @@ func init() {
 
 // Action parameters
 type ActionRunParamsBodyObject9Params struct {
-	// Threshold
-	BwThreshold param.Opt[float64] `json:"bw_threshold,omitzero"`
-	// Color Tolerance
-	ColorpopTolerance param.Opt[float64] `json:"colorpop_tolerance,omitzero"`
-	// Grid Angle (°)
-	DotAngle param.Opt[float64] `json:"dot_angle,omitzero"`
-	// Background
-	DotBg param.Opt[string] `json:"dot_bg,omitzero"`
-	// Dot Color
-	DotColor param.Opt[string] `json:"dot_color,omitzero"`
-	// Dot Size
-	DotSize param.Opt[float64] `json:"dot_size,omitzero"`
-	// Grain
-	Grain param.Opt[float64] `json:"grain,omitzero"`
-	// Highlight Color
-	HighlightColor param.Opt[string] `json:"highlight_color,omitzero"`
+	// Tint Color
+	Color param.Opt[string] `json:"color,omitzero"`
 	// Intensity
 	Intensity param.Opt[float64] `json:"intensity,omitzero"`
-	// Bits per channel
-	PosterizeBits param.Opt[float64] `json:"posterize_bits,omitzero"`
-	// Warmth
-	SepiaWarmth param.Opt[float64] `json:"sepia_warmth,omitzero"`
-	// Shadow Color
-	ShadowColor param.Opt[string] `json:"shadow_color,omitzero"`
-	// Threshold
-	SolarizeThreshold param.Opt[float64] `json:"solarize_threshold,omitzero"`
-	// Keep Color
-	TargetColor param.Opt[string] `json:"target_color,omitzero"`
-	// Vignette Softness
-	VignetteSoftness param.Opt[float64] `json:"vignette_softness,omitzero"`
-	// Vignette Strength
-	VignetteStrength param.Opt[float64] `json:"vignette_strength,omitzero"`
-	// Filter
+	// Blend Mode
 	//
-	// Any of "grayscale", "sepia", "invert", "bw", "posterize", "solarize", "duotone",
-	// "clarendon", "moon", "nashville", "noir", "fade", "vignette", "colorpop",
-	// "crossprocess", "halftone".
-	Filter string `json:"filter,omitzero"`
+	// Any of "multiply", "screen", "overlay", "soft_light", "color".
+	BlendMode string `json:"blend_mode,omitzero"`
 	paramObj
 }
 
@@ -1820,7 +1799,7 @@ func (r *ActionRunParamsBodyObject9Params) UnmarshalJSON(data []byte) error {
 
 func init() {
 	apijson.RegisterFieldValidator[ActionRunParamsBodyObject9Params](
-		"filter", "grayscale", "sepia", "invert", "bw", "posterize", "solarize", "duotone", "clarendon", "moon", "nashville", "noir", "fade", "vignette", "colorpop", "crossprocess", "halftone",
+		"blend_mode", "multiply", "screen", "overlay", "soft_light", "color",
 	)
 }
 
@@ -1838,8 +1817,9 @@ type ActionRunParamsBodyObject10 struct {
 	WorkspaceID string `json:"workspace_id" api:"required"`
 	// Action parameters
 	Params ActionRunParamsBodyObject10Params `json:"params,omitzero"`
-	// This field can be elided, and will marshal its zero value as "color-tint-image".
-	ActionID constant.ColorTintImage `json:"action_id" default:"color-tint-image"`
+	// This field can be elided, and will marshal its zero value as
+	// "filter-color-image".
+	ActionID constant.FilterColorImage `json:"action_id" default:"filter-color-image"`
 	paramObj
 }
 
@@ -1882,14 +1862,20 @@ func init() {
 
 // Action parameters
 type ActionRunParamsBodyObject10Params struct {
-	// Tint Color
-	Color param.Opt[string] `json:"color,omitzero"`
-	// Intensity
-	Intensity param.Opt[float64] `json:"intensity,omitzero"`
-	// Blend Mode
+	// Invert Selection
+	Invert param.Opt[bool] `json:"invert,omitzero"`
+	// Replacement Color
+	ReplacementColor param.Opt[string] `json:"replacement_color,omitzero"`
+	// Edge Softness
+	Softness param.Opt[float64] `json:"softness,omitzero"`
+	// Target Color
+	TargetColor param.Opt[string] `json:"target_color,omitzero"`
+	// Tolerance
+	Tolerance param.Opt[float64] `json:"tolerance,omitzero"`
+	// Mode
 	//
-	// Any of "multiply", "screen", "overlay", "soft_light", "color".
-	BlendMode string `json:"blend_mode,omitzero"`
+	// Any of "remove", "replace", "keep".
+	Mode string `json:"mode,omitzero"`
 	paramObj
 }
 
@@ -1903,7 +1889,7 @@ func (r *ActionRunParamsBodyObject10Params) UnmarshalJSON(data []byte) error {
 
 func init() {
 	apijson.RegisterFieldValidator[ActionRunParamsBodyObject10Params](
-		"blend_mode", "multiply", "screen", "overlay", "soft_light", "color",
+		"mode", "remove", "replace", "keep",
 	)
 }
 
@@ -1921,9 +1907,8 @@ type ActionRunParamsBodyObject11 struct {
 	WorkspaceID string `json:"workspace_id" api:"required"`
 	// Action parameters
 	Params ActionRunParamsBodyObject11Params `json:"params,omitzero"`
-	// This field can be elided, and will marshal its zero value as
-	// "filter-color-image".
-	ActionID constant.FilterColorImage `json:"action_id" default:"filter-color-image"`
+	// This field can be elided, and will marshal its zero value as "blur-image".
+	ActionID constant.BlurImage `json:"action_id" default:"blur-image"`
 	paramObj
 }
 
@@ -1966,20 +1951,41 @@ func init() {
 
 // Action parameters
 type ActionRunParamsBodyObject11Params struct {
-	// Invert Selection
-	Invert param.Opt[bool] `json:"invert,omitzero"`
-	// Replacement Color
-	ReplacementColor param.Opt[string] `json:"replacement_color,omitzero"`
-	// Edge Softness
-	Softness param.Opt[float64] `json:"softness,omitzero"`
+	// Motion Angle (°)
+	Angle param.Opt[float64] `json:"angle,omitzero"`
+	// Edge Preservation
+	EdgeThreshold param.Opt[float64] `json:"edge_threshold,omitzero"`
+	// Radial Strength
+	RadialStrength param.Opt[float64] `json:"radial_strength,omitzero"`
+	// Radius
+	Radius param.Opt[float64] `json:"radius,omitzero"`
 	// Target Color
 	TargetColor param.Opt[string] `json:"target_color,omitzero"`
-	// Tolerance
-	Tolerance param.Opt[float64] `json:"tolerance,omitzero"`
-	// Mode
+	// Invert Selection (blur non-matching)
+	TargetInvert param.Opt[bool] `json:"target_invert,omitzero"`
+	// Color Tolerance
+	TargetTolerance param.Opt[float64] `json:"target_tolerance,omitzero"`
+	// Sharp Band Center
+	TiltCenter param.Opt[float64] `json:"tilt_center,omitzero"`
+	// Sharp Band Width
+	TiltWidth param.Opt[float64] `json:"tilt_width,omitzero"`
+	// Blur Type
 	//
-	// Any of "remove", "replace", "keep".
-	Mode string `json:"mode,omitzero"`
+	// Any of "gaussian", "box", "motion", "radial", "bilateral", "bokeh", "tiltshift",
+	// "targetcolor".
+	BlurType string `json:"blur_type,omitzero"`
+	// Bokeh Shape
+	//
+	// Any of "circle", "hexagon", "pentagon".
+	BokehShape string `json:"bokeh_shape,omitzero"`
+	// Radial Mode
+	//
+	// Any of "zoom", "spin".
+	RadialMode string `json:"radial_mode,omitzero"`
+	// Band Orientation
+	//
+	// Any of "horizontal", "vertical".
+	TiltOrientation string `json:"tilt_orientation,omitzero"`
 	paramObj
 }
 
@@ -1993,7 +1999,16 @@ func (r *ActionRunParamsBodyObject11Params) UnmarshalJSON(data []byte) error {
 
 func init() {
 	apijson.RegisterFieldValidator[ActionRunParamsBodyObject11Params](
-		"mode", "remove", "replace", "keep",
+		"blur_type", "gaussian", "box", "motion", "radial", "bilateral", "bokeh", "tiltshift", "targetcolor",
+	)
+	apijson.RegisterFieldValidator[ActionRunParamsBodyObject11Params](
+		"bokeh_shape", "circle", "hexagon", "pentagon",
+	)
+	apijson.RegisterFieldValidator[ActionRunParamsBodyObject11Params](
+		"radial_mode", "zoom", "spin",
+	)
+	apijson.RegisterFieldValidator[ActionRunParamsBodyObject11Params](
+		"tilt_orientation", "horizontal", "vertical",
 	)
 }
 
@@ -2011,8 +2026,8 @@ type ActionRunParamsBodyObject12 struct {
 	WorkspaceID string `json:"workspace_id" api:"required"`
 	// Action parameters
 	Params ActionRunParamsBodyObject12Params `json:"params,omitzero"`
-	// This field can be elided, and will marshal its zero value as "blur-image".
-	ActionID constant.BlurImage `json:"action_id" default:"blur-image"`
+	// This field can be elided, and will marshal its zero value as "duplicate-image".
+	ActionID constant.DuplicateImage `json:"action_id" default:"duplicate-image"`
 	paramObj
 }
 
@@ -2055,41 +2070,8 @@ func init() {
 
 // Action parameters
 type ActionRunParamsBodyObject12Params struct {
-	// Motion Angle (°)
-	Angle param.Opt[float64] `json:"angle,omitzero"`
-	// Edge Preservation
-	EdgeThreshold param.Opt[float64] `json:"edge_threshold,omitzero"`
-	// Radial Strength
-	RadialStrength param.Opt[float64] `json:"radial_strength,omitzero"`
-	// Radius
-	Radius param.Opt[float64] `json:"radius,omitzero"`
-	// Target Color
-	TargetColor param.Opt[string] `json:"target_color,omitzero"`
-	// Invert Selection (blur non-matching)
-	TargetInvert param.Opt[bool] `json:"target_invert,omitzero"`
-	// Color Tolerance
-	TargetTolerance param.Opt[float64] `json:"target_tolerance,omitzero"`
-	// Sharp Band Center
-	TiltCenter param.Opt[float64] `json:"tilt_center,omitzero"`
-	// Sharp Band Width
-	TiltWidth param.Opt[float64] `json:"tilt_width,omitzero"`
-	// Blur Type
-	//
-	// Any of "gaussian", "box", "motion", "radial", "bilateral", "bokeh", "tiltshift",
-	// "targetcolor".
-	BlurType string `json:"blur_type,omitzero"`
-	// Bokeh Shape
-	//
-	// Any of "circle", "hexagon", "pentagon".
-	BokehShape string `json:"bokeh_shape,omitzero"`
-	// Radial Mode
-	//
-	// Any of "zoom", "spin".
-	RadialMode string `json:"radial_mode,omitzero"`
-	// Band Orientation
-	//
-	// Any of "horizontal", "vertical".
-	TiltOrientation string `json:"tilt_orientation,omitzero"`
+	// Copies
+	Count param.Opt[float64] `json:"count,omitzero"`
 	paramObj
 }
 
@@ -2099,21 +2081,6 @@ func (r ActionRunParamsBodyObject12Params) MarshalJSON() (data []byte, err error
 }
 func (r *ActionRunParamsBodyObject12Params) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
-}
-
-func init() {
-	apijson.RegisterFieldValidator[ActionRunParamsBodyObject12Params](
-		"blur_type", "gaussian", "box", "motion", "radial", "bilateral", "bokeh", "tiltshift", "targetcolor",
-	)
-	apijson.RegisterFieldValidator[ActionRunParamsBodyObject12Params](
-		"bokeh_shape", "circle", "hexagon", "pentagon",
-	)
-	apijson.RegisterFieldValidator[ActionRunParamsBodyObject12Params](
-		"radial_mode", "zoom", "spin",
-	)
-	apijson.RegisterFieldValidator[ActionRunParamsBodyObject12Params](
-		"tilt_orientation", "horizontal", "vertical",
-	)
 }
 
 // The properties ActionID, Inputs, ProjectID, WorkspaceID are required.
@@ -2130,8 +2097,9 @@ type ActionRunParamsBodyObject13 struct {
 	WorkspaceID string `json:"workspace_id" api:"required"`
 	// Action parameters
 	Params ActionRunParamsBodyObject13Params `json:"params,omitzero"`
-	// This field can be elided, and will marshal its zero value as "duplicate-image".
-	ActionID constant.DuplicateImage `json:"action_id" default:"duplicate-image"`
+	// This field can be elided, and will marshal its zero value as
+	// "side-by-side-composite".
+	ActionID constant.SideBySideComposite `json:"action_id" default:"side-by-side-composite"`
 	paramObj
 }
 
@@ -2174,8 +2142,19 @@ func init() {
 
 // Action parameters
 type ActionRunParamsBodyObject13Params struct {
-	// Copies
-	Count param.Opt[float64] `json:"count,omitzero"`
+	// Background
+	Background param.Opt[string] `json:"background,omitzero"`
+	// Gap (px)
+	Gap param.Opt[float64] `json:"gap,omitzero"`
+	// Layout
+	//
+	// Any of "auto", "horizontal-2", "horizontal-3", "vertical-2", "vertical-3",
+	// "grid-2x2".
+	Layout string `json:"layout,omitzero"`
+	// Size Match
+	//
+	// Any of "match-shortest", "match-largest", "pad-to-largest".
+	Normalize string `json:"normalize,omitzero"`
 	paramObj
 }
 
@@ -2185,6 +2164,15 @@ func (r ActionRunParamsBodyObject13Params) MarshalJSON() (data []byte, err error
 }
 func (r *ActionRunParamsBodyObject13Params) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[ActionRunParamsBodyObject13Params](
+		"layout", "auto", "horizontal-2", "horizontal-3", "vertical-2", "vertical-3", "grid-2x2",
+	)
+	apijson.RegisterFieldValidator[ActionRunParamsBodyObject13Params](
+		"normalize", "match-shortest", "match-largest", "pad-to-largest",
+	)
 }
 
 // The properties ActionID, Inputs, ProjectID, WorkspaceID are required.
@@ -2202,8 +2190,8 @@ type ActionRunParamsBodyObject14 struct {
 	// Action parameters
 	Params ActionRunParamsBodyObject14Params `json:"params,omitzero"`
 	// This field can be elided, and will marshal its zero value as
-	// "side-by-side-composite".
-	ActionID constant.SideBySideComposite `json:"action_id" default:"side-by-side-composite"`
+	// "add-shape-to-image".
+	ActionID constant.AddShapeToImage `json:"action_id" default:"add-shape-to-image"`
 	paramObj
 }
 
@@ -2246,19 +2234,24 @@ func init() {
 
 // Action parameters
 type ActionRunParamsBodyObject14Params struct {
-	// Background
-	Background param.Opt[string] `json:"background,omitzero"`
-	// Gap (px)
-	Gap param.Opt[float64] `json:"gap,omitzero"`
-	// Layout
+	// Fill Color
+	FillColor param.Opt[string] `json:"fill_color,omitzero"`
+	// Fill Opacity
+	FillOpacity param.Opt[float64] `json:"fill_opacity,omitzero"`
+	// Rotation (deg)
+	Rotation param.Opt[float64] `json:"rotation,omitzero"`
+	// Stroke Color
+	StrokeColor param.Opt[string] `json:"stroke_color,omitzero"`
+	// Stroke Width (px)
+	StrokeWidth param.Opt[float64] `json:"stroke_width,omitzero"`
+	// Center
+	Center ActionRunParamsBodyObject14ParamsCenter `json:"center,omitzero"`
+	// Shape
 	//
-	// Any of "auto", "horizontal-2", "horizontal-3", "vertical-2", "vertical-3",
-	// "grid-2x2".
-	Layout string `json:"layout,omitzero"`
-	// Size Match
-	//
-	// Any of "match-shortest", "match-largest", "pad-to-largest".
-	Normalize string `json:"normalize,omitzero"`
+	// Any of "rectangle", "ellipse", "triangle", "star", "hexagon".
+	Shape string `json:"shape,omitzero"`
+	// Size
+	Size ActionRunParamsBodyObject14ParamsSize `json:"size,omitzero"`
 	paramObj
 }
 
@@ -2272,11 +2265,42 @@ func (r *ActionRunParamsBodyObject14Params) UnmarshalJSON(data []byte) error {
 
 func init() {
 	apijson.RegisterFieldValidator[ActionRunParamsBodyObject14Params](
-		"layout", "auto", "horizontal-2", "horizontal-3", "vertical-2", "vertical-3", "grid-2x2",
+		"shape", "rectangle", "ellipse", "triangle", "star", "hexagon",
 	)
-	apijson.RegisterFieldValidator[ActionRunParamsBodyObject14Params](
-		"normalize", "match-shortest", "match-largest", "pad-to-largest",
-	)
+}
+
+// Center
+//
+// The properties X, Y are required.
+type ActionRunParamsBodyObject14ParamsCenter struct {
+	X float64 `json:"x" api:"required"`
+	Y float64 `json:"y" api:"required"`
+	paramObj
+}
+
+func (r ActionRunParamsBodyObject14ParamsCenter) MarshalJSON() (data []byte, err error) {
+	type shadow ActionRunParamsBodyObject14ParamsCenter
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *ActionRunParamsBodyObject14ParamsCenter) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Size
+//
+// The properties X, Y are required.
+type ActionRunParamsBodyObject14ParamsSize struct {
+	X float64 `json:"x" api:"required"`
+	Y float64 `json:"y" api:"required"`
+	paramObj
+}
+
+func (r ActionRunParamsBodyObject14ParamsSize) MarshalJSON() (data []byte, err error) {
+	type shadow ActionRunParamsBodyObject14ParamsSize
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *ActionRunParamsBodyObject14ParamsSize) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
 }
 
 // The properties ActionID, Inputs, ProjectID, WorkspaceID are required.
@@ -2294,8 +2318,8 @@ type ActionRunParamsBodyObject15 struct {
 	// Action parameters
 	Params ActionRunParamsBodyObject15Params `json:"params,omitzero"`
 	// This field can be elided, and will marshal its zero value as
-	// "add-shape-to-image".
-	ActionID constant.AddShapeToImage `json:"action_id" default:"add-shape-to-image"`
+	// "generate-shape-image".
+	ActionID constant.GenerateShapeImage `json:"action_id" default:"generate-shape-image"`
 	paramObj
 }
 
@@ -2338,16 +2362,22 @@ func init() {
 
 // Action parameters
 type ActionRunParamsBodyObject15Params struct {
+	// Background
+	Background param.Opt[string] `json:"background,omitzero"`
 	// Fill Color
 	FillColor param.Opt[string] `json:"fill_color,omitzero"`
 	// Fill Opacity
 	FillOpacity param.Opt[float64] `json:"fill_opacity,omitzero"`
+	// Height (px)
+	Height param.Opt[float64] `json:"height,omitzero"`
 	// Rotation (deg)
 	Rotation param.Opt[float64] `json:"rotation,omitzero"`
 	// Stroke Color
 	StrokeColor param.Opt[string] `json:"stroke_color,omitzero"`
 	// Stroke Width (px)
 	StrokeWidth param.Opt[float64] `json:"stroke_width,omitzero"`
+	// Width (px)
+	Width param.Opt[float64] `json:"width,omitzero"`
 	// Center
 	Center ActionRunParamsBodyObject15ParamsCenter `json:"center,omitzero"`
 	// Shape
@@ -2422,8 +2452,8 @@ type ActionRunParamsBodyObject16 struct {
 	// Action parameters
 	Params ActionRunParamsBodyObject16Params `json:"params,omitzero"`
 	// This field can be elided, and will marshal its zero value as
-	// "generate-shape-image".
-	ActionID constant.GenerateShapeImage `json:"action_id" default:"generate-shape-image"`
+	// "add-text-to-image".
+	ActionID constant.AddTextToImage `json:"action_id" default:"add-text-to-image"`
 	paramObj
 }
 
@@ -2466,30 +2496,28 @@ func init() {
 
 // Action parameters
 type ActionRunParamsBodyObject16Params struct {
-	// Background
-	Background param.Opt[string] `json:"background,omitzero"`
-	// Fill Color
-	FillColor param.Opt[string] `json:"fill_color,omitzero"`
-	// Fill Opacity
-	FillOpacity param.Opt[float64] `json:"fill_opacity,omitzero"`
-	// Height (px)
-	Height param.Opt[float64] `json:"height,omitzero"`
-	// Rotation (deg)
-	Rotation param.Opt[float64] `json:"rotation,omitzero"`
-	// Stroke Color
-	StrokeColor param.Opt[string] `json:"stroke_color,omitzero"`
-	// Stroke Width (px)
-	StrokeWidth param.Opt[float64] `json:"stroke_width,omitzero"`
-	// Width (px)
-	Width param.Opt[float64] `json:"width,omitzero"`
-	// Center
-	Center ActionRunParamsBodyObject16ParamsCenter `json:"center,omitzero"`
-	// Shape
+	// Text Color
+	Color param.Opt[string] `json:"color,omitzero"`
+	// Font Size (px)
+	FontSize param.Opt[float64] `json:"font_size,omitzero"`
+	// Margin (px)
+	Margin param.Opt[float64] `json:"margin,omitzero"`
+	// Opacity
+	Opacity param.Opt[float64] `json:"opacity,omitzero"`
+	// Shadow
+	Shadow param.Opt[bool] `json:"shadow,omitzero"`
+	// Text
+	Text param.Opt[string] `json:"text,omitzero"`
+	// Font
 	//
-	// Any of "rectangle", "ellipse", "triangle", "star", "hexagon".
-	Shape string `json:"shape,omitzero"`
-	// Size
-	Size ActionRunParamsBodyObject16ParamsSize `json:"size,omitzero"`
+	// Any of "sans", "sans-bold", "sans-italic", "serif", "serif-bold", "mono",
+	// "mono-bold".
+	FontFamily string `json:"font_family,omitzero"`
+	// Position
+	//
+	// Any of "top-left", "top-center", "top-right", "middle-left", "center",
+	// "middle-right", "bottom-left", "bottom-center", "bottom-right".
+	Position string `json:"position,omitzero"`
 	paramObj
 }
 
@@ -2503,42 +2531,11 @@ func (r *ActionRunParamsBodyObject16Params) UnmarshalJSON(data []byte) error {
 
 func init() {
 	apijson.RegisterFieldValidator[ActionRunParamsBodyObject16Params](
-		"shape", "rectangle", "ellipse", "triangle", "star", "hexagon",
+		"font_family", "sans", "sans-bold", "sans-italic", "serif", "serif-bold", "mono", "mono-bold",
 	)
-}
-
-// Center
-//
-// The properties X, Y are required.
-type ActionRunParamsBodyObject16ParamsCenter struct {
-	X float64 `json:"x" api:"required"`
-	Y float64 `json:"y" api:"required"`
-	paramObj
-}
-
-func (r ActionRunParamsBodyObject16ParamsCenter) MarshalJSON() (data []byte, err error) {
-	type shadow ActionRunParamsBodyObject16ParamsCenter
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *ActionRunParamsBodyObject16ParamsCenter) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// Size
-//
-// The properties X, Y are required.
-type ActionRunParamsBodyObject16ParamsSize struct {
-	X float64 `json:"x" api:"required"`
-	Y float64 `json:"y" api:"required"`
-	paramObj
-}
-
-func (r ActionRunParamsBodyObject16ParamsSize) MarshalJSON() (data []byte, err error) {
-	type shadow ActionRunParamsBodyObject16ParamsSize
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *ActionRunParamsBodyObject16ParamsSize) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
+	apijson.RegisterFieldValidator[ActionRunParamsBodyObject16Params](
+		"position", "top-left", "top-center", "top-right", "middle-left", "center", "middle-right", "bottom-left", "bottom-center", "bottom-right",
+	)
 }
 
 // The properties ActionID, Inputs, ProjectID, WorkspaceID are required.
@@ -2556,8 +2553,8 @@ type ActionRunParamsBodyObject17 struct {
 	// Action parameters
 	Params ActionRunParamsBodyObject17Params `json:"params,omitzero"`
 	// This field can be elided, and will marshal its zero value as
-	// "add-text-to-image".
-	ActionID constant.AddTextToImage `json:"action_id" default:"add-text-to-image"`
+	// "generate-text-image".
+	ActionID constant.GenerateTextImage `json:"action_id" default:"generate-text-image"`
 	paramObj
 }
 
@@ -2600,28 +2597,25 @@ func init() {
 
 // Action parameters
 type ActionRunParamsBodyObject17Params struct {
+	// Background
+	Background param.Opt[string] `json:"background,omitzero"`
 	// Text Color
 	Color param.Opt[string] `json:"color,omitzero"`
 	// Font Size (px)
 	FontSize param.Opt[float64] `json:"font_size,omitzero"`
+	// Height (px)
+	Height param.Opt[float64] `json:"height,omitzero"`
 	// Margin (px)
 	Margin param.Opt[float64] `json:"margin,omitzero"`
-	// Opacity
-	Opacity param.Opt[float64] `json:"opacity,omitzero"`
-	// Shadow
-	Shadow param.Opt[bool] `json:"shadow,omitzero"`
 	// Text
 	Text param.Opt[string] `json:"text,omitzero"`
+	// Width (px)
+	Width param.Opt[float64] `json:"width,omitzero"`
 	// Font
 	//
 	// Any of "sans", "sans-bold", "sans-italic", "serif", "serif-bold", "mono",
 	// "mono-bold".
 	FontFamily string `json:"font_family,omitzero"`
-	// Position
-	//
-	// Any of "top-left", "top-center", "top-right", "middle-left", "center",
-	// "middle-right", "bottom-left", "bottom-center", "bottom-right".
-	Position string `json:"position,omitzero"`
 	paramObj
 }
 
@@ -2636,9 +2630,6 @@ func (r *ActionRunParamsBodyObject17Params) UnmarshalJSON(data []byte) error {
 func init() {
 	apijson.RegisterFieldValidator[ActionRunParamsBodyObject17Params](
 		"font_family", "sans", "sans-bold", "sans-italic", "serif", "serif-bold", "mono", "mono-bold",
-	)
-	apijson.RegisterFieldValidator[ActionRunParamsBodyObject17Params](
-		"position", "top-left", "top-center", "top-right", "middle-left", "center", "middle-right", "bottom-left", "bottom-center", "bottom-right",
 	)
 }
 
@@ -2657,8 +2648,8 @@ type ActionRunParamsBodyObject18 struct {
 	// Action parameters
 	Params ActionRunParamsBodyObject18Params `json:"params,omitzero"`
 	// This field can be elided, and will marshal its zero value as
-	// "generate-text-image".
-	ActionID constant.GenerateTextImage `json:"action_id" default:"generate-text-image"`
+	// "qr-code-generator".
+	ActionID constant.QrCodeGenerator `json:"action_id" default:"qr-code-generator"`
 	paramObj
 }
 
@@ -2701,25 +2692,18 @@ func init() {
 
 // Action parameters
 type ActionRunParamsBodyObject18Params struct {
-	// Background
-	Background param.Opt[string] `json:"background,omitzero"`
-	// Text Color
-	Color param.Opt[string] `json:"color,omitzero"`
-	// Font Size (px)
-	FontSize param.Opt[float64] `json:"font_size,omitzero"`
-	// Height (px)
-	Height param.Opt[float64] `json:"height,omitzero"`
-	// Margin (px)
-	Margin param.Opt[float64] `json:"margin,omitzero"`
-	// Text
-	Text param.Opt[string] `json:"text,omitzero"`
-	// Width (px)
-	Width param.Opt[float64] `json:"width,omitzero"`
-	// Font
+	// Background Color
+	BgColor param.Opt[string] `json:"bg_color,omitzero"`
+	// Quiet-Zone Border (modules)
+	Border param.Opt[float64] `json:"border,omitzero"`
+	// Foreground Color
+	FgColor param.Opt[string] `json:"fg_color,omitzero"`
+	// Size (px)
+	Size param.Opt[float64] `json:"size,omitzero"`
+	// Error Correction
 	//
-	// Any of "sans", "sans-bold", "sans-italic", "serif", "serif-bold", "mono",
-	// "mono-bold".
-	FontFamily string `json:"font_family,omitzero"`
+	// Any of "L", "M", "Q", "H".
+	ErrorCorrection string `json:"error_correction,omitzero"`
 	paramObj
 }
 
@@ -2733,7 +2717,7 @@ func (r *ActionRunParamsBodyObject18Params) UnmarshalJSON(data []byte) error {
 
 func init() {
 	apijson.RegisterFieldValidator[ActionRunParamsBodyObject18Params](
-		"font_family", "sans", "sans-bold", "sans-italic", "serif", "serif-bold", "mono", "mono-bold",
+		"error_correction", "L", "M", "Q", "H",
 	)
 }
 
@@ -2751,9 +2735,8 @@ type ActionRunParamsBodyObject19 struct {
 	WorkspaceID string `json:"workspace_id" api:"required"`
 	// Action parameters
 	Params ActionRunParamsBodyObject19Params `json:"params,omitzero"`
-	// This field can be elided, and will marshal its zero value as
-	// "qr-code-generator".
-	ActionID constant.QrCodeGenerator `json:"action_id" default:"qr-code-generator"`
+	// This field can be elided, and will marshal its zero value as "ken-burns-video".
+	ActionID constant.KenBurnsVideo `json:"action_id" default:"ken-burns-video"`
 	paramObj
 }
 
@@ -2796,18 +2779,26 @@ func init() {
 
 // Action parameters
 type ActionRunParamsBodyObject19Params struct {
-	// Background Color
-	BgColor param.Opt[string] `json:"bg_color,omitzero"`
-	// Quiet-Zone Border (modules)
-	Border param.Opt[float64] `json:"border,omitzero"`
-	// Foreground Color
-	FgColor param.Opt[string] `json:"fg_color,omitzero"`
-	// Size (px)
-	Size param.Opt[float64] `json:"size,omitzero"`
-	// Error Correction
+	// Duration (s)
+	Duration param.Opt[float64] `json:"duration,omitzero"`
+	// Zoom Level
+	Zoom param.Opt[float64] `json:"zoom,omitzero"`
+	// Easing
 	//
-	// Any of "L", "M", "Q", "H".
-	ErrorCorrection string `json:"error_correction,omitzero"`
+	// Any of "linear", "ease-in", "ease-out", "ease-in-out".
+	Easing string `json:"easing,omitzero"`
+	// FPS
+	//
+	// Any of "24", "30", "60".
+	Fps string `json:"fps,omitzero"`
+	// Pan
+	//
+	// Any of "none", "left", "right", "up", "down".
+	PanDirection string `json:"pan_direction,omitzero"`
+	// Zoom Direction
+	//
+	// Any of "none", "in", "out".
+	ZoomDirection string `json:"zoom_direction,omitzero"`
 	paramObj
 }
 
@@ -2821,7 +2812,16 @@ func (r *ActionRunParamsBodyObject19Params) UnmarshalJSON(data []byte) error {
 
 func init() {
 	apijson.RegisterFieldValidator[ActionRunParamsBodyObject19Params](
-		"error_correction", "L", "M", "Q", "H",
+		"easing", "linear", "ease-in", "ease-out", "ease-in-out",
+	)
+	apijson.RegisterFieldValidator[ActionRunParamsBodyObject19Params](
+		"fps", "24", "30", "60",
+	)
+	apijson.RegisterFieldValidator[ActionRunParamsBodyObject19Params](
+		"pan_direction", "none", "left", "right", "up", "down",
+	)
+	apijson.RegisterFieldValidator[ActionRunParamsBodyObject19Params](
+		"zoom_direction", "none", "in", "out",
 	)
 }
 

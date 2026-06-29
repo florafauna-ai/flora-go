@@ -69,17 +69,17 @@ func (r *ProjectActionService) Run(ctx context.Context, nodeID string, body Proj
 type ProjectActionNewResponse struct {
 	// Action identifier
 	//
-	// Any of "split-text", "find-and-replace-text", "concat-text", "ken-burns-video",
+	// Any of "split-text", "find-and-replace-text", "concat-text",
 	// "color-grade-image", "change-image-ar", "rotate-image", "flip-image",
 	// "color-filter-image", "color-tint-image", "filter-color-image", "blur-image",
 	// "duplicate-image", "side-by-side-composite", "add-shape-to-image",
 	// "generate-shape-image", "add-text-to-image", "generate-text-image",
-	// "qr-code-generator", "stitch-videos", "split-video", "extract-video-frames",
-	// "color-grade-video", "video-to-frame-grid", "boomerang-video", "reverse-video",
-	// "video-to-long-exposure", "video-effect", "color-filter-video",
-	// "speed-up-video", "slow-down-video", "duplicate-video", "greenscreen-video",
-	// "resize-video", "change-video-ar", "split-audio-from-video",
-	// "merge-audio-into-video".
+	// "qr-code-generator", "ken-burns-video", "stitch-videos", "split-video",
+	// "extract-video-frames", "color-grade-video", "video-to-frame-grid",
+	// "boomerang-video", "reverse-video", "video-to-long-exposure", "video-effect",
+	// "color-filter-video", "speed-up-video", "slow-down-video", "duplicate-video",
+	// "greenscreen-video", "resize-video", "change-video-ar",
+	// "split-audio-from-video", "merge-audio-into-video".
 	ActionID ProjectActionNewResponseActionID `json:"action_id" api:"required"`
 	// Project canvas URL
 	CanvasURL string `json:"canvas_url" api:"required" format:"uri"`
@@ -111,7 +111,6 @@ const (
 	ProjectActionNewResponseActionIDSplitText           ProjectActionNewResponseActionID = "split-text"
 	ProjectActionNewResponseActionIDFindAndReplaceText  ProjectActionNewResponseActionID = "find-and-replace-text"
 	ProjectActionNewResponseActionIDConcatText          ProjectActionNewResponseActionID = "concat-text"
-	ProjectActionNewResponseActionIDKenBurnsVideo       ProjectActionNewResponseActionID = "ken-burns-video"
 	ProjectActionNewResponseActionIDColorGradeImage     ProjectActionNewResponseActionID = "color-grade-image"
 	ProjectActionNewResponseActionIDChangeImageAr       ProjectActionNewResponseActionID = "change-image-ar"
 	ProjectActionNewResponseActionIDRotateImage         ProjectActionNewResponseActionID = "rotate-image"
@@ -127,6 +126,7 @@ const (
 	ProjectActionNewResponseActionIDAddTextToImage      ProjectActionNewResponseActionID = "add-text-to-image"
 	ProjectActionNewResponseActionIDGenerateTextImage   ProjectActionNewResponseActionID = "generate-text-image"
 	ProjectActionNewResponseActionIDQrCodeGenerator     ProjectActionNewResponseActionID = "qr-code-generator"
+	ProjectActionNewResponseActionIDKenBurnsVideo       ProjectActionNewResponseActionID = "ken-burns-video"
 	ProjectActionNewResponseActionIDStitchVideos        ProjectActionNewResponseActionID = "stitch-videos"
 	ProjectActionNewResponseActionIDSplitVideo          ProjectActionNewResponseActionID = "split-video"
 	ProjectActionNewResponseActionIDExtractVideoFrames  ProjectActionNewResponseActionID = "extract-video-frames"
@@ -198,17 +198,17 @@ const (
 type ProjectActionRunResponseAction struct {
 	// Action identifier
 	//
-	// Any of "split-text", "find-and-replace-text", "concat-text", "ken-burns-video",
+	// Any of "split-text", "find-and-replace-text", "concat-text",
 	// "color-grade-image", "change-image-ar", "rotate-image", "flip-image",
 	// "color-filter-image", "color-tint-image", "filter-color-image", "blur-image",
 	// "duplicate-image", "side-by-side-composite", "add-shape-to-image",
 	// "generate-shape-image", "add-text-to-image", "generate-text-image",
-	// "qr-code-generator", "stitch-videos", "split-video", "extract-video-frames",
-	// "color-grade-video", "video-to-frame-grid", "boomerang-video", "reverse-video",
-	// "video-to-long-exposure", "video-effect", "color-filter-video",
-	// "speed-up-video", "slow-down-video", "duplicate-video", "greenscreen-video",
-	// "resize-video", "change-video-ar", "split-audio-from-video",
-	// "merge-audio-into-video".
+	// "qr-code-generator", "ken-burns-video", "stitch-videos", "split-video",
+	// "extract-video-frames", "color-grade-video", "video-to-frame-grid",
+	// "boomerang-video", "reverse-video", "video-to-long-exposure", "video-effect",
+	// "color-filter-video", "speed-up-video", "slow-down-video", "duplicate-video",
+	// "greenscreen-video", "resize-video", "change-video-ar",
+	// "split-audio-from-video", "merge-audio-into-video".
 	ActionID string `json:"action_id" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -264,17 +264,17 @@ func (r *ProjectActionRunResponseTechnique) UnmarshalJSON(data []byte) error {
 type ProjectActionNewParams struct {
 	// Action identifier
 	//
-	// Any of "split-text", "find-and-replace-text", "concat-text", "ken-burns-video",
+	// Any of "split-text", "find-and-replace-text", "concat-text",
 	// "color-grade-image", "change-image-ar", "rotate-image", "flip-image",
 	// "color-filter-image", "color-tint-image", "filter-color-image", "blur-image",
 	// "duplicate-image", "side-by-side-composite", "add-shape-to-image",
 	// "generate-shape-image", "add-text-to-image", "generate-text-image",
-	// "qr-code-generator", "stitch-videos", "split-video", "extract-video-frames",
-	// "color-grade-video", "video-to-frame-grid", "boomerang-video", "reverse-video",
-	// "video-to-long-exposure", "video-effect", "color-filter-video",
-	// "speed-up-video", "slow-down-video", "duplicate-video", "greenscreen-video",
-	// "resize-video", "change-video-ar", "split-audio-from-video",
-	// "merge-audio-into-video".
+	// "qr-code-generator", "ken-burns-video", "stitch-videos", "split-video",
+	// "extract-video-frames", "color-grade-video", "video-to-frame-grid",
+	// "boomerang-video", "reverse-video", "video-to-long-exposure", "video-effect",
+	// "color-filter-video", "speed-up-video", "slow-down-video", "duplicate-video",
+	// "greenscreen-video", "resize-video", "change-video-ar",
+	// "split-audio-from-video", "merge-audio-into-video".
 	ActionID ProjectActionNewParamsActionID `json:"action_id,omitzero" api:"required"`
 	// Action parameters (snake_case keys). The accepted keys depend on action_id; see
 	// GET /actions/{actionId} or POST /runs/action for the per-action schema.
@@ -297,7 +297,6 @@ const (
 	ProjectActionNewParamsActionIDSplitText           ProjectActionNewParamsActionID = "split-text"
 	ProjectActionNewParamsActionIDFindAndReplaceText  ProjectActionNewParamsActionID = "find-and-replace-text"
 	ProjectActionNewParamsActionIDConcatText          ProjectActionNewParamsActionID = "concat-text"
-	ProjectActionNewParamsActionIDKenBurnsVideo       ProjectActionNewParamsActionID = "ken-burns-video"
 	ProjectActionNewParamsActionIDColorGradeImage     ProjectActionNewParamsActionID = "color-grade-image"
 	ProjectActionNewParamsActionIDChangeImageAr       ProjectActionNewParamsActionID = "change-image-ar"
 	ProjectActionNewParamsActionIDRotateImage         ProjectActionNewParamsActionID = "rotate-image"
@@ -313,6 +312,7 @@ const (
 	ProjectActionNewParamsActionIDAddTextToImage      ProjectActionNewParamsActionID = "add-text-to-image"
 	ProjectActionNewParamsActionIDGenerateTextImage   ProjectActionNewParamsActionID = "generate-text-image"
 	ProjectActionNewParamsActionIDQrCodeGenerator     ProjectActionNewParamsActionID = "qr-code-generator"
+	ProjectActionNewParamsActionIDKenBurnsVideo       ProjectActionNewParamsActionID = "ken-burns-video"
 	ProjectActionNewParamsActionIDStitchVideos        ProjectActionNewParamsActionID = "stitch-videos"
 	ProjectActionNewParamsActionIDSplitVideo          ProjectActionNewParamsActionID = "split-video"
 	ProjectActionNewParamsActionIDExtractVideoFrames  ProjectActionNewParamsActionID = "extract-video-frames"
