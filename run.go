@@ -113,17 +113,21 @@ const (
 type RunStartGenerationResponseAction struct {
 	// Action identifier
 	//
-	// Any of "split-text", "find-and-replace-text", "concat-text",
-	// "color-grade-image", "change-image-ar", "rotate-image", "flip-image",
-	// "color-filter-image", "color-tint-image", "filter-color-image", "blur-image",
-	// "duplicate-image", "side-by-side-composite", "add-shape-to-image",
-	// "generate-shape-image", "add-text-to-image", "generate-text-image",
-	// "qr-code-generator", "ken-burns-video", "stitch-videos", "split-video",
-	// "extract-video-frames", "color-grade-video", "video-to-frame-grid",
-	// "boomerang-video", "reverse-video", "video-to-long-exposure", "video-effect",
-	// "color-filter-video", "speed-up-video", "slow-down-video", "duplicate-video",
-	// "greenscreen-video", "resize-video", "change-video-ar",
-	// "split-audio-from-video", "merge-audio-into-video".
+	// Any of "color-grade-image-browser", "overlay-image-browser",
+	// "draw-image-browser", "crop-image-browser", "scene-3d-image-browser",
+	// "blur-image-browser", "change-image-ar-browser", "rotate-image-browser",
+	// "color-filter-image-browser", "color-tint-image-browser",
+	// "filter-color-image-browser", "duplicate-image-browser",
+	// "side-by-side-composite-browser", "add-shape-to-image-browser",
+	// "add-text-to-image-browser", "qr-code-generator-browser",
+	// "resize-image-browser", "shader-effect-browser", "split-text-browser",
+	// "find-and-replace-text-browser", "concat-text-browser", "ken-burns-video",
+	// "stitch-videos", "split-video", "extract-video-frames", "color-grade-video",
+	// "video-to-frame-grid", "boomerang-video", "reverse-video",
+	// "video-to-long-exposure", "video-effect", "color-filter-video",
+	// "speed-up-video", "slow-down-video", "duplicate-video", "greenscreen-video",
+	// "resize-video", "change-video-ar", "split-audio-from-video",
+	// "merge-audio-into-video".
 	ActionID string `json:"action_id" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -227,17 +231,21 @@ const (
 type RunStartTechniqueResponseAction struct {
 	// Action identifier
 	//
-	// Any of "split-text", "find-and-replace-text", "concat-text",
-	// "color-grade-image", "change-image-ar", "rotate-image", "flip-image",
-	// "color-filter-image", "color-tint-image", "filter-color-image", "blur-image",
-	// "duplicate-image", "side-by-side-composite", "add-shape-to-image",
-	// "generate-shape-image", "add-text-to-image", "generate-text-image",
-	// "qr-code-generator", "ken-burns-video", "stitch-videos", "split-video",
-	// "extract-video-frames", "color-grade-video", "video-to-frame-grid",
-	// "boomerang-video", "reverse-video", "video-to-long-exposure", "video-effect",
-	// "color-filter-video", "speed-up-video", "slow-down-video", "duplicate-video",
-	// "greenscreen-video", "resize-video", "change-video-ar",
-	// "split-audio-from-video", "merge-audio-into-video".
+	// Any of "color-grade-image-browser", "overlay-image-browser",
+	// "draw-image-browser", "crop-image-browser", "scene-3d-image-browser",
+	// "blur-image-browser", "change-image-ar-browser", "rotate-image-browser",
+	// "color-filter-image-browser", "color-tint-image-browser",
+	// "filter-color-image-browser", "duplicate-image-browser",
+	// "side-by-side-composite-browser", "add-shape-to-image-browser",
+	// "add-text-to-image-browser", "qr-code-generator-browser",
+	// "resize-image-browser", "shader-effect-browser", "split-text-browser",
+	// "find-and-replace-text-browser", "concat-text-browser", "ken-burns-video",
+	// "stitch-videos", "split-video", "extract-video-frames", "color-grade-video",
+	// "video-to-frame-grid", "boomerang-video", "reverse-video",
+	// "video-to-long-exposure", "video-effect", "color-filter-video",
+	// "speed-up-video", "slow-down-video", "duplicate-video", "greenscreen-video",
+	// "resize-video", "change-video-ar", "split-audio-from-video",
+	// "merge-audio-into-video".
 	ActionID string `json:"action_id" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {

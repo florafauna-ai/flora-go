@@ -26,7 +26,7 @@ func TestActionGet(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Actions.Get(context.TODO(), flora.ActionGetParamsActionIDSplitText)
+	_, err := client.Actions.Get(context.TODO(), flora.ActionGetParamsActionIDColorGradeImageBrowser)
 	if err != nil {
 		var apierr *flora.Error
 		if errors.As(err, &apierr) {
@@ -83,13 +83,16 @@ func TestActionRunWithOptionalParams(t *testing.T) {
 			ProjectID:   "prj_abc123",
 			WorkspaceID: "ws_abc123",
 			Params: flora.ActionRunParamsBodyObjectParams{
-				CharsPerPart: flora.Float(1),
-				LinesPerPart: flora.Float(1),
-				MaxParts:     flora.Float(1),
-				Separator:    flora.String("separator"),
-				SkipEmpty:    flora.Bool(true),
-				SplitMode:    "separator",
-				TrimParts:    flora.Bool(true),
+				Advanced:   flora.Bool(true),
+				Brightness: flora.Float(0.5),
+				Contrast:   flora.Float(0.5),
+				Highlights: flora.Float(-1),
+				HueShift:   flora.Float(-180),
+				Saturation: flora.Float(0),
+				Shadows:    flora.Float(-1),
+				ShowScope:  flora.Bool(true),
+				Tint:       flora.Float(-1),
+				Warmth:     flora.Float(-0.5),
 			},
 		},
 	})
