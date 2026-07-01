@@ -31,6 +31,7 @@ func TestRunStartGenerationWithOptionalParams(t *testing.T) {
 		Prompt:      "A cinematic product photo of a ceramic mug on a sunlit table",
 		Type:        flora.RunStartGenerationParamsTypeImage,
 		WorkspaceID: "ws_abc123",
+		CallbackURL: flora.String("https://example.com"),
 		Model:       flora.String("t2i-flux-2-pro"),
 		Params: map[string]any{
 			"foo": "bar",

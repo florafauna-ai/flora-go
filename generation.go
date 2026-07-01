@@ -408,6 +408,13 @@ type GenerationNewParams struct {
 	// Workspace identifier. Use the public API ID returned by list workspaces; it must
 	// start with ws\_.
 	WorkspaceID string `json:"workspace_id" api:"required"`
+	// HTTPS URL that receives a signed POST webhook when the run reaches a terminal
+	// state (events run.completed / run.failed). The JSON body is HMAC-SHA256 signed
+	// via the Flora-Signature header and delivery is retried up to 3 times with
+	// exponential backoff. Must be HTTPS and must not resolve to a private/internal
+	// host. See docs/system-overviews/webhooks.md for the payload schema and
+	// verification example.
+	CallbackURL param.Opt[string] `json:"callback_url,omitzero" format:"uri"`
 	// Model endpoint ID, not a display name. Use list_models (or GET /models) to find
 	// accessible endpoint IDs for the requested type.
 	Model param.Opt[string] `json:"model,omitzero"`
