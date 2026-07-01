@@ -369,7 +369,12 @@ type TechniqueRunNewParams struct {
 	//
 	// Any of "async", "stream".
 	Mode TechniqueRunNewParamsMode `json:"mode,omitzero" api:"required"`
-	// HTTPS callback URL for asynchronous run completion notifications
+	// HTTPS URL that receives a signed POST webhook when the run reaches a terminal
+	// state (events run.completed / run.failed). The JSON body is HMAC-SHA256 signed
+	// via the Flora-Signature header and delivery is retried up to 3 times with
+	// exponential backoff. Must be HTTPS and must not resolve to a private/internal
+	// host. See docs/system-overviews/webhooks.md for the payload schema and
+	// verification example.
 	CallbackURL param.Opt[string] `json:"callback_url,omitzero" format:"uri"`
 	// Idempotency key for safely retrying requests
 	IdempotencyKey param.Opt[string] `json:"idempotency_key,omitzero"`
