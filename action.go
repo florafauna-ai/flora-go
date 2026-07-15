@@ -36,20 +36,20 @@ func NewActionService(opts ...option.RequestOption) (r ActionService) {
 	return
 }
 
-// Returns metadata for one released prebuilt Flora action. Action identifiers are
-// raw slugs such as rotate-image, not action-prefixed IDs.
-func (r *ActionService) Get(ctx context.Context, actionID ActionGetParamsActionID, opts ...option.RequestOption) (res *ActionGetResponse, err error) {
-	opts = slices.Concat(r.options, opts)
-	path := fmt.Sprintf("actions/%v", actionID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return res, err
-}
-
 // Returns released prebuilt Flora actions that can be executed by the public API.
 // Action identifiers are raw slugs such as rotate-image, not action-prefixed IDs.
 func (r *ActionService) List(ctx context.Context, opts ...option.RequestOption) (res *ActionListResponse, err error) {
 	opts = slices.Concat(r.options, opts)
 	path := "actions"
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return res, err
+}
+
+// Returns metadata for one released prebuilt Flora action. Action identifiers are
+// raw slugs such as rotate-image, not action-prefixed IDs.
+func (r *ActionService) Get(ctx context.Context, actionID ActionGetParamsActionID, opts ...option.RequestOption) (res *ActionGetResponse, err error) {
+	opts = slices.Concat(r.options, opts)
+	path := fmt.Sprintf("actions/%v", actionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return res, err
 }
@@ -1395,6 +1395,8 @@ func init() {
 
 // Action parameters
 type ActionRunParamsBodyObject4Params struct {
+	// Lock ratio
+	LockAspect param.Opt[bool] `json:"lock_aspect,omitzero"`
 	// Rotation (deg)
 	Rotation param.Opt[float64] `json:"rotation,omitzero"`
 	// Center
