@@ -62,16 +62,31 @@ func (r *AssetService) New(ctx context.Context, body AssetNewParams, opts ...opt
 	return res, err
 }
 
-// Returns metadata for one asset when it is accessible to the authenticated public
-// API key. Missing and inaccessible assets both return 404.
-func (r *AssetService) Get(ctx context.Context, assetID string, opts ...option.RequestOption) (res *AssetGetResponse, err error) {
+// Marks a signed asset upload as complete after the file has been uploaded.
+// Mutating public API requests support an optional Idempotency-Key header for
+// client retries; duplicate keys within two hours return idempotency_duplicate.
+func (r *AssetService) Complete(ctx context.Context, assetID string, opts ...option.RequestOption) (res *AssetCompleteResponse, err error) {
 	opts = slices.Concat(r.options, opts)
 	if assetID == "" {
 		err = errors.New("missing required assetId parameter")
 		return nil, err
 	}
-	path := fmt.Sprintf("assets/%s", url.PathEscape(assetID))
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	path := fmt.Sprintf("assets/%s/complete", url.PathEscape(assetID))
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	return res, err
+}
+
+// Creates a fresh signed upload reservation for a failed or expired asset upload.
+// Mutating public API requests support an optional Idempotency-Key header for
+// client retries; duplicate keys within two hours return idempotency_duplicate.
+func (r *AssetService) Retry(ctx context.Context, assetID string, opts ...option.RequestOption) (res *AssetRetryResponse, err error) {
+	opts = slices.Concat(r.options, opts)
+	if assetID == "" {
+		err = errors.New("missing required assetId parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("assets/%s/retry", url.PathEscape(assetID))
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return res, err
 }
 
@@ -102,31 +117,16 @@ func (r *AssetService) ListAutoPaging(ctx context.Context, query AssetListParams
 	return pagination.NewAssetsCursorPageAutoPager(r.List(ctx, query, opts...))
 }
 
-// Marks a signed asset upload as complete after the file has been uploaded.
-// Mutating public API requests support an optional Idempotency-Key header for
-// client retries; duplicate keys within two hours return idempotency_duplicate.
-func (r *AssetService) Complete(ctx context.Context, assetID string, opts ...option.RequestOption) (res *AssetCompleteResponse, err error) {
+// Returns metadata for one asset when it is accessible to the authenticated public
+// API key. Missing and inaccessible assets both return 404.
+func (r *AssetService) Get(ctx context.Context, assetID string, opts ...option.RequestOption) (res *AssetGetResponse, err error) {
 	opts = slices.Concat(r.options, opts)
 	if assetID == "" {
 		err = errors.New("missing required assetId parameter")
 		return nil, err
 	}
-	path := fmt.Sprintf("assets/%s/complete", url.PathEscape(assetID))
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
-	return res, err
-}
-
-// Creates a fresh signed upload reservation for a failed or expired asset upload.
-// Mutating public API requests support an optional Idempotency-Key header for
-// client retries; duplicate keys within two hours return idempotency_duplicate.
-func (r *AssetService) Retry(ctx context.Context, assetID string, opts ...option.RequestOption) (res *AssetRetryResponse, err error) {
-	opts = slices.Concat(r.options, opts)
-	if assetID == "" {
-		err = errors.New("missing required assetId parameter")
-		return nil, err
-	}
-	path := fmt.Sprintf("assets/%s/retry", url.PathEscape(assetID))
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	path := fmt.Sprintf("assets/%s", url.PathEscape(assetID))
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return res, err
 }
 
