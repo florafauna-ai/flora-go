@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.2.0 (2026-07-18)
+
+Full Changelog: [v0.1.0...v0.2.0](https://github.com/florafauna-ai/flora-go/compare/v0.1.0...v0.2.0)
+
+### Features
+
+* **api:** api update ([31d85a1](https://github.com/florafauna-ai/flora-go/commit/31d85a1960892aaf0eead5fd23ae99ddb416e48e))
+* bump openapi ([cd042c3](https://github.com/florafauna-ai/flora-go/commit/cd042c3c1ebf9098b09b622ec2e445fe7af00920))
+* Expose generations.retrieve(run_id) in the SDK (ENG-5104) ([e579c7a](https://github.com/florafauna-ai/flora-go/commit/e579c7ac6c0783c9a3c7bb16ddfc8a8076972078))
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([3347327](https://github.com/florafauna-ai/flora-go/commit/3347327401e3264008d8845616a6b78bdd56e2e6))
+
+
+### Chores
+
+* **config:** hide deprecated /runs/* from docs, keep generating in SDKs ([2b0311d](https://github.com/florafauna-ai/flora-go/commit/2b0311d03ec9d06d38a73344da5a8138bb229eb6))
+
 ## 0.1.0 (2026-05-19)
 
 Full Changelog: [v0.0.1...v0.1.0](https://github.com/florafauna-ai/flora-go/compare/v0.0.1...v0.1.0)
