@@ -16,11 +16,13 @@ Response Types:
 
 - <a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#TechniqueRunNewResponse">TechniqueRunNewResponse</a>
 - <a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#TechniqueRunGetResponse">TechniqueRunGetResponse</a>
+- <a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#TechniqueRunListResponse">TechniqueRunListResponse</a>
 
 Methods:
 
 - <code title="post /techniques/{techniqueId}/runs">client.Techniques.Runs.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#TechniqueRunService.New">New</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, techniqueID <a href="https://pkg.go.dev/builtin#string">string</a>, body <a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#TechniqueRunNewParams">TechniqueRunNewParams</a>) (\*<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#TechniqueRunNewResponse">TechniqueRunNewResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 - <code title="get /techniques/{techniqueId}/runs/{runId}">client.Techniques.Runs.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#TechniqueRunService.Get">Get</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, runID <a href="https://pkg.go.dev/builtin#string">string</a>, query <a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#TechniqueRunGetParams">TechniqueRunGetParams</a>) (\*<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#TechniqueRunGetResponse">TechniqueRunGetResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+- <code title="get /technique-runs">client.Techniques.Runs.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#TechniqueRunService.List">List</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, query <a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#TechniqueRunListParams">TechniqueRunListParams</a>) (\*<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go/packages/pagination">pagination</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go/packages/pagination#TechniqueRunsCursorPage">TechniqueRunsCursorPage</a>[<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#TechniqueRunListResponse">TechniqueRunListResponse</a>], <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 
 # Assets
 
@@ -110,24 +112,16 @@ Methods:
 
 - <code title="get /models">client.Models.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#ModelService.List">List</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, query <a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#ModelListParams">ModelListParams</a>) (\*<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#ModelListResponse">ModelListResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 
-# Runs
-
-Response Types:
-
-- <a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#RunStartGenerationResponse">RunStartGenerationResponse</a>
-- <a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#RunStartTechniqueResponse">RunStartTechniqueResponse</a>
-
-Methods:
-
-- <code title="post /runs/generation">client.Runs.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#RunService.StartGeneration">StartGeneration</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, body <a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#RunStartGenerationParams">RunStartGenerationParams</a>) (\*<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#RunStartGenerationResponse">RunStartGenerationResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
-- <code title="post /runs/technique">client.Runs.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#RunService.StartTechnique">StartTechnique</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, body <a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#RunStartTechniqueParams">RunStartTechniqueParams</a>) (\*<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#RunStartTechniqueResponse">RunStartTechniqueResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
-
 # Generations
 
 Response Types:
 
 - <a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#GenerationNewResponse">GenerationNewResponse</a>
+- <a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#GenerationGetResponse">GenerationGetResponse</a>
+- <a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#GenerationListResponse">GenerationListResponse</a>
 
 Methods:
 
 - <code title="post /generate">client.Generations.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#GenerationService.New">New</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, body <a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#GenerationNewParams">GenerationNewParams</a>) (\*<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#GenerationNewResponse">GenerationNewResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+- <code title="get /runs/{runId}">client.Generations.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#GenerationService.Get">Get</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, runID <a href="https://pkg.go.dev/builtin#string">string</a>) (\*<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#GenerationGetResponse">GenerationGetResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+- <code title="get /generations">client.Generations.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#GenerationService.List">List</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, query <a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#GenerationListParams">GenerationListParams</a>) (\*<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go/packages/pagination">pagination</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go/packages/pagination#GenerationsCursorPage">GenerationsCursorPage</a>[<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go">flora</a>.<a href="https://pkg.go.dev/github.com/florafauna-ai/flora-go#GenerationListResponse">GenerationListResponse</a>], <a href="https://pkg.go.dev/builtin#error">error</a>)</code>

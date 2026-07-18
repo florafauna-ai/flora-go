@@ -28,8 +28,7 @@ type Client struct {
 	// Model catalog endpoints.
 	Models ModelService
 	// Top-level run creation endpoints.
-	Runs RunService
-	// Generation endpoints.
+	Runs        RunService
 	Generations GenerationService
 }
 

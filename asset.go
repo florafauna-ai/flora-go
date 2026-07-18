@@ -42,7 +42,8 @@ func NewAssetService(opts ...option.RequestOption) (r AssetService) {
 	return
 }
 
-// Creates an asset from an allowlisted source URL or reserves a signed upload URL.
+// Creates an asset from a source string. Pass source="signed-url" to reserve a
+// direct upload URL, or pass an allowlisted HTTPS URL for server-side fetch.
 // Mutating public API requests support an optional Idempotency-Key header for
 // client retries; duplicate keys within two hours return idempotency_duplicate.
 func (r *AssetService) New(ctx context.Context, body AssetNewParams, opts ...option.RequestOption) (res *AssetNewResponse, err error) {
@@ -225,7 +226,7 @@ type AssetGetResponse struct {
 	// Asset source
 	UploadedVia string `json:"uploaded_via" api:"required"`
 	// Asset URL
-	URL   string `json:"url" api:"required" format:"uri"`
+	URL   string `json:"url" api:"required"`
 	Width int64  `json:"width" api:"required"`
 	// Workspace identifier
 	WorkspaceID string `json:"workspace_id" api:"required"`
@@ -283,7 +284,7 @@ type AssetListResponse struct {
 	// Asset source
 	UploadedVia string `json:"uploaded_via" api:"required"`
 	// Asset URL
-	URL   string `json:"url" api:"required" format:"uri"`
+	URL   string `json:"url" api:"required"`
 	Width int64  `json:"width" api:"required"`
 	// Workspace identifier
 	WorkspaceID string `json:"workspace_id" api:"required"`
@@ -474,9 +475,11 @@ func (r *AssetRetryResponseUpload) UnmarshalJSON(data []byte) error {
 }
 
 type AssetNewParams struct {
-	// Asset source URL or signed-url upload mode
+	// Asset source as a string: either "signed-url" to reserve a direct upload URL, or
+	// an allowlisted HTTPS URL for server-side fetch.
 	Source string `json:"source" api:"required"`
-	// Workspace identifier
+	// Workspace identifier. Use the public API ID returned by list workspaces; it must
+	// start with ws\_.
 	WorkspaceID string `json:"workspace_id" api:"required"`
 	// Asset content type
 	ContentType param.Opt[string] `json:"content_type,omitzero"`
