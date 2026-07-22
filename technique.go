@@ -122,6 +122,8 @@ type TechniqueGetResponseInput struct {
 	Type string `json:"type" api:"required"`
 	// When true, fill this input by passing an element id as the input value
 	AcceptsElement bool `json:"accepts_element"`
+	// When true, multiple values may be provided for this input (one run per value)
+	AllowMultiple bool `json:"allow_multiple"`
 	// Technique input or output description
 	Description string `json:"description"`
 	// When true, this input may be omitted when running the technique
@@ -136,6 +138,7 @@ type TechniqueGetResponseInput struct {
 		Name                 respjson.Field
 		Type                 respjson.Field
 		AcceptsElement       respjson.Field
+		AllowMultiple        respjson.Field
 		Description          respjson.Field
 		Optional             respjson.Field
 		SpecifiedAspectRatio respjson.Field
@@ -162,6 +165,8 @@ type TechniqueGetResponseOutput struct {
 	Type string `json:"type" api:"required"`
 	// When true, fill this input by passing an element id as the input value
 	AcceptsElement bool `json:"accepts_element"`
+	// When true, multiple values may be provided for this input (one run per value)
+	AllowMultiple bool `json:"allow_multiple"`
 	// Technique input or output description
 	Description string `json:"description"`
 	// When true, this input may be omitted when running the technique
@@ -176,6 +181,7 @@ type TechniqueGetResponseOutput struct {
 		Name                 respjson.Field
 		Type                 respjson.Field
 		AcceptsElement       respjson.Field
+		AllowMultiple        respjson.Field
 		Description          respjson.Field
 		Optional             respjson.Field
 		SpecifiedAspectRatio respjson.Field
@@ -232,6 +238,8 @@ type TechniqueListResponseInput struct {
 	Type string `json:"type" api:"required"`
 	// When true, fill this input by passing an element id as the input value
 	AcceptsElement bool `json:"accepts_element"`
+	// When true, multiple values may be provided for this input (one run per value)
+	AllowMultiple bool `json:"allow_multiple"`
 	// Technique input or output description
 	Description string `json:"description"`
 	// When true, this input may be omitted when running the technique
@@ -246,6 +254,7 @@ type TechniqueListResponseInput struct {
 		Name                 respjson.Field
 		Type                 respjson.Field
 		AcceptsElement       respjson.Field
+		AllowMultiple        respjson.Field
 		Description          respjson.Field
 		Optional             respjson.Field
 		SpecifiedAspectRatio respjson.Field
@@ -272,6 +281,8 @@ type TechniqueListResponseOutput struct {
 	Type string `json:"type" api:"required"`
 	// When true, fill this input by passing an element id as the input value
 	AcceptsElement bool `json:"accepts_element"`
+	// When true, multiple values may be provided for this input (one run per value)
+	AllowMultiple bool `json:"allow_multiple"`
 	// Technique input or output description
 	Description string `json:"description"`
 	// When true, this input may be omitted when running the technique
@@ -286,6 +297,7 @@ type TechniqueListResponseOutput struct {
 		Name                 respjson.Field
 		Type                 respjson.Field
 		AcceptsElement       respjson.Field
+		AllowMultiple        respjson.Field
 		Description          respjson.Field
 		Optional             respjson.Field
 		SpecifiedAspectRatio respjson.Field
