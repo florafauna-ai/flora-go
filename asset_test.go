@@ -43,7 +43,7 @@ func TestAssetNewWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestAssetGet(t *testing.T) {
+func TestAssetComplete(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -56,7 +56,30 @@ func TestAssetGet(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Assets.Get(context.TODO(), "asset_abc123")
+	_, err := client.Assets.Complete(context.TODO(), "asset_abc123")
+	if err != nil {
+		var apierr *flora.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestAssetRetry(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := flora.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.Assets.Retry(context.TODO(), "asset_abc123")
 	if err != nil {
 		var apierr *flora.Error
 		if errors.As(err, &apierr) {
@@ -95,7 +118,7 @@ func TestAssetListWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestAssetComplete(t *testing.T) {
+func TestAssetGet(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -108,30 +131,7 @@ func TestAssetComplete(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Assets.Complete(context.TODO(), "asset_abc123")
-	if err != nil {
-		var apierr *flora.Error
-		if errors.As(err, &apierr) {
-			t.Log(string(apierr.DumpRequest(true)))
-		}
-		t.Fatalf("err should be nil: %s", err.Error())
-	}
-}
-
-func TestAssetRetry(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
-	baseURL := "http://localhost:4010"
-	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
-		baseURL = envURL
-	}
-	if !testutil.CheckTestServer(t, baseURL) {
-		return
-	}
-	client := flora.NewClient(
-		option.WithBaseURL(baseURL),
-		option.WithAPIKey("My API Key"),
-	)
-	_, err := client.Assets.Retry(context.TODO(), "asset_abc123")
+	_, err := client.Assets.Get(context.TODO(), "asset_abc123")
 	if err != nil {
 		var apierr *flora.Error
 		if errors.As(err, &apierr) {
