@@ -47,6 +47,29 @@ func NewProjectService(opts ...option.RequestOption) (r ProjectService) {
 	return
 }
 
+// Creates a new Flora project in the requested workspace. Mutating public API
+// requests support an optional Idempotency-Key header for client retries;
+// duplicate keys within two hours return idempotency_duplicate.
+func (r *ProjectService) New(ctx context.Context, body ProjectNewParams, opts ...option.RequestOption) (res *ProjectNewResponse, err error) {
+	opts = slices.Concat(r.options, opts)
+	path := "projects"
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return res, err
+}
+
+// Returns metadata for a single project when it is accessible to the authenticated
+// public API key. Missing and inaccessible projects both return 404.
+func (r *ProjectService) Get(ctx context.Context, projectID string, opts ...option.RequestOption) (res *ProjectGetResponse, err error) {
+	opts = slices.Concat(r.options, opts)
+	if projectID == "" {
+		err = errors.New("missing required projectId parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("projects/%s", url.PathEscape(projectID))
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return res, err
+}
+
 // Returns projects in the requested workspace that are accessible to the
 // authenticated public API key, ordered by recent activity.
 func (r *ProjectService) List(ctx context.Context, query ProjectListParams, opts ...option.RequestOption) (res *pagination.ProjectsCursorPage[ProjectListResponse], err error) {
@@ -70,29 +93,6 @@ func (r *ProjectService) List(ctx context.Context, query ProjectListParams, opts
 // authenticated public API key, ordered by recent activity.
 func (r *ProjectService) ListAutoPaging(ctx context.Context, query ProjectListParams, opts ...option.RequestOption) *pagination.ProjectsCursorPageAutoPager[ProjectListResponse] {
 	return pagination.NewProjectsCursorPageAutoPager(r.List(ctx, query, opts...))
-}
-
-// Creates a new Flora project in the requested workspace. Mutating public API
-// requests support an optional Idempotency-Key header for client retries;
-// duplicate keys within two hours return idempotency_duplicate.
-func (r *ProjectService) New(ctx context.Context, body ProjectNewParams, opts ...option.RequestOption) (res *ProjectNewResponse, err error) {
-	opts = slices.Concat(r.options, opts)
-	path := "projects"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return res, err
-}
-
-// Returns metadata for a single project when it is accessible to the authenticated
-// public API key. Missing and inaccessible projects both return 404.
-func (r *ProjectService) Get(ctx context.Context, projectID string, opts ...option.RequestOption) (res *ProjectGetResponse, err error) {
-	opts = slices.Concat(r.options, opts)
-	if projectID == "" {
-		err = errors.New("missing required projectId parameter")
-		return nil, err
-	}
-	path := fmt.Sprintf("projects/%s", url.PathEscape(projectID))
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return res, err
 }
 
 // Returns sanitized visible media nodes on a project canvas. The response omits
@@ -261,6 +261,22 @@ const (
 	ProjectListNodesResponseTypeText  ProjectListNodesResponseType = "text"
 )
 
+type ProjectNewParams struct {
+	// Project name
+	Name string `json:"name" api:"required"`
+	// Workspace identifier
+	WorkspaceID string `json:"workspace_id" api:"required"`
+	paramObj
+}
+
+func (r ProjectNewParams) MarshalJSON() (data []byte, err error) {
+	type shadow ProjectNewParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *ProjectNewParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type ProjectListParams struct {
 	// Workspace identifier
 	WorkspaceID string `query:"workspace_id" api:"required" json:"-"`
@@ -279,22 +295,6 @@ func (r ProjectListParams) URLQuery() (v url.Values, err error) {
 		ArrayFormat:  apiquery.ArrayQueryFormatComma,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
-}
-
-type ProjectNewParams struct {
-	// Project name
-	Name string `json:"name" api:"required"`
-	// Workspace identifier
-	WorkspaceID string `json:"workspace_id" api:"required"`
-	paramObj
-}
-
-func (r ProjectNewParams) MarshalJSON() (data []byte, err error) {
-	type shadow ProjectNewParams
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *ProjectNewParams) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
 }
 
 type ProjectListNodesParams struct {
