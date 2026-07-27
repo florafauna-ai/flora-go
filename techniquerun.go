@@ -55,6 +55,23 @@ func (r *TechniqueRunService) New(ctx context.Context, techniqueID string, body 
 	return res, err
 }
 
+// Returns status, progress, outputs, and error details for a technique run when it
+// is accessible to the authenticated public API key.
+func (r *TechniqueRunService) Get(ctx context.Context, runID string, query TechniqueRunGetParams, opts ...option.RequestOption) (res *TechniqueRunGetResponse, err error) {
+	opts = slices.Concat(r.options, opts)
+	if query.TechniqueID == "" {
+		err = errors.New("missing required techniqueId parameter")
+		return nil, err
+	}
+	if runID == "" {
+		err = errors.New("missing required runId parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("techniques/%s/runs/%s", url.PathEscape(query.TechniqueID), url.PathEscape(runID))
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return res, err
+}
+
 // Lists technique run history for the authenticated caller, including pending,
 // running, completed, and failed technique runs. Results are newest first and can
 // be filtered by workspace_id, project_id, technique_id, and status. Each item
@@ -84,23 +101,6 @@ func (r *TechniqueRunService) List(ctx context.Context, query TechniqueRunListPa
 // completed or failed run details and outputs.
 func (r *TechniqueRunService) ListAutoPaging(ctx context.Context, query TechniqueRunListParams, opts ...option.RequestOption) *pagination.TechniqueRunsCursorPageAutoPager[TechniqueRunListResponse] {
 	return pagination.NewTechniqueRunsCursorPageAutoPager(r.List(ctx, query, opts...))
-}
-
-// Returns status, progress, outputs, and error details for a technique run when it
-// is accessible to the authenticated public API key.
-func (r *TechniqueRunService) Get(ctx context.Context, runID string, query TechniqueRunGetParams, opts ...option.RequestOption) (res *TechniqueRunGetResponse, err error) {
-	opts = slices.Concat(r.options, opts)
-	if query.TechniqueID == "" {
-		err = errors.New("missing required techniqueId parameter")
-		return nil, err
-	}
-	if runID == "" {
-		err = errors.New("missing required runId parameter")
-		return nil, err
-	}
-	path := fmt.Sprintf("techniques/%s/runs/%s", url.PathEscape(query.TechniqueID), url.PathEscape(runID))
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return res, err
 }
 
 type TechniqueRunNewResponse struct {
@@ -424,6 +424,12 @@ const (
 	TechniqueRunNewParamsModeStream TechniqueRunNewParamsMode = "stream"
 )
 
+type TechniqueRunGetParams struct {
+	// Technique identifier or slug
+	TechniqueID string `path:"techniqueId" api:"required" json:"-"`
+	paramObj
+}
+
 type TechniqueRunListParams struct {
 	// Opaque cursor for fetching the next page
 	Cursor param.Opt[string] `query:"cursor,omitzero" json:"-"`
@@ -459,9 +465,3 @@ const (
 	TechniqueRunListParamsStatusCompleted TechniqueRunListParamsStatus = "completed"
 	TechniqueRunListParamsStatusFailed    TechniqueRunListParamsStatus = "failed"
 )
-
-type TechniqueRunGetParams struct {
-	// Technique identifier or slug
-	TechniqueID string `path:"techniqueId" api:"required" json:"-"`
-	paramObj
-}
