@@ -13,7 +13,7 @@ import (
 	"github.com/florafauna-ai/flora-go/option"
 )
 
-func TestProjectNewWithOptionalParams(t *testing.T) {
+func TestProjectNew(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -29,7 +29,6 @@ func TestProjectNewWithOptionalParams(t *testing.T) {
 	_, err := client.Projects.New(context.TODO(), flora.ProjectNewParams{
 		Name:        "Spring Campaign",
 		WorkspaceID: "ws_abc123",
-		FolderID:    flora.String("fld_abc123"),
 	})
 	if err != nil {
 		var apierr *flora.Error

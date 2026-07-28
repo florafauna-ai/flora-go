@@ -47,7 +47,9 @@ func NewProjectService(opts ...option.RequestOption) (r ProjectService) {
 	return
 }
 
-// Creates a new Flora project in the requested workspace. Mutating public API
+// Creates a new Flora project in the requested workspace. To file the project into
+// a project folder, use POST
+// /workspaces/{workspace_id}/folders/{folder_id}/projects. Mutating public API
 // requests support an optional Idempotency-Key header for client retries;
 // duplicate keys within two hours return idempotency_duplicate.
 func (r *ProjectService) New(ctx context.Context, body ProjectNewParams, opts ...option.RequestOption) (res *ProjectNewResponse, err error) {
@@ -266,9 +268,6 @@ type ProjectNewParams struct {
 	Name string `json:"name" api:"required"`
 	// Workspace identifier
 	WorkspaceID string `json:"workspace_id" api:"required"`
-	// Optional project folder to file the new project into. The folder must belong to
-	// the same workspace.
-	FolderID param.Opt[string] `json:"folder_id,omitzero"`
 	paramObj
 }
 
