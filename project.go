@@ -266,6 +266,9 @@ type ProjectNewParams struct {
 	Name string `json:"name" api:"required"`
 	// Workspace identifier
 	WorkspaceID string `json:"workspace_id" api:"required"`
+	// Optional project folder to file the new project into. The folder must belong to
+	// the same workspace.
+	FolderID param.Opt[string] `json:"folder_id,omitzero"`
 	paramObj
 }
 
