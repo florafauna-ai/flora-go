@@ -32,6 +32,7 @@ func TestAssetNewWithOptionalParams(t *testing.T) {
 		ContentType: flora.String("image/png"),
 		FileName:    flora.String("hero.png"),
 		Folder:      flora.String("campaign-assets"),
+		ProjectID:   flora.String("prj_abc123"),
 	})
 	if err != nil {
 		var apierr *flora.Error

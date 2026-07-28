@@ -13,7 +13,7 @@ import (
 	"github.com/florafauna-ai/flora-go/option"
 )
 
-func TestTechniqueRunNewWithOptionalParams(t *testing.T) {
+func TestActionGet(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -26,78 +26,75 @@ func TestTechniqueRunNewWithOptionalParams(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Techniques.Runs.New(
-		context.TODO(),
-		"art-directors-critique",
-		flora.TechniqueRunNewParams{
-			Inputs: []flora.TechniqueRunNewParamsInput{{
-				ID:    "id",
-				Type:  "text",
-				Value: "value",
+	_, err := client.Actions.Get(context.TODO(), flora.ActionGetParamsActionIDColorGradeImageBrowser)
+	if err != nil {
+		var apierr *flora.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestActionList(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := flora.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.Actions.List(context.TODO())
+	if err != nil {
+		var apierr *flora.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestActionRunWithOptionalParams(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := flora.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.Actions.Run(context.TODO(), flora.ActionRunParams{
+		OfObject: &flora.ActionRunParamsBodyObject{
+			Inputs: []flora.ActionRunParamsBodyObjectInput{{
+				Type: "image",
+				Name: flora.String("name"),
+				Text: flora.String("text"),
+				URL:  flora.String("https://example.com"),
 			}},
-			Mode:           flora.TechniqueRunNewParamsModeAsync,
-			CallbackURL:    flora.String("https://example.com"),
-			IdempotencyKey: flora.String("idempotency_key"),
+			ProjectID:   "prj_abc123",
+			WorkspaceID: "ws_abc123",
+			Params: flora.ActionRunParamsBodyObjectParams{
+				Advanced:   flora.Bool(true),
+				Brightness: flora.Float(0.5),
+				Contrast:   flora.Float(0.5),
+				Highlights: flora.Float(-1),
+				HueShift:   flora.Float(-180),
+				Saturation: flora.Float(0),
+				Shadows:    flora.Float(-1),
+				ShowScope:  flora.Bool(true),
+				Tint:       flora.Float(-1),
+				Warmth:     flora.Float(-0.5),
+			},
 		},
-	)
-	if err != nil {
-		var apierr *flora.Error
-		if errors.As(err, &apierr) {
-			t.Log(string(apierr.DumpRequest(true)))
-		}
-		t.Fatalf("err should be nil: %s", err.Error())
-	}
-}
-
-func TestTechniqueRunGet(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
-	baseURL := "http://localhost:4010"
-	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
-		baseURL = envURL
-	}
-	if !testutil.CheckTestServer(t, baseURL) {
-		return
-	}
-	client := flora.NewClient(
-		option.WithBaseURL(baseURL),
-		option.WithAPIKey("My API Key"),
-	)
-	_, err := client.Techniques.Runs.Get(
-		context.TODO(),
-		"run_abc123",
-		flora.TechniqueRunGetParams{
-			TechniqueID: "art-directors-critique",
-		},
-	)
-	if err != nil {
-		var apierr *flora.Error
-		if errors.As(err, &apierr) {
-			t.Log(string(apierr.DumpRequest(true)))
-		}
-		t.Fatalf("err should be nil: %s", err.Error())
-	}
-}
-
-func TestTechniqueRunListWithOptionalParams(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
-	baseURL := "http://localhost:4010"
-	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
-		baseURL = envURL
-	}
-	if !testutil.CheckTestServer(t, baseURL) {
-		return
-	}
-	client := flora.NewClient(
-		option.WithBaseURL(baseURL),
-		option.WithAPIKey("My API Key"),
-	)
-	_, err := client.Techniques.Runs.List(context.TODO(), flora.TechniqueRunListParams{
-		Cursor:      flora.String("eyJvZmZzZXQiOjIwfQ"),
-		Limit:       flora.Int(1),
-		ProjectID:   flora.String("prj_abc123"),
-		Status:      flora.TechniqueRunListParamsStatusPending,
-		TechniqueID: flora.String("tech_abcd1234"),
-		WorkspaceID: flora.String("ws_abc123"),
 	})
 	if err != nil {
 		var apierr *flora.Error

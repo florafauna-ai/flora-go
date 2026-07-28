@@ -69,13 +69,17 @@ func (r *ProjectActionService) Run(ctx context.Context, nodeID string, body Proj
 type ProjectActionNewResponse struct {
 	// Action identifier
 	//
-	// Any of "split-text", "find-and-replace-text", "concat-text", "ken-burns-video",
-	// "color-grade-image", "change-image-ar", "rotate-image", "flip-image",
-	// "color-filter-image", "color-tint-image", "filter-color-image", "blur-image",
-	// "duplicate-image", "side-by-side-composite", "add-shape-to-image",
-	// "generate-shape-image", "add-text-to-image", "generate-text-image",
-	// "qr-code-generator", "stitch-videos", "split-video", "extract-video-frames",
-	// "color-grade-video", "video-to-frame-grid", "boomerang-video", "reverse-video",
+	// Any of "color-grade-image-browser", "overlay-image-browser",
+	// "draw-image-browser", "crop-image-browser", "scene-3d-image-browser",
+	// "blur-image-browser", "change-image-ar-browser", "rotate-image-browser",
+	// "color-filter-image-browser", "color-tint-image-browser",
+	// "filter-color-image-browser", "duplicate-image-browser",
+	// "side-by-side-composite-browser", "add-shape-to-image-browser",
+	// "add-text-to-image-browser", "qr-code-generator-browser",
+	// "resize-image-browser", "shader-effect-browser", "split-text-browser",
+	// "find-and-replace-text-browser", "concat-text-browser", "ken-burns-video",
+	// "stitch-videos", "split-video", "extract-video-frames", "color-grade-video",
+	// "video-to-frame-grid", "boomerang-video", "reverse-video",
 	// "video-to-long-exposure", "video-effect", "color-filter-video",
 	// "speed-up-video", "slow-down-video", "duplicate-video", "greenscreen-video",
 	// "resize-video", "change-video-ar", "split-audio-from-video",
@@ -108,43 +112,46 @@ func (r *ProjectActionNewResponse) UnmarshalJSON(data []byte) error {
 type ProjectActionNewResponseActionID string
 
 const (
-	ProjectActionNewResponseActionIDSplitText           ProjectActionNewResponseActionID = "split-text"
-	ProjectActionNewResponseActionIDFindAndReplaceText  ProjectActionNewResponseActionID = "find-and-replace-text"
-	ProjectActionNewResponseActionIDConcatText          ProjectActionNewResponseActionID = "concat-text"
-	ProjectActionNewResponseActionIDKenBurnsVideo       ProjectActionNewResponseActionID = "ken-burns-video"
-	ProjectActionNewResponseActionIDColorGradeImage     ProjectActionNewResponseActionID = "color-grade-image"
-	ProjectActionNewResponseActionIDChangeImageAr       ProjectActionNewResponseActionID = "change-image-ar"
-	ProjectActionNewResponseActionIDRotateImage         ProjectActionNewResponseActionID = "rotate-image"
-	ProjectActionNewResponseActionIDFlipImage           ProjectActionNewResponseActionID = "flip-image"
-	ProjectActionNewResponseActionIDColorFilterImage    ProjectActionNewResponseActionID = "color-filter-image"
-	ProjectActionNewResponseActionIDColorTintImage      ProjectActionNewResponseActionID = "color-tint-image"
-	ProjectActionNewResponseActionIDFilterColorImage    ProjectActionNewResponseActionID = "filter-color-image"
-	ProjectActionNewResponseActionIDBlurImage           ProjectActionNewResponseActionID = "blur-image"
-	ProjectActionNewResponseActionIDDuplicateImage      ProjectActionNewResponseActionID = "duplicate-image"
-	ProjectActionNewResponseActionIDSideBySideComposite ProjectActionNewResponseActionID = "side-by-side-composite"
-	ProjectActionNewResponseActionIDAddShapeToImage     ProjectActionNewResponseActionID = "add-shape-to-image"
-	ProjectActionNewResponseActionIDGenerateShapeImage  ProjectActionNewResponseActionID = "generate-shape-image"
-	ProjectActionNewResponseActionIDAddTextToImage      ProjectActionNewResponseActionID = "add-text-to-image"
-	ProjectActionNewResponseActionIDGenerateTextImage   ProjectActionNewResponseActionID = "generate-text-image"
-	ProjectActionNewResponseActionIDQrCodeGenerator     ProjectActionNewResponseActionID = "qr-code-generator"
-	ProjectActionNewResponseActionIDStitchVideos        ProjectActionNewResponseActionID = "stitch-videos"
-	ProjectActionNewResponseActionIDSplitVideo          ProjectActionNewResponseActionID = "split-video"
-	ProjectActionNewResponseActionIDExtractVideoFrames  ProjectActionNewResponseActionID = "extract-video-frames"
-	ProjectActionNewResponseActionIDColorGradeVideo     ProjectActionNewResponseActionID = "color-grade-video"
-	ProjectActionNewResponseActionIDVideoToFrameGrid    ProjectActionNewResponseActionID = "video-to-frame-grid"
-	ProjectActionNewResponseActionIDBoomerangVideo      ProjectActionNewResponseActionID = "boomerang-video"
-	ProjectActionNewResponseActionIDReverseVideo        ProjectActionNewResponseActionID = "reverse-video"
-	ProjectActionNewResponseActionIDVideoToLongExposure ProjectActionNewResponseActionID = "video-to-long-exposure"
-	ProjectActionNewResponseActionIDVideoEffect         ProjectActionNewResponseActionID = "video-effect"
-	ProjectActionNewResponseActionIDColorFilterVideo    ProjectActionNewResponseActionID = "color-filter-video"
-	ProjectActionNewResponseActionIDSpeedUpVideo        ProjectActionNewResponseActionID = "speed-up-video"
-	ProjectActionNewResponseActionIDSlowDownVideo       ProjectActionNewResponseActionID = "slow-down-video"
-	ProjectActionNewResponseActionIDDuplicateVideo      ProjectActionNewResponseActionID = "duplicate-video"
-	ProjectActionNewResponseActionIDGreenscreenVideo    ProjectActionNewResponseActionID = "greenscreen-video"
-	ProjectActionNewResponseActionIDResizeVideo         ProjectActionNewResponseActionID = "resize-video"
-	ProjectActionNewResponseActionIDChangeVideoAr       ProjectActionNewResponseActionID = "change-video-ar"
-	ProjectActionNewResponseActionIDSplitAudioFromVideo ProjectActionNewResponseActionID = "split-audio-from-video"
-	ProjectActionNewResponseActionIDMergeAudioIntoVideo ProjectActionNewResponseActionID = "merge-audio-into-video"
+	ProjectActionNewResponseActionIDColorGradeImageBrowser     ProjectActionNewResponseActionID = "color-grade-image-browser"
+	ProjectActionNewResponseActionIDOverlayImageBrowser        ProjectActionNewResponseActionID = "overlay-image-browser"
+	ProjectActionNewResponseActionIDDrawImageBrowser           ProjectActionNewResponseActionID = "draw-image-browser"
+	ProjectActionNewResponseActionIDCropImageBrowser           ProjectActionNewResponseActionID = "crop-image-browser"
+	ProjectActionNewResponseActionIDScene3dImageBrowser        ProjectActionNewResponseActionID = "scene-3d-image-browser"
+	ProjectActionNewResponseActionIDBlurImageBrowser           ProjectActionNewResponseActionID = "blur-image-browser"
+	ProjectActionNewResponseActionIDChangeImageArBrowser       ProjectActionNewResponseActionID = "change-image-ar-browser"
+	ProjectActionNewResponseActionIDRotateImageBrowser         ProjectActionNewResponseActionID = "rotate-image-browser"
+	ProjectActionNewResponseActionIDColorFilterImageBrowser    ProjectActionNewResponseActionID = "color-filter-image-browser"
+	ProjectActionNewResponseActionIDColorTintImageBrowser      ProjectActionNewResponseActionID = "color-tint-image-browser"
+	ProjectActionNewResponseActionIDFilterColorImageBrowser    ProjectActionNewResponseActionID = "filter-color-image-browser"
+	ProjectActionNewResponseActionIDDuplicateImageBrowser      ProjectActionNewResponseActionID = "duplicate-image-browser"
+	ProjectActionNewResponseActionIDSideBySideCompositeBrowser ProjectActionNewResponseActionID = "side-by-side-composite-browser"
+	ProjectActionNewResponseActionIDAddShapeToImageBrowser     ProjectActionNewResponseActionID = "add-shape-to-image-browser"
+	ProjectActionNewResponseActionIDAddTextToImageBrowser      ProjectActionNewResponseActionID = "add-text-to-image-browser"
+	ProjectActionNewResponseActionIDQrCodeGeneratorBrowser     ProjectActionNewResponseActionID = "qr-code-generator-browser"
+	ProjectActionNewResponseActionIDResizeImageBrowser         ProjectActionNewResponseActionID = "resize-image-browser"
+	ProjectActionNewResponseActionIDShaderEffectBrowser        ProjectActionNewResponseActionID = "shader-effect-browser"
+	ProjectActionNewResponseActionIDSplitTextBrowser           ProjectActionNewResponseActionID = "split-text-browser"
+	ProjectActionNewResponseActionIDFindAndReplaceTextBrowser  ProjectActionNewResponseActionID = "find-and-replace-text-browser"
+	ProjectActionNewResponseActionIDConcatTextBrowser          ProjectActionNewResponseActionID = "concat-text-browser"
+	ProjectActionNewResponseActionIDKenBurnsVideo              ProjectActionNewResponseActionID = "ken-burns-video"
+	ProjectActionNewResponseActionIDStitchVideos               ProjectActionNewResponseActionID = "stitch-videos"
+	ProjectActionNewResponseActionIDSplitVideo                 ProjectActionNewResponseActionID = "split-video"
+	ProjectActionNewResponseActionIDExtractVideoFrames         ProjectActionNewResponseActionID = "extract-video-frames"
+	ProjectActionNewResponseActionIDColorGradeVideo            ProjectActionNewResponseActionID = "color-grade-video"
+	ProjectActionNewResponseActionIDVideoToFrameGrid           ProjectActionNewResponseActionID = "video-to-frame-grid"
+	ProjectActionNewResponseActionIDBoomerangVideo             ProjectActionNewResponseActionID = "boomerang-video"
+	ProjectActionNewResponseActionIDReverseVideo               ProjectActionNewResponseActionID = "reverse-video"
+	ProjectActionNewResponseActionIDVideoToLongExposure        ProjectActionNewResponseActionID = "video-to-long-exposure"
+	ProjectActionNewResponseActionIDVideoEffect                ProjectActionNewResponseActionID = "video-effect"
+	ProjectActionNewResponseActionIDColorFilterVideo           ProjectActionNewResponseActionID = "color-filter-video"
+	ProjectActionNewResponseActionIDSpeedUpVideo               ProjectActionNewResponseActionID = "speed-up-video"
+	ProjectActionNewResponseActionIDSlowDownVideo              ProjectActionNewResponseActionID = "slow-down-video"
+	ProjectActionNewResponseActionIDDuplicateVideo             ProjectActionNewResponseActionID = "duplicate-video"
+	ProjectActionNewResponseActionIDGreenscreenVideo           ProjectActionNewResponseActionID = "greenscreen-video"
+	ProjectActionNewResponseActionIDResizeVideo                ProjectActionNewResponseActionID = "resize-video"
+	ProjectActionNewResponseActionIDChangeVideoAr              ProjectActionNewResponseActionID = "change-video-ar"
+	ProjectActionNewResponseActionIDSplitAudioFromVideo        ProjectActionNewResponseActionID = "split-audio-from-video"
+	ProjectActionNewResponseActionIDMergeAudioIntoVideo        ProjectActionNewResponseActionID = "merge-audio-into-video"
 )
 
 type ProjectActionRunResponse struct {
@@ -156,10 +163,11 @@ type ProjectActionRunResponse struct {
 	// Run type
 	//
 	// Any of "generation", "technique", "action".
-	Type    ProjectActionRunResponseType   `json:"type" api:"required"`
-	Action  ProjectActionRunResponseAction `json:"action" api:"nullable"`
-	Model   ProjectActionRunResponseModel  `json:"model" api:"nullable"`
-	PollURL string                         `json:"poll_url" api:"nullable" format:"uri"`
+	Type   ProjectActionRunResponseType   `json:"type" api:"required"`
+	Action ProjectActionRunResponseAction `json:"action" api:"nullable"`
+	Model  ProjectActionRunResponseModel  `json:"model" api:"nullable"`
+	// URL to poll pending/running runs or fetch completed/failed run details.
+	PollURL string `json:"poll_url" api:"nullable" format:"uri"`
 	// Project identifier
 	ProjectID string                            `json:"project_id" api:"nullable"`
 	Technique ProjectActionRunResponseTechnique `json:"technique" api:"nullable"`
@@ -197,13 +205,17 @@ const (
 type ProjectActionRunResponseAction struct {
 	// Action identifier
 	//
-	// Any of "split-text", "find-and-replace-text", "concat-text", "ken-burns-video",
-	// "color-grade-image", "change-image-ar", "rotate-image", "flip-image",
-	// "color-filter-image", "color-tint-image", "filter-color-image", "blur-image",
-	// "duplicate-image", "side-by-side-composite", "add-shape-to-image",
-	// "generate-shape-image", "add-text-to-image", "generate-text-image",
-	// "qr-code-generator", "stitch-videos", "split-video", "extract-video-frames",
-	// "color-grade-video", "video-to-frame-grid", "boomerang-video", "reverse-video",
+	// Any of "color-grade-image-browser", "overlay-image-browser",
+	// "draw-image-browser", "crop-image-browser", "scene-3d-image-browser",
+	// "blur-image-browser", "change-image-ar-browser", "rotate-image-browser",
+	// "color-filter-image-browser", "color-tint-image-browser",
+	// "filter-color-image-browser", "duplicate-image-browser",
+	// "side-by-side-composite-browser", "add-shape-to-image-browser",
+	// "add-text-to-image-browser", "qr-code-generator-browser",
+	// "resize-image-browser", "shader-effect-browser", "split-text-browser",
+	// "find-and-replace-text-browser", "concat-text-browser", "ken-burns-video",
+	// "stitch-videos", "split-video", "extract-video-frames", "color-grade-video",
+	// "video-to-frame-grid", "boomerang-video", "reverse-video",
 	// "video-to-long-exposure", "video-effect", "color-filter-video",
 	// "speed-up-video", "slow-down-video", "duplicate-video", "greenscreen-video",
 	// "resize-video", "change-video-ar", "split-audio-from-video",
@@ -263,19 +275,24 @@ func (r *ProjectActionRunResponseTechnique) UnmarshalJSON(data []byte) error {
 type ProjectActionNewParams struct {
 	// Action identifier
 	//
-	// Any of "split-text", "find-and-replace-text", "concat-text", "ken-burns-video",
-	// "color-grade-image", "change-image-ar", "rotate-image", "flip-image",
-	// "color-filter-image", "color-tint-image", "filter-color-image", "blur-image",
-	// "duplicate-image", "side-by-side-composite", "add-shape-to-image",
-	// "generate-shape-image", "add-text-to-image", "generate-text-image",
-	// "qr-code-generator", "stitch-videos", "split-video", "extract-video-frames",
-	// "color-grade-video", "video-to-frame-grid", "boomerang-video", "reverse-video",
+	// Any of "color-grade-image-browser", "overlay-image-browser",
+	// "draw-image-browser", "crop-image-browser", "scene-3d-image-browser",
+	// "blur-image-browser", "change-image-ar-browser", "rotate-image-browser",
+	// "color-filter-image-browser", "color-tint-image-browser",
+	// "filter-color-image-browser", "duplicate-image-browser",
+	// "side-by-side-composite-browser", "add-shape-to-image-browser",
+	// "add-text-to-image-browser", "qr-code-generator-browser",
+	// "resize-image-browser", "shader-effect-browser", "split-text-browser",
+	// "find-and-replace-text-browser", "concat-text-browser", "ken-burns-video",
+	// "stitch-videos", "split-video", "extract-video-frames", "color-grade-video",
+	// "video-to-frame-grid", "boomerang-video", "reverse-video",
 	// "video-to-long-exposure", "video-effect", "color-filter-video",
 	// "speed-up-video", "slow-down-video", "duplicate-video", "greenscreen-video",
 	// "resize-video", "change-video-ar", "split-audio-from-video",
 	// "merge-audio-into-video".
 	ActionID ProjectActionNewParamsActionID `json:"action_id,omitzero" api:"required"`
-	// Action parameters
+	// Action parameters (snake_case keys). The accepted keys depend on action_id; see
+	// GET /actions/{actionId} or POST /runs/action for the per-action schema.
 	Params map[string]any `json:"params,omitzero"`
 	paramObj
 }
@@ -292,43 +309,46 @@ func (r *ProjectActionNewParams) UnmarshalJSON(data []byte) error {
 type ProjectActionNewParamsActionID string
 
 const (
-	ProjectActionNewParamsActionIDSplitText           ProjectActionNewParamsActionID = "split-text"
-	ProjectActionNewParamsActionIDFindAndReplaceText  ProjectActionNewParamsActionID = "find-and-replace-text"
-	ProjectActionNewParamsActionIDConcatText          ProjectActionNewParamsActionID = "concat-text"
-	ProjectActionNewParamsActionIDKenBurnsVideo       ProjectActionNewParamsActionID = "ken-burns-video"
-	ProjectActionNewParamsActionIDColorGradeImage     ProjectActionNewParamsActionID = "color-grade-image"
-	ProjectActionNewParamsActionIDChangeImageAr       ProjectActionNewParamsActionID = "change-image-ar"
-	ProjectActionNewParamsActionIDRotateImage         ProjectActionNewParamsActionID = "rotate-image"
-	ProjectActionNewParamsActionIDFlipImage           ProjectActionNewParamsActionID = "flip-image"
-	ProjectActionNewParamsActionIDColorFilterImage    ProjectActionNewParamsActionID = "color-filter-image"
-	ProjectActionNewParamsActionIDColorTintImage      ProjectActionNewParamsActionID = "color-tint-image"
-	ProjectActionNewParamsActionIDFilterColorImage    ProjectActionNewParamsActionID = "filter-color-image"
-	ProjectActionNewParamsActionIDBlurImage           ProjectActionNewParamsActionID = "blur-image"
-	ProjectActionNewParamsActionIDDuplicateImage      ProjectActionNewParamsActionID = "duplicate-image"
-	ProjectActionNewParamsActionIDSideBySideComposite ProjectActionNewParamsActionID = "side-by-side-composite"
-	ProjectActionNewParamsActionIDAddShapeToImage     ProjectActionNewParamsActionID = "add-shape-to-image"
-	ProjectActionNewParamsActionIDGenerateShapeImage  ProjectActionNewParamsActionID = "generate-shape-image"
-	ProjectActionNewParamsActionIDAddTextToImage      ProjectActionNewParamsActionID = "add-text-to-image"
-	ProjectActionNewParamsActionIDGenerateTextImage   ProjectActionNewParamsActionID = "generate-text-image"
-	ProjectActionNewParamsActionIDQrCodeGenerator     ProjectActionNewParamsActionID = "qr-code-generator"
-	ProjectActionNewParamsActionIDStitchVideos        ProjectActionNewParamsActionID = "stitch-videos"
-	ProjectActionNewParamsActionIDSplitVideo          ProjectActionNewParamsActionID = "split-video"
-	ProjectActionNewParamsActionIDExtractVideoFrames  ProjectActionNewParamsActionID = "extract-video-frames"
-	ProjectActionNewParamsActionIDColorGradeVideo     ProjectActionNewParamsActionID = "color-grade-video"
-	ProjectActionNewParamsActionIDVideoToFrameGrid    ProjectActionNewParamsActionID = "video-to-frame-grid"
-	ProjectActionNewParamsActionIDBoomerangVideo      ProjectActionNewParamsActionID = "boomerang-video"
-	ProjectActionNewParamsActionIDReverseVideo        ProjectActionNewParamsActionID = "reverse-video"
-	ProjectActionNewParamsActionIDVideoToLongExposure ProjectActionNewParamsActionID = "video-to-long-exposure"
-	ProjectActionNewParamsActionIDVideoEffect         ProjectActionNewParamsActionID = "video-effect"
-	ProjectActionNewParamsActionIDColorFilterVideo    ProjectActionNewParamsActionID = "color-filter-video"
-	ProjectActionNewParamsActionIDSpeedUpVideo        ProjectActionNewParamsActionID = "speed-up-video"
-	ProjectActionNewParamsActionIDSlowDownVideo       ProjectActionNewParamsActionID = "slow-down-video"
-	ProjectActionNewParamsActionIDDuplicateVideo      ProjectActionNewParamsActionID = "duplicate-video"
-	ProjectActionNewParamsActionIDGreenscreenVideo    ProjectActionNewParamsActionID = "greenscreen-video"
-	ProjectActionNewParamsActionIDResizeVideo         ProjectActionNewParamsActionID = "resize-video"
-	ProjectActionNewParamsActionIDChangeVideoAr       ProjectActionNewParamsActionID = "change-video-ar"
-	ProjectActionNewParamsActionIDSplitAudioFromVideo ProjectActionNewParamsActionID = "split-audio-from-video"
-	ProjectActionNewParamsActionIDMergeAudioIntoVideo ProjectActionNewParamsActionID = "merge-audio-into-video"
+	ProjectActionNewParamsActionIDColorGradeImageBrowser     ProjectActionNewParamsActionID = "color-grade-image-browser"
+	ProjectActionNewParamsActionIDOverlayImageBrowser        ProjectActionNewParamsActionID = "overlay-image-browser"
+	ProjectActionNewParamsActionIDDrawImageBrowser           ProjectActionNewParamsActionID = "draw-image-browser"
+	ProjectActionNewParamsActionIDCropImageBrowser           ProjectActionNewParamsActionID = "crop-image-browser"
+	ProjectActionNewParamsActionIDScene3dImageBrowser        ProjectActionNewParamsActionID = "scene-3d-image-browser"
+	ProjectActionNewParamsActionIDBlurImageBrowser           ProjectActionNewParamsActionID = "blur-image-browser"
+	ProjectActionNewParamsActionIDChangeImageArBrowser       ProjectActionNewParamsActionID = "change-image-ar-browser"
+	ProjectActionNewParamsActionIDRotateImageBrowser         ProjectActionNewParamsActionID = "rotate-image-browser"
+	ProjectActionNewParamsActionIDColorFilterImageBrowser    ProjectActionNewParamsActionID = "color-filter-image-browser"
+	ProjectActionNewParamsActionIDColorTintImageBrowser      ProjectActionNewParamsActionID = "color-tint-image-browser"
+	ProjectActionNewParamsActionIDFilterColorImageBrowser    ProjectActionNewParamsActionID = "filter-color-image-browser"
+	ProjectActionNewParamsActionIDDuplicateImageBrowser      ProjectActionNewParamsActionID = "duplicate-image-browser"
+	ProjectActionNewParamsActionIDSideBySideCompositeBrowser ProjectActionNewParamsActionID = "side-by-side-composite-browser"
+	ProjectActionNewParamsActionIDAddShapeToImageBrowser     ProjectActionNewParamsActionID = "add-shape-to-image-browser"
+	ProjectActionNewParamsActionIDAddTextToImageBrowser      ProjectActionNewParamsActionID = "add-text-to-image-browser"
+	ProjectActionNewParamsActionIDQrCodeGeneratorBrowser     ProjectActionNewParamsActionID = "qr-code-generator-browser"
+	ProjectActionNewParamsActionIDResizeImageBrowser         ProjectActionNewParamsActionID = "resize-image-browser"
+	ProjectActionNewParamsActionIDShaderEffectBrowser        ProjectActionNewParamsActionID = "shader-effect-browser"
+	ProjectActionNewParamsActionIDSplitTextBrowser           ProjectActionNewParamsActionID = "split-text-browser"
+	ProjectActionNewParamsActionIDFindAndReplaceTextBrowser  ProjectActionNewParamsActionID = "find-and-replace-text-browser"
+	ProjectActionNewParamsActionIDConcatTextBrowser          ProjectActionNewParamsActionID = "concat-text-browser"
+	ProjectActionNewParamsActionIDKenBurnsVideo              ProjectActionNewParamsActionID = "ken-burns-video"
+	ProjectActionNewParamsActionIDStitchVideos               ProjectActionNewParamsActionID = "stitch-videos"
+	ProjectActionNewParamsActionIDSplitVideo                 ProjectActionNewParamsActionID = "split-video"
+	ProjectActionNewParamsActionIDExtractVideoFrames         ProjectActionNewParamsActionID = "extract-video-frames"
+	ProjectActionNewParamsActionIDColorGradeVideo            ProjectActionNewParamsActionID = "color-grade-video"
+	ProjectActionNewParamsActionIDVideoToFrameGrid           ProjectActionNewParamsActionID = "video-to-frame-grid"
+	ProjectActionNewParamsActionIDBoomerangVideo             ProjectActionNewParamsActionID = "boomerang-video"
+	ProjectActionNewParamsActionIDReverseVideo               ProjectActionNewParamsActionID = "reverse-video"
+	ProjectActionNewParamsActionIDVideoToLongExposure        ProjectActionNewParamsActionID = "video-to-long-exposure"
+	ProjectActionNewParamsActionIDVideoEffect                ProjectActionNewParamsActionID = "video-effect"
+	ProjectActionNewParamsActionIDColorFilterVideo           ProjectActionNewParamsActionID = "color-filter-video"
+	ProjectActionNewParamsActionIDSpeedUpVideo               ProjectActionNewParamsActionID = "speed-up-video"
+	ProjectActionNewParamsActionIDSlowDownVideo              ProjectActionNewParamsActionID = "slow-down-video"
+	ProjectActionNewParamsActionIDDuplicateVideo             ProjectActionNewParamsActionID = "duplicate-video"
+	ProjectActionNewParamsActionIDGreenscreenVideo           ProjectActionNewParamsActionID = "greenscreen-video"
+	ProjectActionNewParamsActionIDResizeVideo                ProjectActionNewParamsActionID = "resize-video"
+	ProjectActionNewParamsActionIDChangeVideoAr              ProjectActionNewParamsActionID = "change-video-ar"
+	ProjectActionNewParamsActionIDSplitAudioFromVideo        ProjectActionNewParamsActionID = "split-audio-from-video"
+	ProjectActionNewParamsActionIDMergeAudioIntoVideo        ProjectActionNewParamsActionID = "merge-audio-into-video"
 )
 
 type ProjectActionRunParams struct {

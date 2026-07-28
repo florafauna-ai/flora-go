@@ -30,7 +30,7 @@ func TestProjectActionNewWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"prj_abc123",
 		flora.ProjectActionNewParams{
-			ActionID: flora.ProjectActionNewParamsActionIDSplitText,
+			ActionID: flora.ProjectActionNewParamsActionIDColorGradeImageBrowser,
 			Params: map[string]any{
 				"foo": "bar",
 			},

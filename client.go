@@ -25,11 +25,11 @@ type Client struct {
 	// Workspace discovery endpoints.
 	Workspaces WorkspaceService
 	Projects   ProjectService
+	Actions    ActionService
 	// Model catalog endpoints.
 	Models ModelService
 	// Top-level run creation endpoints.
-	Runs RunService
-	// Generation endpoints.
+	Runs        RunService
 	Generations GenerationService
 }
 
@@ -67,6 +67,7 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 	r.Assets = NewAssetService(opts...)
 	r.Workspaces = NewWorkspaceService(opts...)
 	r.Projects = NewProjectService(opts...)
+	r.Actions = NewActionService(opts...)
 	r.Models = NewModelService(opts...)
 	r.Runs = NewRunService(opts...)
 	r.Generations = NewGenerationService(opts...)

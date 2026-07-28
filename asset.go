@@ -42,9 +42,19 @@ func NewAssetService(opts ...option.RequestOption) (r AssetService) {
 	return
 }
 
-// Creates an asset from an allowlisted source URL or reserves a signed upload URL.
-// Mutating public API requests support an optional Idempotency-Key header for
-// client retries; duplicate keys within two hours return idempotency_duplicate.
+// Creates an asset via one of three paths. (1) Direct bytes: send
+// multipart/form-data with a `file` part (≤4 MB) plus `workspace_id` — FLORA
+// stores the bytes and returns a ready asset in one call. (2) Server-side fetch:
+// send JSON with `source` set to any public HTTPS URL (≤50 MB) — FLORA fetches the
+// bytes with SSRF protection (private/loopback/metadata IPs and redirects to them
+// are blocked) and stores them. (3) Signed upload: send JSON with
+// source="signed-url" to reserve a presigned upload URL for files larger than 4
+// MB; upload the bytes, then call the complete endpoint. Allowed types: images
+// (jpeg, png, webp, gif, avif, heic, heif), video (mp4, webm, quicktime), audio
+// (mpeg, wav, ogg), and pdf; images are capped at 150 MP. Pass `project_id` on any
+// path to also surface the asset on that project's canvas. Mutating public API
+// requests support an optional Idempotency-Key header for client retries;
+// duplicate keys within two hours return idempotency_duplicate.
 func (r *AssetService) New(ctx context.Context, body AssetNewParams, opts ...option.RequestOption) (res *AssetNewResponse, err error) {
 	opts = slices.Concat(r.options, opts)
 	path := "assets"
@@ -125,9 +135,10 @@ type AssetNewResponse struct {
 	AssetID string `json:"asset_id" api:"required"`
 	// Any of "pending_upload", "ready", "failed".
 	Status AssetNewResponseStatus `json:"status" api:"required"`
-	// Asset source
+	// Asset source: "url" (server-side fetch), "signed_url" (presigned upload
+	// reservation), or "direct" (multipart bytes streamed in this request).
 	//
-	// Any of "url", "signed_url".
+	// Any of "url", "signed_url", "direct".
 	UploadedVia AssetNewResponseUploadedVia `json:"uploaded_via" api:"required"`
 	// Asset URL
 	URL        string             `json:"url" api:"required" format:"uri"`
@@ -169,12 +180,14 @@ const (
 	AssetNewResponseStatusFailed        AssetNewResponseStatus = "failed"
 )
 
-// Asset source
+// Asset source: "url" (server-side fetch), "signed_url" (presigned upload
+// reservation), or "direct" (multipart bytes streamed in this request).
 type AssetNewResponseUploadedVia string
 
 const (
 	AssetNewResponseUploadedViaURL       AssetNewResponseUploadedVia = "url"
 	AssetNewResponseUploadedViaSignedURL AssetNewResponseUploadedVia = "signed_url"
+	AssetNewResponseUploadedViaDirect    AssetNewResponseUploadedVia = "direct"
 )
 
 type AssetNewResponseUpload struct {
@@ -225,7 +238,7 @@ type AssetGetResponse struct {
 	// Asset source
 	UploadedVia string `json:"uploaded_via" api:"required"`
 	// Asset URL
-	URL   string `json:"url" api:"required" format:"uri"`
+	URL   string `json:"url" api:"required"`
 	Width int64  `json:"width" api:"required"`
 	// Workspace identifier
 	WorkspaceID string `json:"workspace_id" api:"required"`
@@ -283,7 +296,7 @@ type AssetListResponse struct {
 	// Asset source
 	UploadedVia string `json:"uploaded_via" api:"required"`
 	// Asset URL
-	URL   string `json:"url" api:"required" format:"uri"`
+	URL   string `json:"url" api:"required"`
 	Width int64  `json:"width" api:"required"`
 	// Workspace identifier
 	WorkspaceID string `json:"workspace_id" api:"required"`
@@ -474,9 +487,11 @@ func (r *AssetRetryResponseUpload) UnmarshalJSON(data []byte) error {
 }
 
 type AssetNewParams struct {
-	// Asset source URL or signed-url upload mode
+	// Asset source as a string: either "signed-url" to reserve a direct upload URL, or
+	// an allowlisted HTTPS URL for server-side fetch.
 	Source string `json:"source" api:"required"`
-	// Workspace identifier
+	// Workspace identifier. Use the public API ID returned by list workspaces; it must
+	// start with ws\_.
 	WorkspaceID string `json:"workspace_id" api:"required"`
 	// Asset content type
 	ContentType param.Opt[string] `json:"content_type,omitzero"`
@@ -484,6 +499,10 @@ type AssetNewParams struct {
 	FileName param.Opt[string] `json:"file_name,omitzero"`
 	// Destination folder
 	Folder param.Opt[string] `json:"folder,omitzero"`
+	// Project identifier. Use the public API ID returned by list projects; it must
+	// start with prj\_. When provided, the uploaded asset is also surfaced on the
+	// project's canvas.
+	ProjectID param.Opt[string] `json:"project_id,omitzero"`
 	paramObj
 }
 
